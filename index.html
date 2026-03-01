@@ -5,23 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ДІРА</title>
     <style>
-        /* Скидаємо відступи, щоб було на весь екран */
         body, html {
             margin: 0;
             padding: 0;
             height: 100%;
             overflow: hidden;
-            background-color: #050510; /* Космічний темний фон */
+            background-color: #050510;
             color: white;
             font-family: sans-serif;
         }
 
-        /* Контейнер для нашої аппки */
         #app-container {
             position: relative;
             width: 100%;
             height: 100vh;
-            /* ОСЬ ТУТ ШЛЯХ ДО ТВОЄЇ КАРТИНКИ */
             background-image: url('IMG_8620.png'); 
             background-size: cover;
             background-position: center;
@@ -29,13 +26,12 @@
             flex-direction: column;
             justify-content: flex-end;
             align-items: center;
-            padding-bottom: 50px;
+            padding-bottom: 40px;
         }
 
-        /* Блок, де лежить сам текст повідомлення, який буде літати */
         #flying-message {
             position: absolute;
-            bottom: 120px;
+            bottom: 130px;
             background: rgba(0, 255, 200, 0.2);
             border: 1px solid rgba(0, 255, 200, 0.5);
             padding: 15px;
@@ -44,16 +40,19 @@
             max-width: 80%;
             text-align: center;
             backdrop-filter: blur(5px);
-            /* Спочатку його не видно */
             opacity: 0; 
-            transition: opacity 0.3s;
+            z-index: 5;
         }
 
-        /* Поле вводу і кнопки */
         #controls {
             display: flex;
             gap: 10px;
             z-index: 10;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 15px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         input {
@@ -61,8 +60,13 @@
             border-radius: 5px;
             border: none;
             outline: none;
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.15);
             color: white;
+            font-size: 16px;
+        }
+
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
         }
 
         button {
@@ -71,41 +75,39 @@
             border-radius: 5px;
             cursor: pointer;
             font-weight: bold;
+            font-size: 16px;
+            transition: transform 0.1s ease;
+        }
+
+        button:active {
+            transform: scale(0.92);
         }
 
         .btn-send { background: #00ffcc; color: black; }
         .btn-trash { background: #ff4444; color: white; }
 
-        /* --- АНІМАЦІЇ --- */
-
-        /* Анімація засмоктування в чорну діру (крутиться і зменшується) */
         @keyframes suckIntoHole {
             0% {
                 transform: translate(0, 0) scale(1) rotate(0deg);
                 opacity: 1;
             }
             100% {
-                /* Координати діри: летимо вгору і трохи ліворуч/праворуч за потреби */
-                /* Значення -300px підбирай на око, залежно від розміру екрану */
-                transform: translate(0, -40vh) scale(0) rotate(720deg);
+                transform: translate(0, -45vh) scale(0) rotate(720deg);
                 opacity: 0;
             }
         }
 
-        /* Анімація викидання в смітник (падає і зменшується) */
         @keyframes throwToTrash {
             0% {
                 transform: translate(0, 0) scale(1);
                 opacity: 1;
             }
             100% {
-                /* Координати урни: вона нижче і правіше діри */
-                transform: translate(15vw, -20vh) scale(0) rotate(45deg);
+                transform: translate(20vw, -25vh) scale(0) rotate(45deg);
                 opacity: 0;
             }
         }
 
-        /* Класи, які JS буде вішати на повідомлення для запуску анімацій */
         .animate-hole {
             animation: suckIntoHole 1.5s ease-in-out forwards;
         }
@@ -113,13 +115,12 @@
         .animate-trash {
             animation: throwToTrash 1s ease-in forwards;
         }
-
     </style>
 </head>
 <body>
 
     <div id="app-container">
-        <div id="flying-message">Тут з'явиться текст</div>
+        <div id="flying-message"></div>
 
         <div id="controls">
             <input type="text" id="msg-input" placeholder="Напиши щось...">
@@ -129,46 +130,34 @@
     </div>
 
     <script>
-        // Знаходимо наші елементи
         const inputElement = document.getElementById('msg-input');
         const flyingMessage = document.getElementById('flying-message');
 
         function prepareMessage() {
-            // Беремо текст з інпута
             const text = inputElement.value;
-            if (text.trim() === '') return false; // Якщо пусто, нічого не робимо
+            if (text.trim() === '') return false;
 
-            // Вставляємо текст у літаючий блок і робимо його видимим
             flyingMessage.innerText = text;
             flyingMessage.style.opacity = '1';
             
-            // Чистимо інпут
             inputElement.value = '';
 
-            // Прибираємо старі класи анімації, якщо вони були
             flyingMessage.classList.remove('animate-hole', 'animate-trash');
             
-            // Скидаємо стилі анімації, щоб можна було запустити знову (це такий хак)
             void flyingMessage.offsetWidth; 
 
             return true;
         }
 
-     
         function sendToHole() {
             if (prepareMessage()) {
-                // Вішаємо клас, який запускає CSS-анімацію @keyframes suckIntoHole
                 flyingMessage.classList.add('animate-hole');
-                // Далі тут можна дописати код відправки на сервер / в бота
             }
         }
 
-       
         function sendToTrash() {
             if (prepareMessage()) {
-                // Вішаємо клас, який запускає CSS-анімацію @keyframes throwToTrash
                 flyingMessage.classList.add('animate-trash');
-                // Тут нікуди не відправляємо, просто видалили
             }
         }
     </script>
