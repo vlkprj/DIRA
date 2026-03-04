@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Приймальня Bento</title>
-    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Caveat:wght@700&family=Inter:wght@400;700&family=Lora:ital@0;1&family=PT+Serif:ital,wght@0,400;0,700;1,700&family=Space+Grotesk:wght@500;700&family=Syne:wght@800&display=swap" rel="stylesheet">
+    <title>Приймальня: Хаос</title>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Caveat:wght@700&family=Inter:wght@400;700&family=Lora:ital@0;1&family=PT+Serif:ital,wght@0,400;0,700;1,700&family=Space+Grotesk:wght@500;700;900&display=swap" rel="stylesheet">
     
     <style>
         * { box-sizing: border-box; }
@@ -15,50 +15,46 @@
             background-color: #050505;
             color: #fff;
             font-family: 'Inter', sans-serif;
-            /* Намагаємось впихнути все в один екран */
-            height: 100%;
             overflow-x: hidden;
         }
 
-        /* ОСНОВНА КОРОБКА BENTO */
-        .bento-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr); /* 2 колонки */
-            gap: 10px; /* Відстань між кнопками */
-            padding: 10px;
+        /* КОНТРОЛЬОВАНИЙ ХАОС (БЕЗ ГРІДІВ) */
+        .chaos-canvas {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 40px; /* Великі відступи, щоб дихало */
+            padding: 50px 20px 100px 20px;
             max-width: 500px;
             margin: 0 auto;
-            min-height: 100dvh; /* Займає мінімум висоту екрану */
-            align-content: stretch; /* Розтягує контент по вертикалі */
-        }
-
-        /* БАЗОВІ СТИЛІ КНОПОК */
-        .btn {
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: transform 0.1s;
-            user-select: none;
-            text-decoration: none;
             position: relative;
         }
-        .btn:active { transform: scale(0.96); }
+
+        .btn {
+            cursor: pointer;
+            text-decoration: none;
+            user-select: none;
+            transition: transform 0.1s;
+            position: relative;
+        }
+        .btn:active { transform: scale(0.95); }
 
         /* 1. НАПИСАТИ ЩОСЬ СЕРЙОЗНЕ */
         .b-serious {
-            grid-column: span 2; /* Займає 2 колонки */
-            background: #111;
-            border: 1px solid #333;
-            border-radius: 24px;
-            flex-direction: column;
-            padding: 25px 10px;
+            background: #000;
+            border: 2px solid #d48259;
+            border-radius: 12px;
+            color: #d48259;
             font-family: 'PT Serif', serif;
             text-transform: uppercase;
-            font-size: 14px;
-            line-height: 1.2;
+            padding: 30px;
+            width: 80%;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start; /* Прибито наліво */
+            line-height: 1.3;
         }
+        .b-serious div { font-size: 16px; }
         .b-serious .word-serious {
             font-weight: 700;
             font-style: italic;
@@ -66,124 +62,183 @@
             margin-top: 5px;
         }
 
-        /* 2. РОЗКАЗАТИ ІСТОРІЮ (як поле вводу) */
+        /* 2. РОЗКАЗАТИ ІСТОРІЮ */
         .b-story {
-            grid-column: span 2;
             background: #fff;
             color: #000;
-            border: 2px solid #ccc;
-            border-radius: 8px; /* Гостріші кути для інпута */
+            border-radius: 4px;
             font-family: 'Lora', serif;
-            font-size: 18px;
-            justify-content: flex-start;
-            padding: 15px 20px;
+            font-size: 20px;
+            padding: 15px 25px;
+            width: 90%;
+            text-align: left;
+            border: 1px solid #ccc;
+            box-shadow: 0px 4px 0px #444; /* Робить її схожою на кнопку */
+            transition: all 0.1s;
+        }
+        .b-story:active {
+            box-shadow: 0px 0px 0px #444;
+            transform: translateY(4px);
         }
         .cursor { font-weight: bold; animation: blink 1s step-end infinite; }
         @keyframes blink { 50% { opacity: 0; } }
 
+        /* СПЛІТ-БЛОК: ДУМКА і ШОПОПАЛО */
+        .split-row {
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 10px;
+        }
+
         /* 3. НЕПОПУЛЯРНА ДУМКА */
         .b-unpopular {
-            background: #b33939;
-            color: #fff;
-            font-family: 'Syne', sans-serif; /* Суворий бруталістичний */
-            font-weight: 800;
-            text-transform: uppercase;
+            background: transparent;
+            color: #b33939;
+            border: 3px solid #b33939;
+            border-radius: 30px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 900;
+            padding: 15px 20px;
             font-size: 16px;
-            text-align: center;
-            padding: 15px 10px;
-            line-height: 1.1;
+            max-width: 45%;
         }
 
         /* 4. НАПИСАТИ ШОПОПАЛО */
         .b-shopopalo {
-            background: transparent;
-            border: 2px dashed #48dbfb;
+            background: #050505;
             color: #48dbfb;
-            border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; /* Крива форма */
-            font-family: 'Caveat', cursive;
-            font-size: 24px;
-            text-align: center;
-            transform: rotate(-3deg);
-            line-height: 1;
-        }
-
-        /* 5. ВІДПРАВИТИ МЕМ */
-        .b-meme {
-            background: #d4a322; /* Гірчично-жовтий */
-            color: #fff;
-            font-family: Impact, sans-serif; /* Мемний шрифт */
-            font-size: 22px;
-            text-transform: uppercase;
-            text-shadow: 2px 2px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000;
-            text-align: center;
-            line-height: 1.1;
-            padding: 15px 10px;
-        }
-
-        /* 6. ВІДПРАВИТИ ФОТО */
-        .b-photo {
-            background: #e5e5ea;
-            color: #007aff;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; /* Системний */
-            font-weight: 600;
-            font-size: 16px;
-            border-radius: 12px;
-            flex-direction: column;
-            gap: 5px;
-        }
-        .b-photo .icon { font-size: 24px; }
-
-        /* 7. ОТАКА ПРОБЛЕМА */
-        .b-problem {
-            grid-column: span 2;
-            background: repeating-linear-gradient(45deg, #000, #000 10px, #ffd700 10px, #ffd700 20px); /* Поліцейська стрічка */
-            border: 3px solid #000;
-            flex-direction: column;
-            padding: 15px;
-            font-family: 'Anton', sans-serif;
-            text-transform: uppercase;
-        }
-        .b-problem .big {
-            font-size: 40px;
-            color: #fff;
-            text-shadow: 2px 2px 0 #000;
-            line-height: 0.9;
-        }
-        .b-problem .small {
-            font-size: 18px;
-            background: #000;
-            color: #ffd700;
-            padding: 0 8px;
-            margin-top: -5px;
-        }
-
-        /* 8. ПРОМОВЧАТИ */
-        .b-silence {
-            grid-column: span 2;
-            background: transparent;
-            color: #444;
-            border: 1px solid #222;
+            border: 2px solid #48dbfb;
             border-radius: 40px;
+            font-family: 'Caveat', cursive;
+            font-size: 26px;
+            padding: 10px 25px;
+            transform: rotate(-4deg);
+            max-width: 50%;
+        }
+
+        /* 5. МЕМ І ФОТО (Поруч) */
+        .media-row {
+            display: flex;
+            gap: 20px;
+            width: 90%;
+            justify-content: center;
+        }
+
+        .b-meme {
+            background: #e0e0e0;
+            color: #000;
+            font-family: Impact, sans-serif;
+            font-size: 24px;
+            text-transform: uppercase;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 4px 4px 0px #fff;
+            flex-grow: 1;
+        }
+
+        .b-photo {
+            background: #111;
+            color: #fff;
+            border: 1px solid #333;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+            width: 120px;
             font-family: 'Inter', sans-serif;
             font-size: 12px;
-            letter-spacing: 6px;
-            text-transform: uppercase;
-            padding: 15px;
+            font-weight: 700;
         }
+        .b-photo .icon { font-size: 36px; margin-bottom: 5px; } /* Типова іконка галереї */
 
-        /* 9 & 10. КАПСУЛИ: БАЗАРЧИК І ЧАТІК */
-        .b-capsule {
-            background: rgba(255, 255, 255, 0.1);
-            color: #ccc;
-            border-radius: 30px; /* Капсула */
-            font-size: 11px;
-            padding: 12px 5px;
+        /* 6. ОТАКА ПРОБЛЕМА (Рваний ефект) */
+        .b-problem {
+            background: #d63031;
+            color: #fff;
+            font-family: 'Anton', sans-serif;
+            padding: 30px 40px;
             text-align: center;
+            line-height: 1;
+            transform: rotate(2deg);
+            /* Ефект відірваного паперу */
+            clip-path: polygon(2% 0%, 98% 3%, 100% 95%, 95% 100%, 5% 98%, 0% 92%);
         }
-        .b-bazarchik { font-family: 'Space Grotesk', sans-serif; font-weight: 700; }
-        .b-chatik { font-family: 'Comic Sans MS', cursive; font-weight: bold; }
+        .b-problem .big { font-size: 48px; display: block; }
+        .b-problem .small { font-size: 20px; letter-spacing: 2px; }
 
-        /* 11. НАПИСАТИ КАПСОМ (як кнопка клавіатури) */
+        /* 7. ПРОМОВЧАТИ (Агресивна тиша) */
+        .b-silence {
+            background: #000;
+            color: #ff0000;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 900;
+            font-size: 22px;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            border: none;
+            position: relative;
+        }
+        .b-silence::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: -10%;
+            width: 120%;
+            height: 4px;
+            background: #ff0000;
+            transform: rotate(-5deg); /* Грубе закреслення */
+        }
+
+        /* 8. Є ІДЕЯ (Брутальний стікер) */
+        .b-idea {
+            background: #f1c40f;
+            color: #000;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 900;
+            font-size: 20px;
+            padding: 15px 30px;
+            border: 3px solid #000;
+            box-shadow: 8px 8px 0px #000;
+            align-self: flex-end; /* Зсуваємо вправо */
+            margin-right: 20px;
+            transform: rotate(-3deg);
+        }
+
+        /* 9. ПОКАЗАТИ АТМОСФЕРУ (Полароїд) */
+        .b-atmosphere {
+            background: #fff;
+            padding: 10px 10px 30px 10px; /* Рамки полароїда */
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+            transform: rotate(2deg);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .b-atmosphere .placeholder {
+            width: 200px;
+            height: 200px;
+            /* Типовий PNG-плейсхолдер через CSS */
+            background-color: #fff;
+            background-image: 
+                linear-gradient(45deg, #ccc 25%, transparent 25%, transparent 75%, #ccc 75%, #ccc), 
+                linear-gradient(45deg, #ccc 25%, transparent 25%, transparent 75%, #ccc 75%, #ccc);
+            background-size: 20px 20px;
+            background-position: 0 0, 10px 10px;
+            border: 1px solid #ddd;
+        }
+        .b-atmosphere .text {
+            color: #000;
+            font-family: 'Caveat', cursive;
+            font-size: 22px;
+            margin-top: 10px;
+        }
+
+        /* 10. КАПСЛОК */
         .b-capslock {
             background: #dcdcdc;
             color: #333;
@@ -193,72 +248,51 @@
             border-top: 2px solid #fff;
             border-left: 2px solid #eee;
             font-family: 'Space Grotesk', sans-serif;
+            display: flex;
             flex-direction: column;
-            align-items: flex-start;
-            justify-content: space-between;
-            padding: 10px;
+            padding: 15px 25px;
+            align-self: flex-start;
+            margin-left: 20px;
         }
-        .b-capslock .top { font-size: 10px; font-weight: 700; }
+        .b-capslock .top { font-size: 12px; font-weight: 700; }
         .b-capslock .bottom {
-            font-size: 24px;
+            font-size: 32px;
             font-weight: 900;
-            align-self: center;
             animation: glitchCaps 0.5s infinite;
         }
-        @keyframes glitchCaps {
-            0%, 100% { text-transform: uppercase; }
-            50% { text-transform: lowercase; }
-        }
+        @keyframes glitchCaps { 0%, 100% { text-transform: uppercase; } 50% { text-transform: lowercase; } }
 
-        /* 12. Є ІДЕЯ */
-        .b-idea {
-            background: radial-gradient(circle, #fffbdb 0%, #f9e154 100%);
-            color: #000;
-            font-family: 'Syne', sans-serif;
-            font-weight: 800;
-            font-size: 20px;
-            box-shadow: inset 0 0 10px #fff;
-            border-radius: 50% 20% / 10% 40%;
-            transform: rotate(2deg);
-        }
-
-        /* 13. ПОКАЗАТИ АТМОСФЕРУ (Placeholder фон через CSS патерн) */
-        .b-atmosphere {
-            grid-column: span 2;
-            background-color: #e5e5f7;
-            background-image:  repeating-linear-gradient(45deg, #c4c4c4 25%, transparent 25%, transparent 75%, #c4c4c4 75%, #c4c4c4), repeating-linear-gradient(45deg, #c4c4c4 25%, #e5e5f7 25%, #e5e5f7 75%, #c4c4c4 75%, #c4c4c4);
-            background-position: 0 0, 10px 10px;
-            background-size: 20px 20px;
-            border: 1px solid #666;
-            font-family: 'PT Serif', serif;
-            font-style: italic;
-            font-size: 16px;
-            color: #000;
-        }
-        .b-atmosphere span {
-            background: rgba(255,255,255,0.9);
-            padding: 5px 15px;
-            border-radius: 6px;
-        }
-
-        /* 14. ЗАПИТАТИ АДМІНІВ */
-        .b-admins {
-            grid-column: span 2;
-            background: #1a1a1a;
-            color: #555;
-            font-family: 'Space Grotesk', sans-serif;
+        /* 11. ПРОМО КАПСУЛИ (Розкидані) */
+        .b-capsule {
             font-size: 10px;
-            text-transform: uppercase;
-            border-radius: 30px;
-            padding: 10px;
+            color: #888;
+            border: 1px solid #333;
+            border-radius: 20px;
+            padding: 8px 15px;
+            position: absolute;
+        }
+        .b-chatik { top: 20px; right: 20px; font-family: 'Inter', sans-serif; }
+        .b-bazarchik { bottom: 120px; left: 20px; font-family: 'Space Grotesk', sans-serif; font-weight: 900; }
+
+        /* 12. АДМІНИ (Жалюгідна кнопка) */
+        .b-admins {
+            font-family: 'Inter', sans-serif;
+            font-size: 9px;
+            color: #444;
+            text-transform: lowercase;
+            opacity: 0.5;
+            margin-top: 40px;
         }
 
     </style>
 </head>
 <body>
 
-    <div class="bento-grid">
+    <div class="chaos-canvas">
         
+        <div class="btn b-capsule b-chatik">ГЛЯНУТИ ЧАТІК</div>
+        <div class="btn b-capsule b-bazarchik">ГЛЯНУТИ БАЗАРЧИК</div>
+
         <div class="btn b-serious">
             <div>Написати</div>
             <div>щось</div>
@@ -269,36 +303,39 @@
             Розказати історію<span class="cursor">|</span>
         </div>
 
-        <div class="btn b-unpopular">Непопулярна<br>Думка</div>
-        <div class="btn b-shopopalo">Написати<br>Шопопало</div>
+        <div class="split-row">
+            <div class="btn b-unpopular">Непопулярна<br>Думка</div>
+            <div class="btn b-shopopalo">Написати<br>Шопопало</div>
+        </div>
 
         <div class="btn b-problem">
             <span class="big">ОТАКА</span>
             <span class="small">ПРОБЛЕМА</span>
         </div>
 
-        <div class="btn b-meme">Відправити<br>мем</div>
-        <div class="btn b-photo">
-            <span class="icon">📷</span>
-            <span>Фото</span>
+        <div class="media-row">
+            <div class="btn b-meme">Відправити<br>мем</div>
+            <div class="btn b-photo">
+                <div class="icon">🖼️</div>
+                ВІДПРАВИТИ<br>ФОТО
+            </div>
         </div>
+
+        <div class="btn b-idea">Є ІДЕЯ 💡</div>
+
+        <div class="btn b-silence">ПРОМОВЧАТИ</div>
 
         <div class="btn b-capslock">
             <span class="top">написати</span>
             <span class="bottom">КАПСОМ</span>
         </div>
-        <div class="btn b-idea">Є ідея 💡</div>
 
         <div class="btn b-atmosphere">
-            <span>Показати атмосферу</span>
+            <div class="placeholder"></div>
+            <div class="text">Показати атмосферу</div>
         </div>
 
-        <div class="btn b-silence">ПРОМОВЧАТИ</div>
-
-        <div class="btn b-capsule b-chatik">ГЛЯНУТИ ЧАТІК</div>
-        <div class="btn b-capsule b-bazarchik">ГЛЯНУТИ БАЗАРЧИК</div>
-
-        <div class="btn b-admins">Запитати адмінів (краще не треба)</div>
+        <div class="btn b-admins">запитати адмінів (краще не треба)</div>
 
     </div>
 
