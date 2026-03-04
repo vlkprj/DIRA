@@ -3,360 +3,304 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Валківська Приймальня</title>
-    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@400;700;900&family=Press+Start+2P&family=Caveat:wght@700&display=swap" rel="stylesheet">
+    <title>Приймальня Bento</title>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Caveat:wght@700&family=Inter:wght@400;700&family=Lora:ital@0;1&family=PT+Serif:ital,wght@0,400;0,700;1,700&family=Space+Grotesk:wght@500;700&family=Syne:wght@800&display=swap" rel="stylesheet">
+    
     <style>
-        :root {
-            --bg-color: #050505;
-            --text-main: #f0f0f0;
-            --orange-border: #d48259;
-            --red-fill: #b33939;
-            --cyan-text: #48dbfb;
-            --yellow-mem: #f5d142;
-            --beige-circle: #e8e4d9;
-        }
+        * { box-sizing: border-box; }
 
         body, html {
             margin: 0;
             padding: 0;
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            font-family: 'Montserrat', sans-serif;
-            overflow-x: hidden;
+            background-color: #050505;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            /* Намагаємось впихнути все в один екран */
             height: 100%;
+            overflow-x: hidden;
         }
 
-        /* --- ІНТРО --- */
-        #intro-screen {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--bg-color);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            transition: opacity 0.5s ease;
-        }
-        
-        #intro-screen h1 {
-            font-size: 24px;
-            text-align: center;
-            letter-spacing: 2px;
-            animation: pulse 1.5s infinite;
-        }
-
-        #intro-screen .finger {
-            font-size: 50px;
-            margin-bottom: 20px;
-            animation: pointDown 1s infinite alternate;
-        }
-
-        /* --- ОСНОВНИЙ КОНТЕЙНЕР --- */
-        #main-app {
-            display: none; /* Покажемо через JS */
-            flex-direction: column;
-            align-items: center;
-            padding: 40px 20px;
-            gap: 30px;
+        /* ОСНОВНА КОРОБКА BENTO */
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* 2 колонки */
+            gap: 10px; /* Відстань між кнопками */
+            padding: 10px;
             max-width: 500px;
             margin: 0 auto;
+            min-height: 100dvh; /* Займає мінімум висоту екрану */
+            align-content: stretch; /* Розтягує контент по вертикалі */
+        }
+
+        /* БАЗОВІ СТИЛІ КНОПОК */
+        .btn {
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.1s;
+            user-select: none;
+            text-decoration: none;
             position: relative;
         }
+        .btn:active { transform: scale(0.96); }
 
-        /* Анімація появи кнопок */
-        .pop-in {
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeUp 0.6s forwards;
-        }
-
-        /* --- КНОПКИ --- */
-        .btn {
-            cursor: pointer;
-            text-align: center;
-            text-transform: uppercase;
-            font-weight: 700;
-            text-decoration: none;
-            display: block;
-            transition: transform 0.2s, filter 0.2s;
-            user-select: none;
-        }
-
-        .btn:active { transform: scale(0.95); }
-
-        /* Серйозна кнопка - стабільна і нудна для балансу */
-        .btn-serious {
-            border: 2px solid var(--orange-border);
-            border-radius: 15px;
-            padding: 30px 40px;
-            color: var(--orange-border);
-            font-family: 'Courier Prime', monospace; /* Серйозний шрифт */
-            font-size: 18px;
-            width: 60%;
-        }
-
-        /* Блок Історія + Думка */
-        .row-group {
-            display: flex;
-            gap: 10px;
-            width: 100%;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .btn-story {
-            border: 2px solid #fff;
-            border-radius: 30px;
-            padding: 15px 20px;
-            font-size: 16px;
-        }
-
-        .btn-unpopular {
-            background-color: var(--red-fill);
-            border-radius: 30px;
-            padding: 15px 20px;
-            font-size: 16px;
-            border: 2px solid var(--red-fill);
-        }
-
-        /* Шопопало - крива, дивна, живе своїм життям */
-        .btn-shopopalo {
-            border: 2px solid var(--text-main);
-            border-radius: 40px;
-            padding: 10px 30px;
-            color: var(--cyan-text);
-            font-family: 'Caveat', cursive;
-            font-size: 28px;
-            text-transform: none;
-            transform: rotate(-3deg);
-            animation: wiggle 3s infinite;
-        }
-
-        /* Центральний хаос (Мем, Фото, Промовчати) */
-        .chaos-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            width: 100%;
-            align-items: center;
-            justify-items: center;
-        }
-
-        .btn-mem {
-            background-color: var(--yellow-mem);
-            color: #000;
-            font-family: 'Press Start 2P', monospace; /* Піксельний шрифт */
-            font-size: 12px;
-            padding: 30px 10px;
-            line-height: 1.5;
-            box-shadow: 4px 4px 0px #fff;
-        }
-        .btn-mem:hover { animation: shake 0.5s infinite; }
-
-        .btn-silence {
-            border: 1px solid #666;
-            color: #888;
-            border-radius: 30px;
-            padding: 10px 20px;
-            font-size: 14px;
-            opacity: 0.7;
-        }
-        .btn-silence:hover { opacity: 0.2; } /* Зникає при наведенні */
-
-        .btn-photo {
-            background-color: var(--beige-circle);
-            color: #000;
-            border-radius: 50%;
-            width: 120px;
-            height: 120px;
-            display: flex;
+        /* 1. НАПИСАТИ ЩОСЬ СЕРЙОЗНЕ */
+        .b-serious {
+            grid-column: span 2; /* Займає 2 колонки */
+            background: #111;
+            border: 1px solid #333;
+            border-radius: 24px;
             flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            font-size: 12px;
-            font-weight: 900;
+            padding: 25px 10px;
+            font-family: 'PT Serif', serif;
+            text-transform: uppercase;
+            font-size: 14px;
+            line-height: 1.2;
+        }
+        .b-serious .word-serious {
+            font-weight: 700;
+            font-style: italic;
+            font-size: 32px;
+            margin-top: 5px;
+        }
+
+        /* 2. РОЗКАЗАТИ ІСТОРІЮ (як поле вводу) */
+        .b-story {
             grid-column: span 2;
-            box-shadow: 0 0 20px rgba(232, 228, 217, 0.2);
-        }
-
-        /* Промо лінки */
-        .promo-links {
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
-            font-size: 10px;
-            font-weight: 900;
-            color: #48dbfb;
-        }
-
-        /* Атмосфера і КАПС */
-        .bottom-row {
-            display: flex;
-            width: 100%;
-            align-items: center;
-            justify-content: space-between;
-            gap: 20px;
-        }
-
-        .btn-atmosphere {
-            background: linear-gradient(to bottom, #a1c4fd 0%, #c2e9fb 50%, #84fab0 50%, #8fd3f4 100%);
-            width: 100px;
-            height: 100px;
-            color: #000;
-            display: flex;
-            align-items: center;
-            text-align: center;
-            padding: 10px;
-            font-size: 12px;
-            border: 2px solid #fff;
-        }
-
-        .btn-caps {
-            font-size: 28px;
-            font-weight: 900;
-            text-align: right;
-            flex-grow: 1;
-            transition: all 0.1s;
-        }
-
-        .admin-link {
-            color: var(--red-fill);
-            font-size: 10px;
-            text-align: center;
-            margin-top: 40px;
-            opacity: 0.5;
-        }
-
-        /* --- ПОПАП "ТИСНИ ВЖЕ" --- */
-        #idle-popup {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
             background: #fff;
             color: #000;
-            padding: 10px 20px;
-            border-radius: 10px;
-            font-weight: bold;
-            transform: translateY(100px);
-            opacity: 0;
-            transition: all 0.3s ease;
-            pointer-events: none;
-            box-shadow: 0 4px 15px rgba(255,255,255,0.3);
-            z-index: 1000;
+            border: 2px solid #ccc;
+            border-radius: 8px; /* Гостріші кути для інпута */
+            font-family: 'Lora', serif;
+            font-size: 18px;
+            justify-content: flex-start;
+            padding: 15px 20px;
         }
-        #idle-popup.show {
-            transform: translateY(0);
-            opacity: 1;
+        .cursor { font-weight: bold; animation: blink 1s step-end infinite; }
+        @keyframes blink { 50% { opacity: 0; } }
+
+        /* 3. НЕПОПУЛЯРНА ДУМКА */
+        .b-unpopular {
+            background: #b33939;
+            color: #fff;
+            font-family: 'Syne', sans-serif; /* Суворий бруталістичний */
+            font-weight: 800;
+            text-transform: uppercase;
+            font-size: 16px;
+            text-align: center;
+            padding: 15px 10px;
+            line-height: 1.1;
         }
 
-        /* --- АНІМАЦІЇ --- */
-        @keyframes pointDown { from { transform: translateY(-10px); } to { transform: translateY(10px); } }
-        @keyframes pulse { 0% { opacity: 0.7; } 50% { opacity: 1; } 100% { opacity: 0.7; } }
-        @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
-        @keyframes wiggle { 0%, 100% { transform: rotate(-3deg); } 50% { transform: rotate(3deg); } }
-        @keyframes shake { 0% { transform: translate(1px, 1px) rotate(0deg); } 25% { transform: translate(-1px, -2px) rotate(-1deg); } 50% { transform: translate(-3px, 0px) rotate(1deg); } 75% { transform: translate(3px, 2px) rotate(0deg); } 100% { transform: translate(1px, -1px) rotate(0deg); } }
+        /* 4. НАПИСАТИ ШОПОПАЛО */
+        .b-shopopalo {
+            background: transparent;
+            border: 2px dashed #48dbfb;
+            color: #48dbfb;
+            border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; /* Крива форма */
+            font-family: 'Caveat', cursive;
+            font-size: 24px;
+            text-align: center;
+            transform: rotate(-3deg);
+            line-height: 1;
+        }
+
+        /* 5. ВІДПРАВИТИ МЕМ */
+        .b-meme {
+            background: #d4a322; /* Гірчично-жовтий */
+            color: #fff;
+            font-family: Impact, sans-serif; /* Мемний шрифт */
+            font-size: 22px;
+            text-transform: uppercase;
+            text-shadow: 2px 2px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000;
+            text-align: center;
+            line-height: 1.1;
+            padding: 15px 10px;
+        }
+
+        /* 6. ВІДПРАВИТИ ФОТО */
+        .b-photo {
+            background: #e5e5ea;
+            color: #007aff;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; /* Системний */
+            font-weight: 600;
+            font-size: 16px;
+            border-radius: 12px;
+            flex-direction: column;
+            gap: 5px;
+        }
+        .b-photo .icon { font-size: 24px; }
+
+        /* 7. ОТАКА ПРОБЛЕМА */
+        .b-problem {
+            grid-column: span 2;
+            background: repeating-linear-gradient(45deg, #000, #000 10px, #ffd700 10px, #ffd700 20px); /* Поліцейська стрічка */
+            border: 3px solid #000;
+            flex-direction: column;
+            padding: 15px;
+            font-family: 'Anton', sans-serif;
+            text-transform: uppercase;
+        }
+        .b-problem .big {
+            font-size: 40px;
+            color: #fff;
+            text-shadow: 2px 2px 0 #000;
+            line-height: 0.9;
+        }
+        .b-problem .small {
+            font-size: 18px;
+            background: #000;
+            color: #ffd700;
+            padding: 0 8px;
+            margin-top: -5px;
+        }
+
+        /* 8. ПРОМОВЧАТИ */
+        .b-silence {
+            grid-column: span 2;
+            background: transparent;
+            color: #444;
+            border: 1px solid #222;
+            border-radius: 40px;
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            padding: 15px;
+        }
+
+        /* 9 & 10. КАПСУЛИ: БАЗАРЧИК І ЧАТІК */
+        .b-capsule {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ccc;
+            border-radius: 30px; /* Капсула */
+            font-size: 11px;
+            padding: 12px 5px;
+            text-align: center;
+        }
+        .b-bazarchik { font-family: 'Space Grotesk', sans-serif; font-weight: 700; }
+        .b-chatik { font-family: 'Comic Sans MS', cursive; font-weight: bold; }
+
+        /* 11. НАПИСАТИ КАПСОМ (як кнопка клавіатури) */
+        .b-capslock {
+            background: #dcdcdc;
+            color: #333;
+            border-radius: 8px;
+            border-bottom: 6px solid #aaa;
+            border-right: 4px solid #bbb;
+            border-top: 2px solid #fff;
+            border-left: 2px solid #eee;
+            font-family: 'Space Grotesk', sans-serif;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: space-between;
+            padding: 10px;
+        }
+        .b-capslock .top { font-size: 10px; font-weight: 700; }
+        .b-capslock .bottom {
+            font-size: 24px;
+            font-weight: 900;
+            align-self: center;
+            animation: glitchCaps 0.5s infinite;
+        }
+        @keyframes glitchCaps {
+            0%, 100% { text-transform: uppercase; }
+            50% { text-transform: lowercase; }
+        }
+
+        /* 12. Є ІДЕЯ */
+        .b-idea {
+            background: radial-gradient(circle, #fffbdb 0%, #f9e154 100%);
+            color: #000;
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 20px;
+            box-shadow: inset 0 0 10px #fff;
+            border-radius: 50% 20% / 10% 40%;
+            transform: rotate(2deg);
+        }
+
+        /* 13. ПОКАЗАТИ АТМОСФЕРУ (Placeholder фон через CSS патерн) */
+        .b-atmosphere {
+            grid-column: span 2;
+            background-color: #e5e5f7;
+            background-image:  repeating-linear-gradient(45deg, #c4c4c4 25%, transparent 25%, transparent 75%, #c4c4c4 75%, #c4c4c4), repeating-linear-gradient(45deg, #c4c4c4 25%, #e5e5f7 25%, #e5e5f7 75%, #c4c4c4 75%, #c4c4c4);
+            background-position: 0 0, 10px 10px;
+            background-size: 20px 20px;
+            border: 1px solid #666;
+            font-family: 'PT Serif', serif;
+            font-style: italic;
+            font-size: 16px;
+            color: #000;
+        }
+        .b-atmosphere span {
+            background: rgba(255,255,255,0.9);
+            padding: 5px 15px;
+            border-radius: 6px;
+        }
+
+        /* 14. ЗАПИТАТИ АДМІНІВ */
+        .b-admins {
+            grid-column: span 2;
+            background: #1a1a1a;
+            color: #555;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 10px;
+            text-transform: uppercase;
+            border-radius: 30px;
+            padding: 10px;
+        }
+
     </style>
 </head>
 <body>
 
-    <div id="intro-screen">
-        <div class="finger">👇</div>
-        <h1>ОБЕРІТЬ ЩО ВИ ХОЧЕТЕ<br>ОПУБЛІКУВАТИ</h1>
-    </div>
-
-    <div id="main-app">
+    <div class="bento-grid">
         
-        <div style="align-self: flex-start; background: #fff; color: #000; width: 40px; height: 40px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: 900; font-size: 20px;">B</div>
-
-        <div class="btn btn-serious pop-in" style="animation-delay: 0.2s;">
-            НАПИСАТИ<br>ЩОСЬ<br>СЕРЙОЗНЕ
+        <div class="btn b-serious">
+            <div>Написати</div>
+            <div>щось</div>
+            <div class="word-serious">СЕРЙОЗНЕ</div>
         </div>
 
-        <div class="row-group">
-            <div class="btn btn-story pop-in" style="animation-delay: 0.4s;">Розказати історію</div>
-            <div class="btn btn-unpopular pop-in" style="animation-delay: 0.6s;">Непопулярна Думка</div>
+        <div class="btn b-story">
+            Розказати історію<span class="cursor">|</span>
         </div>
 
-        <div class="btn btn-shopopalo pop-in" style="animation-delay: 0.8s;">
-            Написати Шопопало
+        <div class="btn b-unpopular">Непопулярна<br>Думка</div>
+        <div class="btn b-shopopalo">Написати<br>Шопопало</div>
+
+        <div class="btn b-problem">
+            <span class="big">ОТАКА</span>
+            <span class="small">ПРОБЛЕМА</span>
         </div>
 
-        <div class="chaos-grid">
-            <div class="btn btn-mem pop-in" style="animation-delay: 1s;">ВІДПРАВИТИ<br><br>МЕМ</div>
-            <div class="btn btn-silence pop-in" style="animation-delay: 1.2s;">ПРОМОВЧАТИ</div>
-            <div class="btn btn-photo pop-in" style="animation-delay: 1.4s;">
-                <span style="font-size: 24px; margin-bottom: 5px;">🖼️</span>
-                ВІДПРАВИТИ<br>ФОТО
-            </div>
+        <div class="btn b-meme">Відправити<br>мем</div>
+        <div class="btn b-photo">
+            <span class="icon">📷</span>
+            <span>Фото</span>
         </div>
 
-        <div class="promo-links pop-in" style="animation-delay: 1.6s;">
-            <span style="cursor:pointer;">ГЛЯНУТИ БАЗАРЧИК</span>
-            <span style="cursor:pointer;">ГЛЯНУТИ ЧАТІК</span>
+        <div class="btn b-capslock">
+            <span class="top">написати</span>
+            <span class="bottom">КАПСОМ</span>
+        </div>
+        <div class="btn b-idea">Є ідея 💡</div>
+
+        <div class="btn b-atmosphere">
+            <span>Показати атмосферу</span>
         </div>
 
-        <div class="bottom-row pop-in" style="animation-delay: 1.8s;">
-            <div class="btn btn-atmosphere">ПОКАЗАТИ АТМОСФЕРУ</div>
-            <div class="btn btn-caps" id="caps-btn">НАПИСАТИ<br>КАПСОМ</div>
-        </div>
+        <div class="btn b-silence">ПРОМОВЧАТИ</div>
 
-        <div class="admin-link pop-in" style="animation-delay: 2s;">
-            ЗАПИТАТИ АДМІНІВ<br>(краще не треба, ця кнопка тут раді прілічія)
-        </div>
+        <div class="btn b-capsule b-chatik">ГЛЯНУТИ ЧАТІК</div>
+        <div class="btn b-capsule b-bazarchik">ГЛЯНУТИ БАЗАРЧИК</div>
+
+        <div class="btn b-admins">Запитати адмінів (краще не треба)</div>
 
     </div>
 
-    <div id="idle-popup">Алло, ну тисни вже кудись! 🙄</div>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const intro = document.getElementById('intro-screen');
-            const app = document.getElementById('main-app');
-            const idlePopup = document.getElementById('idle-popup');
-            const capsBtn = document.getElementById('caps-btn');
-
-            // 1. Логіка Інтро (ховаємо через 2.5 секунди)
-            setTimeout(() => {
-                intro.style.opacity = '0';
-                setTimeout(() => {
-                    intro.style.display = 'none';
-                    app.style.display = 'flex';
-                    resetIdleTimer(); // Запускаємо таймер тільки коли з'явився інтерфейс
-                }, 500);
-            }, 2500);
-
-            // 2. Жива кнопка КАПСУ (сходить з розуму)
-            const capsStates = [
-                "НАПИСАТИ<br>КАПСОМ", 
-                "написати<br>капсом", 
-                "НаПиСаТи<br>КаПсОм", 
-                "НАПИСАТИ<br>капсом"
-            ];
-            setInterval(() => {
-                const randomState = capsStates[Math.floor(Math.random() * capsStates.length)];
-                capsBtn.innerHTML = randomState;
-            }, 800); // Змінюється кожні 800мс
-
-            // 3. Таймер бездіяльності (Агресивний UX)
-            let idleTimer;
-            const idleTimeLimit = 6000; // 6 секунд без дій - вилазить попап
-
-            function resetIdleTimer() {
-                clearTimeout(idleTimer);
-                idlePopup.classList.remove('show');
-                
-                // Якщо користувач нічого не робить, показуємо попап
-                idleTimer = setTimeout(() => {
-                    idlePopup.classList.add('show');
-                }, idleTimeLimit);
-            }
-
-            // Відстежуємо будь-яку активність юзера
-            ['mousemove', 'touchstart', 'scroll', 'click'].forEach(evt => 
-                document.addEventListener(evt, resetIdleTimer, false)
-            );
-        });
-    </script>
 </body>
 </html>
