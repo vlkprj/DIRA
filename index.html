@@ -17,68 +17,102 @@
             color: #050505;
             font-family: 'Inter', sans-serif;
             overflow-x: hidden;
-            /* Забираємо нативний smooth scroll, бо написали свій кастомний */
         }
 
-        /* 0. ФУТЕР ЗВЕРХУ (ХЕДЕР) */
         .top-header {
             width: 100%;
             background: #000;
             color: #fff;
-            padding: 15px;
+            padding: 20px 15px;
             text-align: center;
             font-family: 'Space Grotesk', sans-serif;
             font-weight: 900;
-            font-size: 24px;
+            font-size: 26px;
             letter-spacing: 5px;
             position: relative;
             z-index: 10;
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .header-handwritten {
+            font-family: 'Caveat', cursive;
+            font-size: 32px;
+            color: #ff4757;
+            letter-spacing: 2px;
+            transform: rotate(-6deg);
+            margin-bottom: -5px;
+            margin-left: -40px;
         }
 
         .dropdown-links {
             display: flex;
             justify-content: center;
-            gap: 30px;
+            gap: 25px;
             margin-top: 15px;
         }
 
-        /* Всраті посилання з 2000-х */
         .hyperlink-cutout {
+            background: #fff;
             color: #0000EE;
             text-decoration: underline;
             font-family: 'Times New Roman', Times, serif;
-            font-size: 16px;
-            cursor: pointer;
-            background: transparent;
-            border: none;
-            padding: 0;
-            text-shadow: 1px 1px 0px rgba(255,255,255,0.8);
+            font-size: 14px;
+            padding: 2px 6px;
+            border: 1px dashed #999;
+            box-shadow: 2px 2px 0px rgba(0,0,0,0.1);
+            transform: rotate(-2deg);
         }
 
-        /* ГОЛОВНИЙ КОНТЕЙНЕР */
+        .hyperlink-cutout:nth-child(2) {
+            transform: rotate(1deg);
+        }
+
+        .tiktok-subtitle {
+            font-family: -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+            font-weight: 700;
+            font-size: 16px;
+            text-align: center;
+            line-height: 1.5;
+            margin-top: 25px;
+            padding: 0 20px;
+        }
+
+        .tiktok-subtitle span {
+            background-color: #000;
+            color: #fff;
+            padding: 4px 10px;
+            border-radius: 8px;
+            box-decoration-break: clone;
+            -webkit-box-decoration-break: clone;
+        }
+
         .main-feed {
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 35px;
-            padding: 40px 20px 100px 20px;
+            padding: 10px 20px 80px 20px;
             max-width: 500px;
             margin: 0 auto;
         }
 
-        /* Базовий клас для всіх кнопок (додана тінь) */
         .btn {
             cursor: pointer;
             text-decoration: none;
             user-select: none;
             transition: transform 0.1s, box-shadow 0.2s;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.06); /* Дефолтна тінь для всіх */
+            box-shadow: 0 8px 16px rgba(0,0,0,0.06);
             position: relative;
         }
-        .btn:active { transform: scale(0.96); box-shadow: 0 4px 8px rgba(0,0,0,0.04); }
 
-        /* 1. РОЗКАЗАТИ ІСТОРІЮ */
+        .btn:active {
+            transform: scale(0.96);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.04);
+        }
+
         .b-story {
             background: #fff;
             color: #000;
@@ -88,37 +122,46 @@
             padding: 15px 25px;
             width: 90%;
             border: 1px solid #e0e0e0;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
         }
-        .cursor { font-weight: bold; animation: blink 1s step-end infinite; color: #000; }
 
-        /* 2. НАПИСАТИ ЩОСЬ СЕРЙОЗНЕ */
+        .cursor {
+            font-weight: bold;
+            animation: blink 1s step-end infinite;
+            color: #000;
+        }
+
         .b-serious {
-            background: #fff;
-            border: 1px solid #ccc;
-            border-radius: 16px;
+            background: #FAFAF5;
+            border: 2px solid #333;
+            border-radius: 12px;
             color: #333;
             font-family: 'PT Serif', serif;
-            text-transform: uppercase;
             padding: 20px;
-            width: 220px;
-            height: 140px; /* Прямокутник, як просив */
+            width: 240px;
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
+            align-items: flex-start;
+            text-align: left;
             line-height: 1.3;
         }
-        .b-serious div { font-size: 14px; color: #666; }
+
+        .b-serious .normal-text {
+            font-size: 18px;
+            font-weight: 400;
+        }
+
         .b-serious .word-serious {
             font-weight: 700;
             font-style: italic;
-            font-size: 28px;
+            font-size: 32px;
             color: #000;
             margin-top: 5px;
+            text-transform: uppercase;
         }
 
-        /* 3. ПРОМОВЧАТИ (Android UI) */
         .b-silence {
             background: #f5f5f5;
             color: #555;
@@ -131,9 +174,9 @@
             align-items: center;
             gap: 8px;
             border: 1px solid #e0e0e0;
+            transition: opacity 0.3s;
         }
 
-        /* 4. ВІДПРАВИТИ ФОТО */
         .b-photo {
             background: #fff;
             color: #007aff;
@@ -148,9 +191,51 @@
             border: 1px solid #f0f0f0;
         }
 
-        /* 5. ОТАКА ПРОБЛЄМА (Windows Alert) */
+        .b-petition {
+            background: #fff;
+            color: #c23616;
+            border: 2px solid #c23616;
+            border-radius: 6px;
+            padding: 15px 20px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            width: 90%;
+            overflow: hidden;
+            box-shadow: 4px 4px 0px rgba(194, 54, 22, 0.2);
+        }
+
+        .b-petition::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 4px;
+            background: #c23616;
+            width: 12%;
+        }
+
+        .pet-text {
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+        }
+
+        .pet-title {
+            font-size: 16px;
+        }
+
+        .pet-sub {
+            font-size: 11px;
+            color: #666;
+            font-weight: 400;
+            margin-top: 4px;
+        }
+
         .b-problem {
-            background: #ece9d8; /* Класичний сірий колір Win98 */
+            background: #ece9d8;
             border-top: 2px solid #fff;
             border-left: 2px solid #fff;
             border-right: 2px solid #848484;
@@ -158,11 +243,12 @@
             display: flex;
             flex-direction: column;
             width: 90%;
-            box-shadow: 4px 4px 0px rgba(0,0,0,0.2); /* Жорстка тінь */
+            box-shadow: 4px 4px 0px rgba(0,0,0,0.2);
             border-radius: 0;
         }
+
         .b-problem .title-bar {
-            background: #000080; /* Синя шапка */
+            background: #000080;
             color: #fff;
             font-family: 'Tahoma', sans-serif;
             font-size: 12px;
@@ -172,11 +258,18 @@
             display: flex;
             justify-content: space-between;
         }
+
         .b-problem .title-bar .close-btn {
-            background: #ece9d8; color: #000; border: 1px solid #fff; 
-            border-right-color: #848484; border-bottom-color: #848484;
-            font-size: 10px; padding: 0 4px; line-height: 1; cursor: pointer;
+            background: #ece9d8;
+            color: #000;
+            border: 1px solid #fff;
+            border-right-color: #848484;
+            border-bottom-color: #848484;
+            font-size: 10px;
+            padding: 0 4px;
+            line-height: 1;
         }
+
         .b-problem .content {
             padding: 15px;
             display: flex;
@@ -185,10 +278,16 @@
             color: #000;
             font-family: 'Tahoma', sans-serif;
         }
-        .b-problem .icon { font-size: 32px; }
-        .b-problem .text { font-size: 22px; font-weight: bold; }
 
-        /* 6. НЕПОПУЛЯРНА ДУМКА */
+        .b-problem .icon {
+            font-size: 32px;
+        }
+
+        .b-problem .text {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
         .b-unpopular {
             background: #111;
             color: #ff4757;
@@ -202,7 +301,6 @@
             box-shadow: 0 10px 20px rgba(255, 71, 87, 0.2);
         }
 
-        /* 7. НАПИСАТИ КАПСОМ (Фіксований розмір) */
         .b-capslock {
             background: #dcdcdc;
             color: #333;
@@ -219,16 +317,20 @@
             width: 180px; 
             height: 90px; 
         }
-        .b-capslock .top { font-size: 12px; font-weight: 700; }
+
+        .b-capslock .top {
+            font-size: 12px;
+            font-weight: 700;
+        }
+
         .b-capslock .bottom {
             font-size: 28px;
             font-weight: 900;
             animation: glitchCaps 0.5s infinite;
         }
 
-        /* 8. НАПИСАТИ ШОПОПАЛО (UI Коментаря) */
         .b-shopopalo {
-            background: #f0f2f5; /* Колір інпута фб/інсти */
+            background: #f0f2f5;
             border-radius: 20px;
             padding: 8px 15px;
             display: flex;
@@ -237,6 +339,7 @@
             width: 90%;
             border: 1px solid #ddd;
         }
+
         .b-shopopalo .avatar {
             width: 32px;
             height: 32px;
@@ -248,6 +351,7 @@
             color: #fff;
             font-size: 20px;
         }
+
         .b-shopopalo .input-text {
             color: #65676b;
             font-family: -apple-system, BlinkMacSystemFont, sans-serif;
@@ -256,7 +360,6 @@
             text-align: left;
         }
 
-        /* 9. ВІДПРАВИТИ МЕМ (Квадрат) */
         .b-meme {
             background: #dfe6e9;
             color: #000;
@@ -273,7 +376,6 @@
             border: 1px solid #b2bec3;
         }
 
-        /* 10. Є ІДЕЯ */
         .b-idea {
             background: #f1c40f;
             color: #000;
@@ -286,7 +388,6 @@
             transform: rotate(-2deg);
         }
 
-        /* 11. ПОКАЗАТИ АТМОСФЕРУ */
         .b-atmosphere {
             background: #fff;
             padding: 10px 10px 30px 10px;
@@ -296,6 +397,7 @@
             align-items: center;
             border: 1px solid #ddd;
         }
+
         .b-atmosphere .placeholder {
             width: 200px;
             height: 200px;
@@ -307,32 +409,55 @@
             background-position: 0 0, 10px 10px;
             border: 1px solid #ccc;
         }
+
         .b-atmosphere .text {
             color: #000;
             font-family: 'Caveat', cursive;
-            font-size: 22px;
+            font-size: 20px;
             margin-top: 10px;
         }
 
-        /* 12. АДМІНИ (Пігулка) */
         .b-admins {
             background: linear-gradient(180deg, #f9f9f9 0%, #e0e0e0 100%);
             border: 1px solid #ccc;
-            border-radius: 30px; /* Пігулка */
+            border-radius: 30px;
             color: #333;
             padding: 12px 25px;
             font-family: 'Inter', sans-serif;
             font-size: 12px;
             margin-top: 20px;
         }
-        .b-admins b { font-weight: 900; font-size: 13px; color: #000; }
 
-        /* Анімації */
-        @keyframes blink { 50% { opacity: 0; } }
-        @keyframes glitchCaps { 0%, 100% { text-transform: uppercase; } 50% { text-transform: lowercase; } }
-        @keyframes pulseFab { 0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0,0,0,0.2); } 70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(0,0,0,0); } 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0,0,0,0); } }
+        .b-admins b {
+            font-weight: 900;
+            font-size: 13px;
+            color: #000;
+        }
 
-        /* ПЛАВАЮЧА КНОПКА СКРОЛУ (FAB) */
+        .footer-copy {
+            font-family: 'Inter', sans-serif;
+            font-size: 10px;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 10px;
+        }
+
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+
+        @keyframes glitchCaps {
+            0%, 100% { text-transform: uppercase; }
+            50% { text-transform: lowercase; }
+        }
+
+        @keyframes pulseFab {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0,0,0,0.2); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(0,0,0,0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0,0,0,0); }
+        }
+
         #scroll-fab {
             position: fixed;
             bottom: 20px;
@@ -352,16 +477,17 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.15);
             border: 1px solid #ddd;
         }
+
         #scroll-fab.show {
             opacity: 1;
             animation: pulseFab 2s infinite;
         }
-
     </style>
 </head>
 <body>
 
     <div class="top-header">
+        <span class="header-handwritten">ВАЛКІВСЬКА</span>
         ПРИЙМАЛЬНЯ
         <div class="dropdown-links">
             <span class="hyperlink-cutout">ГЛЯНУТИ ЧАТІК</span>
@@ -369,25 +495,38 @@
         </div>
     </div>
 
+    <div class="tiktok-subtitle">
+        <span>Оберіть нижче що вам ближче і натисніть на кнопку:</span>
+    </div>
+
     <div class="main-feed">
+        
         <div class="btn b-story">
             <span id="story-text"></span><span class="cursor">|</span>
         </div>
 
         <div class="btn b-serious">
-            <div>Написати</div>
-            <div>щось</div>
-            <div class="word-serious">СЕРЙОЗНЕ</div>
+            <span class="normal-text">Написати</span>
+            <span class="normal-text">щось</span>
+            <div class="word-serious">СЕРЙОЗН<span id="glitch-letter">Е</span></div>
         </div>
 
-        <div class="btn b-silence">
-            <span class="material-symbols-outlined">volume_off</span>
-            ПРОМОВЧАТИ
+        <div class="btn b-silence" id="btn-silence">
+            <span class="material-symbols-outlined" id="icon-silence">volume_up</span>
+            <span>ПРОМОВЧАТИ</span>
         </div>
 
         <div class="btn b-photo">
             <span class="material-symbols-outlined">photo_library</span>
             ВІДПРАВИТИ ФОТО
+        </div>
+
+        <div class="btn b-petition">
+            <span class="material-symbols-outlined">edit_document</span>
+            <div class="pet-text">
+                <span class="pet-title">Звернутись до місцевої влади</span>
+                <span class="pet-sub">✍️ 0 підписів (і всім пофіг)</span>
+            </div>
         </div>
 
         <div class="btn b-problem">
@@ -419,10 +558,12 @@
 
         <div class="btn b-atmosphere">
             <div class="placeholder"></div>
-            <div class="text">Показати атмосферу</div>
+            <div class="text">Показати атмосферу на районі</div>
         </div>
 
         <div class="btn b-admins"><b>ЗАПИТАТИ АДМІНІВ</b> (краще не треба, ця кнопка тут раді прілічія)</div>
+        
+        <div class="footer-copy">ВШТ • 2026. Всі права незахищені.</div>
     </div>
 
     <div id="scroll-fab">
@@ -431,10 +572,24 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", () => {
-            const fab = document.getElementById('scroll-fab');
-            const fabIcon = document.getElementById('fab-icon');
+            
+            const glitchLetter = document.getElementById('glitch-letter');
+            setInterval(() => {
+                glitchLetter.innerText = glitchLetter.innerText === 'Е' ? 'О' : 'Е';
+            }, 800);
 
-            // --- ЕФЕКТ ДРУКУ ДЛЯ "РОЗКАЗАТИ ІСТОРІЮ" ---
+            const silenceBtn = document.getElementById('btn-silence');
+            const silenceIcon = document.getElementById('icon-silence');
+            silenceBtn.addEventListener('click', () => {
+                if (silenceIcon.innerText === 'volume_up') {
+                    silenceIcon.innerText = 'volume_off';
+                    silenceBtn.style.opacity = '0.6';
+                } else {
+                    silenceIcon.innerText = 'volume_up';
+                    silenceBtn.style.opacity = '1';
+                }
+            });
+
             const storyStr = "Розказати історію";
             const storyEl = document.getElementById('story-text');
             let i = 0;
@@ -442,11 +597,13 @@
                 if (i < storyStr.length) {
                     storyEl.innerHTML += storyStr.charAt(i);
                     i++;
-                    setTimeout(typeWriter, 120); // Швидкість друку
+                    setTimeout(typeWriter, 120);
                 }
             }
 
-            // --- КАСТОМНИЙ ПЛАВНИЙ СКРОЛ (ВЖУХ) ---
+            const fab = document.getElementById('scroll-fab');
+            const fabIcon = document.getElementById('fab-icon');
+
             function smoothScrollTo(endY, duration) {
                 const startY = window.scrollY;
                 const distanceY = endY - startY;
@@ -456,7 +613,6 @@
                     if (!startTime) startTime = timestamp;
                     const progress = timestamp - startTime;
                     const percent = Math.min(progress / duration, 1);
-                    // easeInOutQuad
                     const ease = percent < 0.5 ? 2 * percent * percent : -1 + (4 - 2 * percent) * percent;
                     window.scrollTo(0, startY + distanceY * ease);
                     if (progress < duration) {
@@ -466,26 +622,20 @@
                 window.requestAnimationFrame(step);
             }
 
-            // Запускаємо анімації з затримкою
             setTimeout(() => {
-                // Плавний скрол вниз (триває 2.5 секунди)
                 smoothScrollTo(document.body.scrollHeight, 2500);
                 
-                // Чекаємо, поки доїде, і повільно їдемо вгору
                 setTimeout(() => {
-                    smoothScrollTo(0, 2000);
+                    smoothScrollTo(0, 1000);
                     
-                    // Показуємо кнопку FAB і починаємо друкувати текст після повернення
                     setTimeout(() => {
                         fab.classList.add('show');
                         typeWriter();
-                    }, 2000);
-                }, 3000); // Час очікування на дні
+                    }, 1000);
+                }, 3000);
             }, 800);
 
-            // --- ЛОГІКА FAB ІКОНКИ ---
             function checkScrollPosition() {
-                // Додаємо похибку в пару пікселів для мобілок
                 const scrolledToBottom = Math.ceil(window.innerHeight + window.scrollY) >= document.body.offsetHeight - 10;
                 
                 if (scrolledToBottom) {
@@ -501,9 +651,9 @@
                 const scrolledToBottom = Math.ceil(window.innerHeight + window.scrollY) >= document.body.offsetHeight - 10;
                 
                 if (scrolledToBottom) {
-                    smoothScrollTo(0, 1000); // Вгору трохи швидше
+                    smoothScrollTo(0, 1000);
                 } else {
-                    smoothScrollTo(document.body.scrollHeight, 1500); // Вниз
+                    smoothScrollTo(document.body.scrollHeight, 1500);
                 }
             });
         });
