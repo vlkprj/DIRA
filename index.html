@@ -54,13 +54,13 @@
             margin-top: 15px;
         }
 
-        .hyperlink-cutout {
-    background: transparent;
+.hyperlink-cutout {
+    background: repeating-conic-gradient(#ccc 0% 25%, #fff 0% 50%) 50% / 10px 10px;
     color: #0000EE;
     text-decoration: underline;
     font-family: 'Times New Roman', Times, serif;
-    font-size: 12px;
-    padding: 0px 4px;
+    font-size: 11px;
+    padding: 2px 6px;
     border: 1px dashed #999;
     transform: rotate(-2deg);
 }
@@ -134,33 +134,35 @@
             color: #000;
         }
 
-        .b-serious {
+   .b-serious {
     background: #FAFAF5;
     border: 2px solid #333;
-    border-radius: 12px;
+    border-radius: 16px;
     color: #333;
     font-family: 'PT Serif', serif;
     padding: 20px;
-    width: 240px;
+    width: 200px;
+    height: 200px;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    text-align: center;
-    line-height: 1.2;
+    justify-content: center;
+    align-items: flex-start;
+    text-align: left;
+    line-height: 1.1;
+    box-sizing: border-box;
 }
 
 .b-serious .normal-text {
-    font-size: 32px;
+    font-size: 26px;
     font-weight: 400;
-    text-transform: uppercase;
 }
 
 .b-serious .word-serious {
     font-weight: 700;
     font-style: italic;
-    font-size: 32px;
+    font-size: 26px;
     color: #000;
-    text-transform: uppercase;
+    margin-top: 5px;
 }
 
 
@@ -299,6 +301,21 @@
     box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
 
+.b-unpopular .react {
+    background: #f0f2f5;
+    border-radius: 16px;
+    padding: 4px 8px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #65676b;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    transition: background 0.2s;
+    user-select: none;
+}
+
 .b-unpopular .post-text {
     font-weight: 700;
     font-size: 16px;
@@ -399,35 +416,42 @@
             border: 1px solid #b2bec3;
         }
 
-       .b-idea {
+   .b-idea {
     background: #fff;
     color: #000;
     font-family: 'Space Grotesk', sans-serif;
     border: 2px dashed #000;
-    border-radius: 16px;
+    border-radius: 12px;
     width: 90%;
-    padding: 20px;
+    padding: 12px 15px;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
-    gap: 10px;
+    gap: 15px;
 }
 
 .b-idea .idea-icon {
-    font-size: 32px;
+    font-size: 24px;
     color: #27ae60;
     background: #eafaf1;
     border-radius: 50%;
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-shrink: 0;
+}
+
+.b-idea .idea-text-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 }
 
 .b-idea .idea-title {
     font-weight: 900;
-    font-size: 20px;
+    font-size: 16px;
 }
 
 .b-idea .idea-hint {
@@ -436,50 +460,107 @@
     color: #7f8c8d;
     height: 14px;
     font-weight: 500;
+} 
+
+
+       .b-atmosphere .placeholder {
+    width: 200px;
+    height: 200px;
+    background-color: #fff;
+    background-image: 
+        linear-gradient(45deg, #eee 25%, transparent 25%, transparent 75%, #eee 75%, #eee), 
+        linear-gradient(45deg, #eee 25%, transparent 25%, transparent 75%, #eee 75%, #eee);
+    background-size: 20px 20px;
+    background-position: 0 0, 10px 10px;
+    border: 1px solid #ccc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
+.b-atmosphere .plus-icon {
+    font-size: 48px;
+    color: rgba(0,0,0,0.2);
+}
 
-        .b-atmosphere {
-            background: #fff;
-            padding: 10px 10px 30px 10px;
-            transform: rotate(2deg);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            border: 1px solid #ddd;
-        }
-
-        .b-atmosphere .placeholder {
-            width: 200px;
-            height: 200px;
-            background-color: #fff;
-            background-image: 
-                linear-gradient(45deg, #eee 25%, transparent 25%, transparent 75%, #eee 75%, #eee), 
-                linear-gradient(45deg, #eee 25%, transparent 25%, transparent 75%, #eee 75%, #eee);
-            background-size: 20px 20px;
-            background-position: 0 0, 10px 10px;
-            border: 1px solid #ccc;
-        }
-
-        .b-atmosphere .text {
-            color: #000;
-            font-family: 'Caveat', cursive;
-            font-size: 20px;
-            margin-top: 10px;
-        }
-
-       .b-admins {
-    background: transparent;
-    border: none;
-    color: #0000EE;
-    text-decoration: underline;
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 14px;
+    .b-admins {
+    background: #c0c0c0;
+    border-style: solid;
+    border-width: 2px;
+    border-color: #dfdfdf #000000 #000000 #dfdfdf;
+    font-family: 'Tahoma', sans-serif;
+    font-size: 11px;
+    padding: 4px 10px;
+    color: #000;
+    text-decoration: none;
     margin-top: 20px;
-    padding: 5px;
-    border-radius: 0;
-    box-shadow: none;
     cursor: pointer;
+    box-shadow: none;
+    border-radius: 0;
+}
+
+.b-admins:active {
+    border-color: #000000 #dfdfdf #dfdfdf #000000;
+    padding: 5px 9px 3px 11px;
+}
+
+.side-tag {
+    position: fixed;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #007aff;
+    color: #fff;
+    padding: 12px 6px;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    border-radius: 8px 0 0 8px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    cursor: pointer;
+    box-shadow: -2px 0 8px rgba(0,0,0,0.1);
+    z-index: 90;
+}
+
+.silence-overlay {
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+    background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(15px);
+    z-index: 1000; display: none; flex-direction: column;
+    align-items: center; justify-content: center;
+}
+
+.close-silence {
+    position: absolute; top: 20px; right: 20px; font-size: 32px;
+    cursor: pointer; color: #555;
+}
+
+.silence-timer {
+    position: absolute; top: 20px; left: 20px; font-size: 24px;
+    font-weight: bold; color: #555; font-family: 'Inter', sans-serif;
+}
+
+.silence-msg {
+    font-size: 24px; font-family: 'Inter', sans-serif; margin-bottom: 40px; color: #333;
+}
+
+.breathe-container {
+    display: none; flex-direction: column; align-items: center; gap: 20px;
+}
+
+.breathe-msg {
+    font-size: 18px; font-family: 'Space Grotesk', sans-serif; transition: opacity 0.5s;
+}
+
+.breathe-circle {
+    width: 100px; height: 100px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(135,206,235,0.8) 0%, rgba(135,206,235,0) 70%);
+    animation: breatheAnim 8s infinite ease-in-out;
+}
+
+@keyframes breatheAnim {
+    0%, 100% { transform: scale(1); opacity: 0.3; }
+    50% { transform: scale(3); opacity: 1; }
 }
 
 
@@ -554,11 +635,11 @@
         <span id="story-text"></span><span class="cursor">|</span>
     </div>
 
-    <div class="btn b-serious">
-        <span class="normal-text">НАПИСАТИ</span>
-        <span class="normal-text">ЩОСЬ</span>
-        <span class="word-serious">СЕРЙОЗН<span id="glitch-letter">Е</span></span>
-    </div>
+<div class="btn b-serious">
+    <span class="normal-text">НАПИСАТИ</span>
+    <span class="normal-text">ЩОСЬ</span>
+    <span class="word-serious">СЕРЙОЗН<span id="glitch-letter">Е</span></span>
+</div>
 
     <div class="btn b-silence" id="btn-silence">
         <span class="material-symbols-outlined" id="icon-silence">volume_up</span>
@@ -590,14 +671,14 @@
     </div>
 
     <div class="btn b-unpopular">
-        <div class="post-text">НЕПОПУЛЯРНА ДУМКА 🤫</div>
-        <div class="reactions">
-            <div class="react">👎 27</div>
-            <div class="react">🤬 13</div>
-            <div class="react">👍 12</div>
-            <div class="react">🤡 6</div>
-        </div>
+    <div class="post-text"><span class="material-symbols-outlined" style="vertical-align: middle; margin-right: 5px;">edit_square</span>НЕПОПУЛЯРНА ДУМКА</div>
+    <div class="reactions">
+        <div class="react">👎 27</div>
+        <div class="react">🤬 13</div>
+        <div class="react">👍 12</div>
+        <div class="react">🤡 6</div>
     </div>
+</div>
 
     <div class="btn b-capslock">
         <span class="top">написати</span>
@@ -611,72 +692,148 @@
 
     <div class="btn b-meme">Відправити<br>мем</div>
 
-    <div class="btn b-idea">
-        <div class="idea-icon"><span class="material-symbols-outlined">add</span></div>
+   <div class="btn b-idea">
+    <div class="idea-icon"><span class="material-symbols-outlined">add</span></div>
+    <div class="idea-text-wrapper">
         <div class="idea-title">Є ІДЕЯ</div>
-        <div class="idea-hint" id="idea-hint-text">як зробити місто краще;</div>
+        <div class="idea-hint" id="idea-hint-text">як зробити місто краще</div>
     </div>
+</div>
 
-    <div class="btn b-atmosphere">
-        <div class="placeholder"></div>
-        <div class="text">Показати атмосферу на районі</div>
+<div class="btn b-atmosphere">
+    <div class="placeholder">
+        <span class="material-symbols-outlined plus-icon">add</span>
     </div>
+    <div class="text">Показати атмосферу на районі</div>
+</div>
 
-    <div class="btn b-admins">mailto: admins@valky.ua</div>
+    <div class="btn b-admins">НАПИСАТИ АДМІНАМ</div>
     
     <div class="footer-copy">ВШТ • 2026. Всі права незахищені.</div>
 </div>
 
+<div class="side-tag">ТАКЕ ПИТАННЯ</div>
 
     <div id="scroll-fab">
         <span class="material-symbols-outlined" id="fab-icon">arrow_downward</span>
     </div>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
     
+    <div class="silence-overlay" id="silence-overlay">
+    <span class="material-symbols-outlined close-silence" id="close-silence">close</span>
+    <div class="silence-timer" id="silence-timer">30</div>
+    <div class="silence-msg">ну мовчіть...</div>
+    <div class="breathe-container" id="breathe-container">
+        <div class="breathe-msg" id="breathe-msg">Вдихніть...</div>
+        <div class="breathe-circle"></div>
+    </div>
+</div>
+
+document.addEventListener("DOMContentLoaded", () => {
     const glitchLetter = document.getElementById('glitch-letter');
-    setInterval(() => {
-        glitchLetter.innerText = glitchLetter.innerText === 'Е' ? 'О' : 'Е';
-    }, 800);
-
-    const silenceBtn = document.getElementById('btn-silence');
-    const silenceIcon = document.getElementById('icon-silence');
-    silenceBtn.addEventListener('click', () => {
-        if (silenceIcon.innerText === 'volume_up') {
-            silenceIcon.innerText = 'volume_off';
-            silenceBtn.style.opacity = '0.6';
-        } else {
-            silenceIcon.innerText = 'volume_up';
-            silenceBtn.style.opacity = '1';
-        }
-    });
-
-    const storyStr = "Розказати історію";
-    const storyEl = document.getElementById('story-text');
-    let i = 0;
-
-    function typeWriter() {
-        if (i < storyStr.length) {
-            storyEl.innerHTML += storyStr.charAt(i);
-            i++;
-            setTimeout(typeWriter, 120);
-        } else {
-            setTimeout(() => {
-                storyEl.innerHTML = "";
-                i = 0;
-                typeWriter();
-            }, 2000);
-        }
+    if (glitchLetter) {
+        setInterval(() => {
+            glitchLetter.innerText = glitchLetter.innerText === 'Е' ? 'О' : 'Е';
+        }, 800);
     }
 
-    const hints = ["як зробити місто краще;", "а давайте…;", "можна ж було б…;", "як покращити…;"];
+    const baseStr = "Розказати ";
+    const words = ["історію...", "щось..."];
+    let wordIdx = 0;
+    let charIdx = 0;
+    let isDeleting = false;
+    const storyEl = document.getElementById('story-text');
+
+    function typeWriter() {
+        if (!storyEl) return;
+        const currentWord = words[wordIdx];
+
+        if (isDeleting) {
+            storyEl.innerText = baseStr + currentWord.substring(0, charIdx - 1);
+            charIdx--;
+        } else {
+            storyEl.innerText = baseStr + currentWord.substring(0, charIdx + 1);
+            charIdx++;
+        }
+
+        let speed = isDeleting ? 40 : 120;
+
+        if (!isDeleting && charIdx === currentWord.length) {
+            speed = 2000;
+            isDeleting = true;
+        } else if (isDeleting && charIdx === 0) {
+            isDeleting = false;
+            wordIdx = (wordIdx + 1) % words.length;
+            speed = 500;
+        }
+        setTimeout(typeWriter, speed);
+    }
+
+    const hints = ["як зробити місто краще", "а давайте…", "можна ж було б…", "як покращити…"];
     const hintEl = document.getElementById('idea-hint-text');
-    let hintIdx = 0;
-    setInterval(() => {
-        hintIdx = (hintIdx + 1) % hints.length;
-        hintEl.innerText = hints[hintIdx];
-    }, 2000);
+    if (hintEl) {
+        let hintIdx = 0;
+        setInterval(() => {
+            hintIdx = (hintIdx + 1) % hints.length;
+            hintEl.innerText = hints[hintIdx];
+        }, 2000);
+    }
+
+    document.querySelectorAll('.react').forEach(btn => {
+        btn.addEventListener('click', function() {
+            if (this.classList.contains('clicked')) return;
+            this.classList.add('clicked');
+            let parts = this.innerText.split(' ');
+            let count = parseInt(parts[1]) + 1;
+            this.innerText = parts[0] + ' ' + count;
+            this.style.background = '#e7f3ff';
+            this.style.color = '#1877f2';
+        });
+    });
+
+    const silenceBtn = document.getElementById('btn-silence');
+    const overlay = document.getElementById('silence-overlay');
+    const closeBtn = document.getElementById('close-silence');
+    const timerEl = document.getElementById('silence-timer');
+    const breatheContainer = document.getElementById('breathe-container');
+    const breatheMsg = document.getElementById('breathe-msg');
+    let silenceInterval;
+    let silenceTimeout;
+    let breatheInterval;
+
+    function closeSilence() {
+        if (overlay) overlay.style.display = 'none';
+        clearInterval(silenceInterval);
+        clearTimeout(silenceTimeout);
+        clearInterval(breatheInterval);
+    }
+
+    if (silenceBtn && overlay) {
+        silenceBtn.addEventListener('click', () => {
+            overlay.style.display = 'flex';
+            breatheContainer.style.display = 'none';
+            timerEl.innerText = '30';
+            let timeLeft = 30;
+
+            silenceInterval = setInterval(() => {
+                timeLeft--;
+                timerEl.innerText = timeLeft;
+                if (timeLeft <= 0) closeSilence();
+            }, 1000);
+
+            silenceTimeout = setTimeout(() => {
+                breatheContainer.style.display = 'flex';
+                breatheMsg.innerText = 'Вдихніть...';
+                breatheInterval = setInterval(() => {
+                    breatheMsg.innerText = breatheMsg.innerText === 'Вдихніть...' ? 'Видихніть...' : 'Вдихніть...';
+                }, 4000);
+            }, 3000);
+        });
+
+        closeBtn.addEventListener('click', closeSilence);
+        overlay.addEventListener('click', (e) => {
+            if (e.target === overlay) closeSilence();
+        });
+    }
 
     const fab = document.getElementById('scroll-fab');
     const fabIcon = document.getElementById('fab-icon');
@@ -690,8 +847,7 @@
             if (!startTime) startTime = timestamp;
             const progress = timestamp - startTime;
             const percent = Math.min(progress / duration, 1);
-            const ease = percent < 0.5 ?
-                2 * percent * percent : -1 + (4 - 2 * percent) * percent;
+            const ease = percent < 0.5 ? 2 * percent * percent : -1 + (4 - 2 * percent) * percent;
 
             window.scrollTo(0, startY + distanceY * ease);
 
@@ -706,37 +862,43 @@
         smoothScrollTo(document.body.scrollHeight, 2500);
         
         setTimeout(() => {
-            smoothScrollTo(0, 1000);
+            smoothScrollTo(0, 1500);
             
             setTimeout(() => {
-                fab.classList.add('show');
+                if (fab) fab.classList.add('show');
                 typeWriter();
-            }, 1000);
-
-        }, 1000);
+            }, 1500);
+        }, 3000);
     }, 800);
 
     function checkScrollPosition() {
         const scrolledToBottom = Math.ceil(window.innerHeight + window.scrollY) >= document.body.offsetHeight - 10;
-        if (scrolledToBottom) {
-            fabIcon.innerHTML = 'arrow_upward';
-        } else {
-            fabIcon.innerHTML = 'arrow_downward';
+        if (fabIcon) {
+            if (scrolledToBottom) {
+                fabIcon.innerHTML = 'arrow_upward';
+            } else {
+                fabIcon.innerHTML = 'arrow_downward';
+            }
         }
     }
 
     window.addEventListener('scroll', checkScrollPosition);
 
-    fab.addEventListener('click', () => {
-        const scrolledToBottom = Math.ceil(window.innerHeight + window.scrollY) >= document.body.offsetHeight - 10;
-        
-        if (scrolledToBottom) {
-            smoothScrollTo(0, 1000);
-        } else {
-            smoothScrollTo(document.body.scrollHeight, 1500);
-        }
-    });
+    if (fab) {
+        fab.addEventListener('click', () => {
+            const scrolledToBottom = Math.ceil(window.innerHeight + window.scrollY) >= document.body.offsetHeight - 10;
+            
+            if (scrolledToBottom) {
+                smoothScrollTo(0, 1000);
+            } else {
+                smoothScrollTo(document.body.scrollHeight, 1500);
+            }
+        });
+    }
 });
+
+
+
 
     </script>
 </body>
