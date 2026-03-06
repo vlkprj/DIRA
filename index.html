@@ -888,6 +888,12 @@ body, html {
     box-shadow: 0 4px 12px rgba(255, 166, 185, 0.15);
 }
 
+.simulate-press {
+    transform: scale(0.96) !important;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.04) !important;
+}
+
+
         
     </style>
 </head>
@@ -967,7 +973,7 @@ body, html {
         </div>
     </div>
 
-   <div class="btn b-unpopular">
+ <div class="btn b-unpopular">
     <div class="unpopular-header">
         <div class="post-text">НЕПОПУЛЯРНА ДУМКА</div>
         <div class="unpopular-action">
@@ -982,21 +988,19 @@ body, html {
     </div>
 </div>
 
-  <div class="btn b-complain">
+<div class="btn b-complain">
     <span>Поскаржитись</span>
     <span style="font-size: 24px;">🎀</span>
-    </div>
 </div>
 
-
-
-       <div class="row-container">
+<div class="row-container">
     <div class="btn b-capslock">
         <span class="top">написати</span>
         <span class="bottom">КАПСОМ</span>
     </div>
     <div class="btn b-meme">Відправити<br>мем</div>
 </div>
+
 
 <div class="row-container">
     <div class="btn b-zbir">
@@ -1225,16 +1229,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
     window.addEventListener('scroll', checkScrollPosition);
     
-    if (fab) {
+        if (fab) {
         fab.addEventListener('click', () => {
-            const scrolledToBottom = Math.ceil(window.innerHeight + window.scrollY) >= document.body.offsetHeight - 10;
-            
-            window.scrollTo({
-                top: scrolledToBottom ? 0 : Math.max(document.body.scrollHeight, document.documentElement.scrollHeight),
-                behavior: 'smooth'
-            });
+            if (fabIcon.innerHTML === 'arrow_upward') {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else {
+                const shopopaloBtn = document.querySelector('.b-shopopalo');
+                if (shopopaloBtn) {
+                    shopopaloBtn.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                } else {
+                    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+                }
+            }
         });
     }
+
 
 
     setTimeout(() => {
@@ -1275,6 +1284,24 @@ document.addEventListener("DOMContentLoaded", () => {
     if (typeof typeWriter === 'function') {
         typeWriter();
     }
+    
+        const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('simulate-press');
+                setTimeout(() => {
+                    entry.target.classList.remove('simulate-press');
+                }, 200); 
+            }
+        });
+    }, {
+        rootMargin: '-50% 0px -50% 0px' 
+    });
+
+    document.querySelectorAll('.btn').forEach(btn => {
+        observer.observe(btn);
+    });
+
 });
 
 
