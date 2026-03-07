@@ -28,64 +28,60 @@ body, html {
 .top-header {
     width: 96%;
     margin: 10px auto;
-    background: #0f2d59;
-    color: #d4af37;
+    background: #1D3561;
+    color: #fff;
     padding: 20px 15px;
     text-align: center;
     position: relative;
     z-index: 10;
-    border: 3px solid #d4af37;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.3), inset 0 0 15px rgba(0,0,0,0.4);
+    border-radius: 4px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.2), inset 0 0 0 2px #fff, inset 0 0 0 4px #1D3561;
     display: flex;
     flex-direction: column;
     align-items: center;
-    border-radius: 4px;
 }
-.vlk-herald {
+.header-top-row {
     position: absolute;
     top: 15px;
-    left: 15px;
-    width: 45px;
+    left: 0;
+    width: 100%;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    box-sizing: border-box;
+    pointer-events: none;
+}
+.vlk-herald, .anon-logo {
+    width: 40px;
     height: auto;
-    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+    filter: drop-shadow(0 2px 3px rgba(0,0,0,0.4));
+    pointer-events: auto;
 }
 .header-titles-wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 5px;
+    margin-top: 10px;
 }
-.row-one {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-left: 15px;
+.header-valkivska {
+    font-family: 'Inter', sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
 }
-.header-handwritten {
-    font-family: 'Caveat', cursive;
-    font-size: 34px;
-    color: #e6c255;
-    text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
-    letter-spacing: 2px;
-    transform: rotate(-6deg);
-}
-.anon-logo {
-    width: 42px;
-    height: auto;
-    transform: rotate(8deg);
-    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));
-}
-.header-main-title {
-    font-family: 'Space Grotesk', sans-serif;
+.header-pryimalnia {
+    font-family: 'Inter', sans-serif;
     font-weight: 900;
-    font-size: 28px;
-    letter-spacing: 5px;
+    font-size: 32px;
+    letter-spacing: 2px;
     display: flex;
     align-items: center;
-    gap: 10px;
-    margin-top: -5px;
-    text-shadow: 1px 1px 0px #000;
+    gap: 8px;
+    margin-top: 2px;
 }
+
+
 .small-detail {
     font-size: 26px;
     color: #d4af37;
@@ -103,14 +99,16 @@ body, html {
     background: #fff;
     color: #0000EE;
     text-decoration: underline;
-    font-family: 'Times New Roman', Times, serif;
-    font-size: 11px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: 12px;
     padding: 2px 8px;
     border: 1px dashed #999;
     transform: rotate(-2deg);
     display: inline-block;
     max-width: 140px;
 }
+
 
 
         .hyperlink-cutout:nth-child(2) {
@@ -931,21 +929,41 @@ body, html {
 }
 
 .b-complain {
-    background: #fff4f6;
-    border: 1px dashed #ffa6b9;
+    background: linear-gradient(145deg, #ff9a9e 0%, #fecfef 100%);
+    border: 2px solid #ff0844;
     border-radius: 24px;
-    color: #e8436b;
+    color: #d8004b;
     font-family: 'Lora', serif;
     font-style: italic;
-    font-size: 20px;
+    font-weight: 900;
+    font-size: 22px;
     width: 90%;
-    padding: 12px 20px;
+    padding: 15px 20px;
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 12px;
-    box-shadow: 0 4px 12px rgba(255, 166, 185, 0.15);
+    box-shadow: 0 8px 20px rgba(255, 8, 68, 0.3), inset 0 4px 10px rgba(255,255,255,0.9), inset 0 -4px 10px rgba(255,105,180,0.4);
+    text-shadow: 1px 1px 0px rgba(255,255,255,0.7);
+    position: relative;
 }
+.b-complain::before {
+    content: '✨';
+    position: absolute;
+    top: 6px;
+    left: 15px;
+    font-size: 14px;
+    animation: blink 1.2s infinite alternate;
+}
+.b-complain::after {
+    content: '✨';
+    position: absolute;
+    bottom: 6px;
+    right: 15px;
+    font-size: 16px;
+    animation: blink 1.8s infinite alternate-reverse;
+}
+
 
 .simulate-press {
     transform: scale(0.96) !important;
@@ -973,6 +991,8 @@ body, html {
     .breathe-msg { margin-top: 180px; }
 }
     </style>
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=psychology_alt" />
 
 </head>
 <body>
@@ -981,15 +1001,15 @@ body, html {
 
 
 
-         <div class="top-header">
-    <img src="vlkhrld.png" class="vlk-herald" alt="Герб">
+<div class="top-header">
+    <div class="header-top-row">
+        <img src="vlkhrld.png" class="vlk-herald" alt="Герб">
+        <img src="anonface.PNG" class="anon-logo" alt="Анонім">
+    </div>
     <div class="header-titles-wrapper">
-        <div class="row-one">
-            <span class="header-handwritten">ВАЛКІВСЬКА</span>
-            <img src="anonface.PNG" class="anon-logo" alt="Анонім">
-        </div>
-        <div class="header-main-title">
-            <span class="material-symbols-outlined small-detail">visibility</span>
+        <span class="header-valkivska">ВАЛКІВСЬКА</span>
+        <div class="header-pryimalnia">
+            <span class="material-symbols-outlined small-detail">psychology_alt</span>
             ПРИЙМАЛЬНЯ
         </div>
     </div>
@@ -999,15 +1019,16 @@ body, html {
     </div>
 </div>
 
-
-
- <div class="tiktok-subtitle">
-    <span>Що хочете опублікувати? Натисніть на будь-яку кнопку нижче 👇🏻</span>
+<div class="anon-text" style="margin-top: 25px;">
+    Всі ваші повідомлення абсолютно анонімні (навіть ми не знаємо хто ви)!
+    Якщо хочете, щоб під публікацією було ваше імʼя — введіть його у спеціальне поле.
 </div>
 
-<div class="anon-text">
-    Всі ваші повідомлення абсолютно анонімні (навіть ми не знаємо хто ви)! Якщо хочете, щоб під публікацією було ваше імʼя — введіть його у спеціальне поле.
+<div class="tiktok-subtitle" style="margin-top: -10px;">
+    <span>Що хочете опублікувати?
+    Натисніть на будь-яку кнопку нижче 👇🏻</span>
 </div>
+
 
 <div class="main-feed">
     
