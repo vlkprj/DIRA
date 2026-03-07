@@ -24,45 +24,72 @@ body, html {
     overflow-x: hidden;
 }
 
-                .top-header {
-            width: 100%;
-          
-            background: linear-gradient(to right, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C);
-            color: #1a1a1a; 
-            padding: 20px 15px;
-            text-align: center;
-            font-family: 'Space Grotesk', sans-serif;
-            font-weight: 900;
-            font-size: 26px;
-            letter-spacing: 5px;
-            position: relative;
-            z-index: 10;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            border-bottom: 3px solid #6b4c10;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-       .header-handwritten {
-            font-family: 'Caveat', cursive;
-            font-size: 32px;
-            color: #fff;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.4);
-            letter-spacing: 2px;
-            transform: rotate(-6deg);
-            margin-bottom: -5px;
-            margin-left: -40px;
-        }
-
-        .anon-logo {
-            width: 38px;
-            height: auto;
-            background-color: #FAFAF5;
-            border-radius: 50%;
-            padding: 4px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-        }
+            
+.top-header {
+    width: 96%;
+    margin: 10px auto;
+    background: #0f2d59;
+    color: #d4af37;
+    padding: 20px 15px;
+    text-align: center;
+    position: relative;
+    z-index: 10;
+    border: 3px solid #d4af37;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3), inset 0 0 15px rgba(0,0,0,0.4);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 4px;
+}
+.vlk-herald {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    width: 45px;
+    height: auto;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+}
+.header-titles-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 5px;
+}
+.row-one {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: 15px;
+}
+.header-handwritten {
+    font-family: 'Caveat', cursive;
+    font-size: 34px;
+    color: #e6c255;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+    letter-spacing: 2px;
+    transform: rotate(-6deg);
+}
+.anon-logo {
+    width: 42px;
+    height: auto;
+    transform: rotate(8deg);
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));
+}
+.header-main-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 900;
+    font-size: 28px;
+    letter-spacing: 5px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: -5px;
+    text-shadow: 1px 1px 0px #000;
+}
+.small-detail {
+    font-size: 26px;
+    color: #d4af37;
+}
 
 
         .dropdown-links {
@@ -925,20 +952,7 @@ body, html {
     box-shadow: 0 4px 8px rgba(0,0,0,0.04) !important;
 }
 
-.header-main-title {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-}
 
-.anon-logo {
-    width: 38px;
-    height: auto;
-    background-color: #FAFAF5;
-    border-radius: 50%;
-    padding: 4px;
-}
 
 .hyperlink-cutout {
     padding: 1px 6px;
@@ -967,17 +981,24 @@ body, html {
 
 
 
-            <div class="top-header">
-        <span class="header-handwritten">ВАЛКІВСЬКА</span>
-        <div class="header-main-title">
+         <div class="top-header">
+    <img src="vlkhrld.png" class="vlk-herald" alt="Герб">
+    <div class="header-titles-wrapper">
+        <div class="row-one">
+            <span class="header-handwritten">ВАЛКІВСЬКА</span>
             <img src="anonface.PNG" class="anon-logo" alt="Анонім">
+        </div>
+        <div class="header-main-title">
+            <span class="material-symbols-outlined small-detail">visibility</span>
             ПРИЙМАЛЬНЯ
         </div>
-        <div class="dropdown-links">
-            <span class="hyperlink-cutout">ГЛЯНУТИ ЧАТІК</span>
-            <span class="hyperlink-cutout">ГЛЯНУТИ БАЗАРЧИК</span>
-        </div>
     </div>
+    <div class="dropdown-links">
+        <span class="hyperlink-cutout">ГЛЯНУТИ ЧАТІК</span>
+        <span class="hyperlink-cutout">ГЛЯНУТИ БАЗАРЧИК</span>
+    </div>
+</div>
+
 
 
  <div class="tiktok-subtitle">
