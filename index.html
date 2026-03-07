@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="uk">
 <head>
@@ -24,68 +25,45 @@ body, html {
     overflow-x: hidden;
 }
 
-            
-.top-header {
-    width: 96%;
-    margin: 10px auto;
-    background: #1D3561;
-    color: #fff;
-    padding: 20px 15px;
-    text-align: center;
-    position: relative;
-    z-index: 10;
-    border-radius: 4px;
-    box-shadow: 0 6px 15px rgba(0,0,0,0.2), inset 0 0 0 2px #fff, inset 0 0 0 4px #1D3561;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-.header-top-row {
-    position: absolute;
-    top: 15px;
-    left: 0;
-    width: 100%;
-    padding: 0 20px;
-    display: flex;
-    justify-content: space-between;
-    box-sizing: border-box;
-    pointer-events: none;
-}
-.vlk-herald, .anon-logo {
-    width: 40px;
-    height: auto;
-    filter: drop-shadow(0 2px 3px rgba(0,0,0,0.4));
-    pointer-events: auto;
-}
-.header-titles-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 10px;
-}
-.header-valkivska {
-    font-family: 'Inter', sans-serif;
-    font-size: 18px;
-    font-weight: 500;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-}
-.header-pryimalnia {
-    font-family: 'Inter', sans-serif;
-    font-weight: 900;
-    font-size: 32px;
-    letter-spacing: 2px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-top: 2px;
-}
+                .top-header {
+            width: 100%;
+          
+            background: linear-gradient(to right, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C);
+            color: #1a1a1a; 
+            padding: 20px 15px;
+            text-align: center;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 900;
+            font-size: 26px;
+            letter-spacing: 5px;
+            position: relative;
+            z-index: 10;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            border-bottom: 3px solid #6b4c10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
+       .header-handwritten {
+            font-family: 'Caveat', cursive;
+            font-size: 32px;
+            color: #fff;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.4);
+            letter-spacing: 2px;
+            transform: rotate(-6deg);
+            margin-bottom: -5px;
+            margin-left: -40px;
+        }
 
-.small-detail {
-    font-size: 26px;
-    color: #d4af37;
-}
+        .anon-logo {
+            width: 38px;
+            height: auto;
+            background-color: #FAFAF5;
+            border-radius: 50%;
+            padding: 4px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+        }
 
 
         .dropdown-links {
@@ -99,16 +77,14 @@ body, html {
     background: #fff;
     color: #0000EE;
     text-decoration: underline;
-    font-family: 'Inter', sans-serif;
-    font-weight: 900;
-    font-size: 12px;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 11px;
     padding: 2px 8px;
     border: 1px dashed #999;
     transform: rotate(-2deg);
     display: inline-block;
     max-width: 140px;
 }
-
 
 
         .hyperlink-cutout:nth-child(2) {
@@ -929,48 +905,41 @@ body, html {
 }
 
 .b-complain {
-    background: linear-gradient(145deg, #ff9a9e 0%, #fecfef 100%);
-    border: 2px solid #ff0844;
+    background: #fff4f6;
+    border: 1px dashed #ffa6b9;
     border-radius: 24px;
-    color: #d8004b;
+    color: #e8436b;
     font-family: 'Lora', serif;
     font-style: italic;
-    font-weight: 900;
-    font-size: 22px;
+    font-size: 20px;
     width: 90%;
-    padding: 15px 20px;
+    padding: 12px 20px;
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 12px;
-    box-shadow: 0 8px 20px rgba(255, 8, 68, 0.3), inset 0 4px 10px rgba(255,255,255,0.9), inset 0 -4px 10px rgba(255,105,180,0.4);
-    text-shadow: 1px 1px 0px rgba(255,255,255,0.7);
-    position: relative;
+    box-shadow: 0 4px 12px rgba(255, 166, 185, 0.15);
 }
-.b-complain::before {
-    content: '✨';
-    position: absolute;
-    top: 6px;
-    left: 15px;
-    font-size: 14px;
-    animation: blink 1.2s infinite alternate;
-}
-.b-complain::after {
-    content: '✨';
-    position: absolute;
-    bottom: 6px;
-    right: 15px;
-    font-size: 16px;
-    animation: blink 1.8s infinite alternate-reverse;
-}
-
 
 .simulate-press {
     transform: scale(0.96) !important;
     box-shadow: 0 4px 8px rgba(0,0,0,0.04) !important;
 }
 
+.header-main-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+}
 
+.anon-logo {
+    width: 38px;
+    height: auto;
+    background-color: #FAFAF5;
+    border-radius: 50%;
+    padding: 4px;
+}
 
 .hyperlink-cutout {
     padding: 1px 6px;
@@ -991,8 +960,6 @@ body, html {
     .breathe-msg { margin-top: 180px; }
 }
     </style>
-    
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=psychology_alt" />
 
 </head>
 <body>
@@ -1001,34 +968,26 @@ body, html {
 
 
 
-<div class="top-header">
-    <div class="header-top-row">
-        <img src="vlkhrld.png" class="vlk-herald" alt="Герб">
-        <img src="anonface.PNG" class="anon-logo" alt="Анонім">
-    </div>
-    <div class="header-titles-wrapper">
-        <span class="header-valkivska">ВАЛКІВСЬКА</span>
-        <div class="header-pryimalnia">
-            <span class="material-symbols-outlined small-detail">psychology_alt</span>
+            <div class="top-header">
+        <span class="header-handwritten">ВАЛКІВСЬКА</span>
+        <div class="header-main-title">
+            <img src="anonface.PNG" class="anon-logo" alt="Анонім">
             ПРИЙМАЛЬНЯ
         </div>
+        <div class="dropdown-links">
+            <span class="hyperlink-cutout">ГЛЯНУТИ ЧАТІК</span>
+            <span class="hyperlink-cutout">ГЛЯНУТИ БАЗАРЧИК</span>
+        </div>
     </div>
-    <div class="dropdown-links">
-        <span class="hyperlink-cutout">ГЛЯНУТИ ЧАТІК</span>
-        <span class="hyperlink-cutout">ГЛЯНУТИ БАЗАРЧИК</span>
-    </div>
+
+
+ <div class="tiktok-subtitle">
+    <span>Що хочете опублікувати? Натисніть на будь-яку кнопку нижче 👇🏻</span>
 </div>
 
-<div class="anon-text" style="margin-top: 25px;">
-    Всі ваші повідомлення абсолютно анонімні (навіть ми не знаємо хто ви)!
-    Якщо хочете, щоб під публікацією було ваше імʼя — введіть його у спеціальне поле.
+<div class="anon-text">
+    Всі ваші повідомлення абсолютно анонімні (навіть ми не знаємо хто ви)! Якщо хочете, щоб під публікацією було ваше імʼя — введіть його у спеціальне поле.
 </div>
-
-<div class="tiktok-subtitle" style="margin-top: -10px;">
-    <span>Що хочете опублікувати?
-    Натисніть на будь-яку кнопку нижче 👇🏻</span>
-</div>
-
 
 <div class="main-feed">
     
@@ -1036,7 +995,7 @@ body, html {
     <div style="display: flex; align-items: center; white-space: nowrap; overflow: hidden;">
         <span id="story-text"></span><span class="cursor">|</span>
     </div>
-    <div class="story-submit">Почати</div>
+    <div class="story-submit">Написати</div>
 </div>
 
 
@@ -1062,7 +1021,7 @@ body, html {
         <span class="material-symbols-outlined">edit_document</span>
         <div class="pet-text">
             <span class="pet-title">Звернутись до місцевої влади</span>
-            <span class="pet-sub">✍️ 0 підписів, хехе</span>
+            <span class="pet-sub">✍️ 0 підписів</span>
         </div>
     </div>
     
@@ -1076,7 +1035,7 @@ body, html {
     <div class="btn b-problem">
         <div class="map-header">
             <span class="material-symbols-outlined icon-pin">location_on</span>
-            <span style="font-family: 'Inter', sans-serif; font-weight: 600; font-size: 14px; color: #000;">Додати вулицю</span>
+            <span style="font-family: 'Inter', sans-serif; font-weight: 600; font-size: 14px; color: #000;">Додати об'єкт</span>
         </div>
         <div class="map-content">
             <div class="map-title">ОТАКА ПРОБЛЄМА</div>
