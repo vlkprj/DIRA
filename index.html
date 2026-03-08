@@ -895,41 +895,62 @@ body, html {
     background: linear-gradient(135deg, #ffe0eb 0%, #ffc2d4 40%, #ffb3c6 60%, #ffe0eb 100%);
     background-size: 200% 200%;
     animation: shimmerComplain 3s ease infinite;
+
     border: 2px solid #ff85a1;
-    border-radius: 30px;
+    border-radius: 24px;
+
     color: #c2185b;
     font-family: 'Lora', serif;
     font-style: italic;
-    font-size: 22px;
-    width: 90%;
-    padding: 16px 25px;
-    display: flex;
+    font-size: 18px;
+
+    width: auto;
+    padding: 10px 18px;
+
+    display: inline-flex;
     justify-content: center;
     align-items: center;
-    gap: 14px;
-    box-shadow: 0 6px 20px rgba(255, 133, 161, 0.45), inset 0 1px 0 rgba(255,255,255,0.8), 0 2px 0 #d4607a;
+    gap: 10px;
+
+    box-shadow:
+        0 4px 14px rgba(255, 133, 161, 0.45),
+        inset 0 1px 0 rgba(255,255,255,0.8),
+        0 2px 0 #d4607a;
+
     text-shadow: 0 1px 2px rgba(255,255,255,0.6);
+
     position: relative;
     overflow: hidden;
 }
 
+
 .b-complain::before {
-    content: '✨💅✨';
+    content: '';
     position: absolute;
-    top: -5px;
-    right: 15px;
-    font-size: 14px;
-    animation: floatGlitter 2s ease-in-out infinite;
+    inset: 0;
+    background:
+        radial-gradient(circle at 20% 30%, rgba(255,255,255,0.9) 1px, transparent 2px),
+        radial-gradient(circle at 70% 60%, rgba(255,255,255,0.7) 1px, transparent 2px),
+        radial-gradient(circle at 40% 80%, rgba(255,255,255,0.8) 1px, transparent 2px),
+        radial-gradient(circle at 85% 25%, rgba(255,255,255,0.6) 1px, transparent 2px);
+    animation: glitterTwinkle 3s linear infinite;
     pointer-events: none;
 }
+
 
 .b-complain::after {
     content: '';
     position: absolute;
-    top: 0; left: -75%;
+    top: 0;
+    left: -75%;
     width: 50%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,255,255,0.6),
+        transparent
+    );
     animation: glitterSwipe 2.5s ease-in-out infinite;
     pointer-events: none;
 }
@@ -940,14 +961,14 @@ body, html {
     100% { background-position: 0% 50%; }
 }
 
-@keyframes floatGlitter {
-    0%, 100% { transform: translateY(0) rotate(0deg); opacity: 1; }
-    50% { transform: translateY(-4px) rotate(10deg); opacity: 0.7; }
-}
-
 @keyframes glitterSwipe {
     0% { left: -75%; }
     100% { left: 125%; }
+}
+
+@keyframes glitterTwinkle {
+    0%,100% { opacity: 0.6; transform: translateY(0); }
+    50% { opacity: 1; transform: translateY(-2px); }
 }
 
 
