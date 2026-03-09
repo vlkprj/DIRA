@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Валківська Приймальня</title>
-    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Caveat:wght@700&family=Inter:wght@400;700;900&family=Lora:ital@0;1&family=PT+Serif:ital,wght@0,400;0,700;1,700&family=Space+Grotesk:wght@500;700;900&family=Shafarik&family=VT323&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Caveat:wght@700&family=Inter:wght@400;700;900&family=Lora:ital@0;1&family=PT+Serif:ital,wght@0,400;0,700;1,700&family=Space+Grotesk:wght@500;700;900&family=Shafarik&family=DotGothic16&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <link rel="stylesheet" href="style.css">
 
@@ -13,28 +13,31 @@
 <body>
     
    <div class="top-header">
-    <div class="header-main-title">
-        <div style="display:flex; flex-direction:column; align-items:center; gap:0px;">
-            <img src="vlkhrld.png" alt="Герб" style="width: 36px; height: auto; object-fit: contain; margin-bottom: 4px;">
-            <span class="valk-word">ВАЛКІВСЬКА</span>
-            <span style="font-weight:900; font-size:28px; letter-spacing:6px;">ПРИЙМАЛЬНЯ</span>
-        </div>
-        
-        <div class="anon-logo-wrap" style="position: absolute; right: 20px; top: 35px;">
-            <img src="anonface.PNG" alt="Анонім">
-        </div>
-    </div>
-    
-    <a href="https://t.me/valkychat" target="_blank" class="hyperlink-cutout link-left" style="z-index: 20;">ГЛЯНУТИ ЧАТІК</a>
+    <img src="vlkhrld.png" alt="Герб" class="top-left-crest">
     
     <div class="theme-switch-wrapper">
         <label class="standard-toggle">
             <input type="checkbox" id="theme-toggle">
             <span class="slider"></span>
         </label>
-        <div class="lcd-screen" id="theme-status">НОРМ</div>
+        <div class="lcd-screen">
+            <span id="theme-status">НОРМ</span>
+            <span id="lcd-time">00:00</span>
+        </div>
     </div>
 
+    <div class="header-main-title">
+        <div class="anon-logo-wrap">
+            <img src="anonface.PNG" alt="Анонім">
+        </div>
+        
+        <div style="display:flex; flex-direction:column; align-items:center; gap:0px; margin-top: 10px;">
+            <span class="shafarik-text" style="font-size:26px; letter-spacing:3px; margin-bottom: -10px;">ВАЛКІВСЬКА</span>
+            <span class="shafarik-text" style="font-size:38px; letter-spacing:4px;">ПРИЙМАЛЬНЯ</span>
+        </div>
+    </div>
+    
+    <a href="https://t.me/valkychat" target="_blank" class="hyperlink-cutout link-left" style="z-index: 20;">ГЛЯНУТИ ЧАТІК</a>
     <a href="https://t.me/valkybazar" target="_blank" class="hyperlink-cutout link-right" style="z-index: 20;">ГЛЯНУТИ БАЗАРЧИК</a>
 </div>
 
