@@ -257,6 +257,22 @@ if (kpBtn && stream) {
     });
 }
 
-//КП ВОДА//
+//КП ВОДА вьсо//
+
+const complainPhrases = ["на вонючу рибу", "на яму на дорозі", "на життя", "на сусідів", "на ціни"];
+let complainIdx = 0;
+const popEl = document.getElementById('complain-pop');
+
+if (popEl) {
+    setInterval(() => {
+        popEl.classList.remove('pop-up');
+        setTimeout(() => {
+            complainIdx = (complainIdx + 1) % complainPhrases.length;
+            popEl.innerText = complainPhrases[complainIdx];
+            popEl.classList.add('pop-up');
+        }, 500);
+    }, 3000);
+}
+
 
 });
