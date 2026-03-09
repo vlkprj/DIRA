@@ -17,17 +17,18 @@ body, html {
 /* хедер їбаний */
 .top-header {
     width: 100%;
-    min-height: 260px;
+    min-height: 290px;
     background: #1D3561;
     color: #fff;
     position: relative;
     z-index: 10;
     box-shadow: 0 4px 15px rgba(0,0,0,0.35);
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: space-between;
     align-items: center;
     box-sizing: border-box;
-    padding-bottom: 25px;
+    padding: 20px 20px 20px 20px;
 }
 
 .top-left-crest {
@@ -44,19 +45,19 @@ body, html {
     flex-direction: column;
     align-items: center;
     width: 100%;
-    margin-top: -15px;
+    margin-top: 10px;
 }
 
 .anon-logo-wrap {
-    width: 56px;
-    height: 56px;
+    width: 90px;
+    height: 90px;
     background-color: #FAFAF5;
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
     box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-    padding: 4px;
+    padding: 6px;
     box-sizing: border-box;
     z-index: 2;
 }
@@ -68,43 +69,36 @@ body, html {
     border-radius: 50%;
 }
 
-.valk-word {
+.shafarik-text {
     font-family: 'Shafarik', serif;
     font-weight: 400;
-    font-size: 32px;
     color: #fff; 
     text-transform: uppercase;
-    letter-spacing: 2px;
-    margin-bottom: -8px;
 }
 
-.pryimalnia-word {
-    font-family: 'Anton', sans-serif;
-    font-weight: 400;
-    font-size: 44px;
-    color: #fff;
-    text-transform: uppercase;
-    letter-spacing: 4px;
+.header-bottom-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-top: 20px;
 }
 
 .theme-switch-wrapper {
-    position: absolute;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
     z-index: 20;
 }
 
 .standard-toggle { position: relative; display: inline-block; width: 44px; height: 24px; }
 .standard-toggle input { opacity: 0; width: 0; height: 0; }
-.standard-toggle .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; border-radius: 24px; transition: .4s; box-shadow: inset 0 2px 4px rgba(0,0,0,0.3); }
+.standard-toggle .slider { position: relative; display: block; width: 100%; height: 100%; cursor: pointer; background-color: #ccc; border-radius: 24px; transition: .4s; box-shadow: inset 0 2px 4px rgba(0,0,0,0.3); }
 .standard-toggle .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; border-radius: 50%; transition: .4s; box-shadow: 0 1px 3px rgba(0,0,0,0.4); }
 .standard-toggle input:checked + .slider { background-color: #DA7C5D; }
 .standard-toggle input:checked + .slider:before { transform: translateX(20px); }
 
 .hyperlink-cutout {
-    position: absolute;
-    bottom: 20px;
     background: #c0c0c0;
     color: #000080;
     text-decoration: underline;
@@ -121,8 +115,10 @@ body, html {
     box-shadow: 2px 2px 0px rgba(0,0,0,0.2);
     z-index: 20;
 }
-.link-left { left: 20px; transform: rotate(-1deg); }
-.link-right { right: 20px; transform: rotate(2deg); background: #ffffcc; color: #cc0000; }
+
+.cursor { font-weight: bold; animation: blink 1s step-end infinite; color: #888; }
+@keyframes blink { 50% { opacity: 0; } }
+
 
 
 /* хедер їбаний всьо */
