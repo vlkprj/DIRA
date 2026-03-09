@@ -261,14 +261,14 @@ setInterval(updateLCDTime, 1000);
 updateLCDTime();
 
 //перемикач//
+const themeToggle = document.getElementById('theme-toggle');
+
 if (themeToggle) {
     themeToggle.addEventListener('change', (e) => {
         if (e.target.checked) {
             document.body.classList.add('brutal-theme');
-            if (themeStatus) themeStatus.innerText = 'АНТИДИЗАЙН';
         } else {
             document.body.classList.remove('brutal-theme');
-            if (themeStatus) themeStatus.innerText = 'НОРМ';
         }
     });
 }
