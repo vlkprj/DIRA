@@ -23,10 +23,7 @@ body, html {
     font-family: 'Space Grotesk', sans-serif;
     position: relative;
     z-index: 10;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.35),
-        inset 0 0 0 5px #B8962E,
-        inset 0 0 0 8px #1D3561,
-        inset 0 0 0 10px #B8962E;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.35);
     display: flex;
     justify-content: center;
     align-items: flex-start;
@@ -37,23 +34,10 @@ body, html {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 16px;
     width: 100%;
-    margin-top: 15px;
-    padding-left: 20px; 
+    margin-top: 5px;
+    position: relative;
 }
-
-
-.top-left-crest {
-    position: absolute;
-    top: 15px;
-    left: 15px;
-    width: 32px;
-    height: auto;
-    object-fit: contain;
-    filter: drop-shadow(2px 2px 0px rgba(0,0,0,0.5));
-}
-
 
 .valk-word {
     font-family: 'Shafarik', serif;
@@ -65,68 +49,74 @@ body, html {
 }
 
 
-
 .theme-switch-wrapper {
     position: absolute;
-    bottom: 12px;
+    bottom: 15px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
     z-index: 20;
 }
 
-.theme-label {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 10px;
-    font-weight: 700;
-    color: #fff;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-.brutal-toggle {
+.standard-toggle {
     position: relative;
     display: inline-block;
-    width: 44px;
-    height: 22px;
+    width: 36px;
+    height: 20px;
 }
 
-.brutal-toggle input {
+.standard-toggle input {
     opacity: 0;
     width: 0;
     height: 0;
 }
 
-.brutal-toggle .slider {
+.standard-toggle .slider {
     position: absolute;
     cursor: pointer;
     top: 0; left: 0; right: 0; bottom: 0;
-    background-color: #fff;
-    border: 2px solid #000;
-    transition: .2s;
-    box-shadow: 2px 2px 0 #000;
+    background-color: #ccc;
+    border-radius: 20px;
+    transition: .4s;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
 }
 
-.brutal-toggle .slider:before {
+.standard-toggle .slider:before {
     position: absolute;
     content: "";
-    height: 14px;
-    width: 14px;
+    height: 16px;
+    width: 16px;
     left: 2px;
     bottom: 2px;
-    background-color: #000;
-    transition: .2s;
+    background-color: white;
+    border-radius: 50%;
+    transition: .4s;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.4);
 }
 
-.brutal-toggle input:checked + .slider {
-    background-color: #DA7C5D;
+.standard-toggle input:checked + .slider {
+    background-color: #4CAF50;
 }
 
-.brutal-toggle input:checked + .slider:before {
-    transform: translateX(22px);
-    background-color: #fff;
+.standard-toggle input:checked + .slider:before {
+    transform: translateX(16px);
+}
+
+.lcd-screen {
+    font-family: 'VT323', monospace;
+    background-color: #9ea792;
+    color: #111;
+    padding: 2px 8px;
+    font-size: 15px;
+    border-radius: 3px;
+    border: 2px solid #555;
+    box-shadow: inset 1px 1px 3px rgba(0,0,0,0.5), 0 1px 0 rgba(255,255,255,0.2);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    min-width: 95px;
+    text-align: center;
 }
 
 .anon-logo-wrap {
