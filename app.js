@@ -245,5 +245,15 @@ document.querySelectorAll('.btn').forEach(btn => {
     observer.observe(btn);
 });
 
+const themeToggle = document.getElementById('theme-toggle');
+if (themeToggle) {
+    themeToggle.addEventListener('change', (e) => {
+        if (e.target.checked) {
+            document.body.classList.add('brutal-theme');
+        } else {
+            document.body.classList.remove('brutal-theme');
+        }
+    });
+}
 
 });
