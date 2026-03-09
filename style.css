@@ -174,37 +174,41 @@ body, html {
     to { transform: translateY(110vh) rotate(360deg); }
 }
 
-/* Квадратна кнопка ЧУТКИ (Подушка + Кросівки) */
-.b-rumors-square {
-    background: #FAFAF5;
-    color: #000;
-    border: 3px solid #000;
-    border-radius: 28px; /* Ефект круглої подушки */
+/* ЧУТКИ*/
+.rumors-walking-container {
+    position: relative;
     width: 140px;
-    height: 140px;
-    margin: 0 auto 15px auto;
+    margin: 0 auto 40px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+}
+
+.b-rumors-pillow {
+    background: #FAFAF5;
+    border: 3px solid #000;
+    border-radius: 35px 35px 25px 25px;
+    width: 100%;
+    height: 120px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    box-sizing: border-box;
-    /* Тінь-підошва знизу + внутрішні тіні для об'єму подушки */
-    box-shadow: 0px 8px 0px #000, inset -6px -6px 12px rgba(0,0,0,0.1), inset 6px 6px 12px #fff;
-    animation: sneakerWalk 0.5s infinite alternate ease-in-out;
-}
-
-.rumor-shoes {
-    font-size: 38px;
-    margin-bottom: 2px;
-    filter: drop-shadow(0px 2px 0px rgba(0,0,0,0.3));
+    box-shadow: inset -5px -5px 15px rgba(0,0,0,0.15), inset 5px 5px 15px #fff;
+    position: relative;
+    z-index: 2;
+    transform-origin: bottom center;
+    animation: pillowSway 0.5s infinite alternate ease-in-out;
 }
 
 .rumors-header {
     font-family: 'Space Grotesk', sans-serif;
-    font-size: 20px;
+    font-size: 24px;
     font-weight: 900;
-    letter-spacing: 1px;
+    letter-spacing: 2px;
     color: #FF6B81;
+    text-shadow: 1px 1px 0px #000;
 }
 
 #rumors-dynamic-text {
@@ -212,14 +216,46 @@ body, html {
     font-size: 11px;
     font-weight: 800;
     color: #888;
-    text-align: center;
     margin-top: 4px;
+    text-align: center;
 }
 
-@keyframes sneakerWalk {
-    0% { transform: translateY(0) rotate(-5deg); box-shadow: 2px 8px 0px #000, inset -6px -6px 12px rgba(0,0,0,0.1), inset 6px 6px 12px #fff; }
-    100% { transform: translateY(-8px) rotate(5deg); box-shadow: -2px 16px 0px #000, inset -6px -6px 12px rgba(0,0,0,0.1), inset 6px 6px 12px #fff; }
+.sneaker-legs {
+    position: absolute;
+    bottom: -20px;
+    display: flex;
+    gap: 35px;
+    z-index: 1;
 }
+
+.sneaker {
+    font-size: 38px;
+    filter: drop-shadow(0px 4px 0px rgba(0,0,0,0.4));
+}
+
+.sneaker.left {
+    animation: stepLeft 0.5s infinite alternate ease-in-out;
+}
+
+.sneaker.right {
+    animation: stepRight 0.5s infinite alternate ease-in-out;
+}
+
+@keyframes pillowSway {
+    0% { transform: skewX(-6deg) rotate(-6deg); }
+    100% { transform: skewX(6deg) rotate(6deg); }
+}
+
+@keyframes stepLeft {
+    0% { transform: translateY(0) scaleY(0.85); }
+    100% { transform: translateY(-16px) scaleY(1.1); }
+}
+
+@keyframes stepRight {
+    0% { transform: translateY(-16px) scaleY(1.1); }
+    100% { transform: translateY(0) scaleY(0.85); }
+}
+
 
 
 /* хедер їбаний всьо */
