@@ -17,7 +17,7 @@ body, html {
 /* хедер їбаний */
 .top-header {
     width: 100%;
-    min-height: 250px;
+    min-height: 260px;
     background: #1D3561;
     color: #fff;
     position: relative;
@@ -27,7 +27,7 @@ body, html {
     justify-content: center;
     align-items: center;
     box-sizing: border-box;
-    padding-bottom: 20px;
+    padding-bottom: 25px;
 }
 
 .top-left-crest {
@@ -39,28 +39,17 @@ body, html {
     object-fit: contain;
 }
 
-.theme-switch-wrapper {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 8px;
-    z-index: 20;
-}
-
 .header-main-title {
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%;
-    margin-top: -10px;
+    margin-top: -15px;
 }
 
 .anon-logo-wrap {
-    width: 50px;
-    height: 50px;
+    width: 56px;
+    height: 56px;
     background-color: #FAFAF5;
     border-radius: 50%;
     display: flex;
@@ -79,43 +68,62 @@ body, html {
     border-radius: 50%;
 }
 
-.shafarik-text {
+.valk-word {
     font-family: 'Shafarik', serif;
     font-weight: 400;
+    font-size: 32px;
     color: #fff; 
     text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: -8px;
 }
 
-.standard-toggle { position: relative; display: inline-block; width: 36px; height: 20px; }
+.pryimalnia-word {
+    font-family: 'Anton', sans-serif;
+    font-weight: 400;
+    font-size: 44px;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+}
+
+.theme-switch-wrapper {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 20;
+}
+
+.standard-toggle { position: relative; display: inline-block; width: 44px; height: 24px; }
 .standard-toggle input { opacity: 0; width: 0; height: 0; }
-.standard-toggle .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; border-radius: 20px; transition: .4s; box-shadow: inset 0 2px 4px rgba(0,0,0,0.3); }
-.standard-toggle .slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 2px; bottom: 2px; background-color: white; border-radius: 50%; transition: .4s; box-shadow: 0 1px 3px rgba(0,0,0,0.4); }
-.standard-toggle input:checked + .slider { background-color: #4CAF50; }
-.standard-toggle input:checked + .slider:before { transform: translateX(16px); }
-
-.lcd-screen {
-    font-family: 'DotGothic16', monospace;
-    background-color: #9ea792;
-    color: #111;
-    padding: 4px 6px;
-    font-size: 13px;
-    font-weight: bold;
-    border-radius: 4px;
-    border: 2px solid #555;
-    box-shadow: inset 1px 1px 3px rgba(0,0,0,0.5), 0 1px 0 rgba(255,255,255,0.2);
-    width: 135px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-sizing: border-box;
-}
+.standard-toggle .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; border-radius: 24px; transition: .4s; box-shadow: inset 0 2px 4px rgba(0,0,0,0.3); }
+.standard-toggle .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; border-radius: 50%; transition: .4s; box-shadow: 0 1px 3px rgba(0,0,0,0.4); }
+.standard-toggle input:checked + .slider { background-color: #DA7C5D; }
+.standard-toggle input:checked + .slider:before { transform: translateX(20px); }
 
 .hyperlink-cutout {
     position: absolute;
     bottom: 20px;
+    background: #c0c0c0;
+    color: #000080;
+    text-decoration: underline;
+    padding: 4px 10px;
+    border-top: 2px solid #fff;
+    border-left: 2px solid #fff;
+    border-right: 2px solid #808080;
+    border-bottom: 2px solid #808080;
+    font-family: 'Verdana', sans-serif;
+    font-size: 11px;
+    font-weight: bold;
+    display: inline-block;
+    cursor: pointer;
+    box-shadow: 2px 2px 0px rgba(0,0,0,0.2);
+    z-index: 20;
 }
-.link-left { left: 20px; }
-.link-right { right: 20px; }
+.link-left { left: 20px; transform: rotate(-1deg); }
+.link-right { right: 20px; transform: rotate(2deg); background: #ffffcc; color: #cc0000; }
+
 
 /* хедер їбаний всьо */
 
