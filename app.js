@@ -183,41 +183,39 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
+setTimeout(() => {
+    const peekY = Math.min(400, document.body.scrollHeight / 2.5);
+    
+    function bounceScroll(targetY, duration, easing, callback) {
+        const startY = window.scrollY;
+        const diff = targetY - startY;
+        let start = null;
 
-    setTimeout(() => {
-        const peekY = Math.min(400, document.body.scrollHeight / 2.5);
-        
-        function bounceScroll(targetY, duration, easing, callback) {
-            const startY = window.scrollY;
-            const diff = targetY - startY;
-            let start = null;
-
-            function step(timestamp) {
-                if (!start) start = timestamp;
-                const time = timestamp - start;
-                const percent = Math.min(time / duration, 1);
-                
-                window.scrollTo(0, startY + diff * easing(percent));
-                
-                if (time < duration) {
-                    window.requestAnimationFrame(step);
-                } else if (callback) {
-                    callback();
-                }
+        function step(timestamp) {
+            if (!start) start = timestamp;
+            const time = timestamp - start;
+            const percent = Math.min(time / duration, 1);
+            
+            window.scrollTo(0, startY + diff * easing(percent));
+            
+            if (time < duration) {
+                window.requestAnimationFrame(step);
+            } else if (callback) {
+                callback();
             }
-            window.requestAnimationFrame(step);
         }
+        window.requestAnimationFrame(step);
+    }
 
-        const easeOutExpo = x => x === 1 ? 1 : 1 - Math.pow(2, -10 * x);
-        const easeInOutCubic = x => x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+    const easeOutExpo = x => x === 1 ? 1 : 1 - Math.pow(2, -10 * x);
+    const easeInOutCubic = x => x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
 
-        bounceScroll(peekY, 800, easeOutExpo, () => {
-            setTimeout(() => {
-                bounceScroll(0, 550, easeInOutCubic);
-            }, 150);
-        });
-    }, 600);
-
+    bounceScroll(peekY, 800, easeOutExpo, () => {
+        setTimeout(() => {
+            bounceScroll(0, 550, easeInOutCubic);
+        }, 150);
+    });
+}, 600);
 
 const words = ["щось..", "про.."];
 let wordIdx = 0;
@@ -292,7 +290,3 @@ if (themeToggle) {
         }
     });
 }
-
-
-
-});
