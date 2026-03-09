@@ -246,14 +246,18 @@ document.querySelectorAll('.btn').forEach(btn => {
 });
 
 const themeToggle = document.getElementById('theme-toggle');
+const themeStatus = document.getElementById('theme-status');
 if (themeToggle) {
     themeToggle.addEventListener('change', (e) => {
         if (e.target.checked) {
             document.body.classList.add('brutal-theme');
+            if (themeStatus) themeStatus.innerText = 'АНТИДИЗАЙН';
         } else {
             document.body.classList.remove('brutal-theme');
+            if (themeStatus) themeStatus.innerText = 'НОРМ';
         }
     });
 }
+
 
 });
