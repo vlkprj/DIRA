@@ -118,7 +118,7 @@ body, html {
 .standard-toggle input:checked + .slider { background-color: #DA7C5D; }
 .standard-toggle input:checked + .slider:before { transform: translateX(20px); }
 
-/* Ефект стікерів */
+
 .hyperlink-cutout {
     position: absolute;
     bottom: -15px; 
@@ -144,9 +144,6 @@ body, html {
 
 .cursor { font-weight: bold; animation: blink 1s step-end infinite; color: #888; }
 @keyframes blink { 50% { opacity: 0; } }
-
-
-
 
 
     .tiktok-subtitle {
