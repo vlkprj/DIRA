@@ -312,14 +312,14 @@ if (rumorsWrap && rumorsDesc && rumorsTitle) {
             const scrambleInt = setInterval(() => {
                 scrambleCount++;
                 let str = "";
-                for(let i=0; i<4; i++) str += emojis[Math.floor(Math.random() * emojis.length)];
+                for(let i=0; i<3; i++) str += emojis[Math.floor(Math.random() * emojis.length)];
                 rumorsTitle.innerText = str;
                 
-                if (scrambleCount > 6) {
+                if (scrambleCount > 8) {
                     clearInterval(scrambleInt);
                     rumorsTitle.innerText = "ЧУТКИ";
                 }
-            }, 100);
+            }, 250);
 
         } else {
            
