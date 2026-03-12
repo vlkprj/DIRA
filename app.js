@@ -436,9 +436,9 @@ doorBtn.addEventListener('click', (event) => {
     }
 
     const rng = Math.random() * 100;
-    const predictionCooldown = 8;
+    const predictionCooldown = 26;
 
-    if (rng < 2) {
+    if (rng < 1) {
         const randomArtifact = valkyArtifacts[Math.floor(Math.random() * valkyArtifacts.length)];
         showPredictionPopup(`Знайдено артефакт:<br><br><b>${randomArtifact}</b>`);
     } else if (rng < 22 && (doorClicks - lastPredictionAt) >= predictionCooldown) {
