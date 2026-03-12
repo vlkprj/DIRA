@@ -287,39 +287,114 @@ document.addEventListener("DOMContentLoaded", () => {
 
         setTimeout(runRumorsCycle, 4000);
     }
+    
+    //сабміт тута//
 
     const submitOverlay = document.getElementById('submit-overlay');
-    const closeSubmitBtn = document.getElementById('close-submit');
+const closeSubmitBtn = document.getElementById('close-submit');
+const submitActionBtn = document.getElementById('submit-action-btn');
+const submitEditor = document.getElementById('submit-editor');
+const submitContent = document.getElementById('submit-content');
+const submitSentScreen = document.getElementById('submit-sent-screen');
+const closeSentBtn = document.getElementById('close-sent');
+const submitVideo = document.getElementById('submit-video');
+const attachBtn = document.getElementById('attach-btn');
+const attachInput = document.getElementById('attach-input');
+const attachPreview = document.getElementById('attach-preview');
+const fontSelect = document.getElementById('font-select');
 
-    const mailboxButtons = ['.b-story', '.b-serious', '.b-petition', '.b-complain', '.b-zbir', '.b-idea', '.b-photo', '.side-tag'];
-    const holeButtons = ['.b-unpopular', '.b-capslock', '.b-meme', '.b-shopopalo', '.b-atmosphere', '.b-admins', '.rumors-container'];
+function openSubmitOverlay(mode) {
+    submitOverlay.className = `submit-overlay ${mode}-mode`;
+    submitOverlay.style.display = 'flex';
+    submitContent.style.display = 'flex';
+    submitSentScreen.style.display = 'none';
 
-    mailboxButtons.forEach(sel => {
-        const el = document.querySelector(sel);
-        if (el) {
-            el.addEventListener('click', () => {
-                submitOverlay.className = 'submit-overlay mailbox-mode';
-                submitOverlay.style.display = 'flex';
-            });
-        }
+    const src = mode === 'mailbox' ? 'skrynka.mp4' : 'blackhole.mp4';
+    submitVideo.src = src;
+    submitVideo.load();
+    submitVideo.pause();
+    submitVideo.currentTime = 0;
+    submitEditor.focus();
+}
+
+function closeSubmitOverlay() {
+    submitOverlay.style.display = 'none';
+    submitOverlay.className = 'submit-overlay';
+    submitEditor.innerHTML = '';
+    attachPreview.innerHTML = '';
+    submitVideo.pause();
+    submitVideo.src = '';
+}
+
+const mailboxButtons = ['.b-story', '.b-serious', '.b-petition', '.b-complain', '.b-zbir', '.b-idea', '.b-photo', '.side-tag'];
+const holeButtons = ['.b-unpopular', '.b-capslock', '.b-meme', '.b-shopopalo', '.b-atmosphere', '.b-admins', '.rumors-container'];
+
+mailboxButtons.forEach(sel => {
+    const el = document.querySelector(sel);
+    if (el) el.addEventListener('click', () => openSubmitOverlay('mailbox'));
+});
+
+holeButtons.forEach(sel => {
+    const el = document.querySelector(sel);
+    if (el) el.addEventListener('click', () => openSubmitOverlay('hole'));
+});
+
+if (closeSubmitBtn) closeSubmitBtn.addEventListener('click', closeSubmitOverlay);
+
+if (closeSentBtn) closeSentBtn.addEventListener('click', closeSubmitOverlay);
+
+document.querySelectorAll('.toolbar-btn[data-cmd]').forEach(btn => {
+    btn.addEventListener('mousedown', (e) => {
+        e.preventDefault();
+        document.execCommand(btn.dataset.cmd, false, null);
+        btn.classList.toggle('active');
+        submitEditor.focus();
     });
+});
 
-    holeButtons.forEach(sel => {
-        const el = document.querySelector(sel);
-        if (el) {
-            el.addEventListener('click', () => {
-                submitOverlay.className = 'submit-overlay hole-mode';
-                submitOverlay.style.display = 'flex';
-            });
-        }
+if (fontSelect) {
+    fontSelect.addEventListener('change', () => {
+        submitEditor.style.fontFamily = fontSelect.value;
+        submitEditor.focus();
     });
+}
 
-    if (closeSubmitBtn) {
-        closeSubmitBtn.addEventListener('click', () => {
-            submitOverlay.style.display = 'none';
-            submitOverlay.className = 'submit-overlay';
-        });
-    }
+if (attachBtn && attachInput) {
+    attachBtn.addEventListener('click', () => attachInput.click());
+    attachInput.addEventListener('change', () => {
+        const file = attachInput.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const img = document.createElement('img');
+            img.src = e.target.result;
+            img.className = 'attach-thumb';
+            attachPreview.appendChild(img);
+        };
+        reader.readAsDataURL(file);
+    });
+}
+
+if (submitActionBtn) {
+    submitActionBtn.addEventListener('click', () => {
+        submitContent.style.display = 'none';
+
+        submitVideo.play();
+
+        submitVideo.onended = () => {
+            submitVideo.style.display = 'none';
+            submitSentScreen.style.display = 'flex';
+        };
+
+        setTimeout(() => {
+            if (submitSentScreen.style.display !== 'flex') {
+                submitVideo.style.display = 'none';
+                submitSentScreen.style.display = 'flex';
+            }
+        }, 8000);
+    });
+}
+//сабміт кінець//
 
     function showAchievementCard(text) {
     const lines = text.split('\n');
