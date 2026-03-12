@@ -1371,36 +1371,490 @@ box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
 /*альтернативна тема*/
+
 body.brutal-theme {
-    background-color: #dfdfdf;
+    background-color: #F2F2F0;
     font-family: 'Space Grotesk', sans-serif;
 }
-body.brutal-theme * {
-    border-radius: 0 !important;
-    box-shadow: 4px 4px 0px #000 !important;
-}
-body.brutal-theme .top-header {
-    background: #000;
-    border-bottom: 4px solid #fff;
-    box-shadow: none !important;
-}
-body.brutal-theme .vollkorn-pryim, 
-body.brutal-theme .vollkorn-valk {
-    font-family: 'Impact', sans-serif;
-    letter-spacing: 2px;
-}
-body.brutal-theme .btn {
-    border: 3px solid #000;
-    background: #fff;
-    color: #000;
-}
-body.brutal-theme .b-serious {
-    background: #DA7C5D;
-}
-body.brutal-theme .b-story {
-    background: #FFDA59;
+
+body.brutal-theme *,
+body.brutal-theme *::before,
+body.brutal-theme *::after {
+    animation: none !important;
+    transition: transform 0.1s, box-shadow 0.1s !important;
 }
 
+body.brutal-theme .top-header {
+    background: #1A1A1A;
+    border-bottom: 3px solid #F2F2F0;
+    box-shadow: none;
+    min-height: 170px;
+}
+
+body.brutal-theme .vollkorn-valk {
+    font-family: 'Space Grotesk', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 22px;
+    letter-spacing: 4px;
+    color: #888;
+}
+
+body.brutal-theme .vollkorn-pryim {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 900;
+    font-size: 30px;
+    letter-spacing: 2px;
+    color: #fff;
+}
+
+body.brutal-theme .hyperlink-cutout {
+    font-family: 'Space Grotesk', sans-serif;
+    background: #2a2a2a;
+    color: #aaa;
+    border: 1px solid #444;
+    text-decoration: none;
+    font-weight: 500;
+    letter-spacing: 1px;
+    transform: none;
+    box-shadow: none;
+}
+
+body.brutal-theme .link-left { transform: none; }
+body.brutal-theme .link-right { transform: none; }
+
+body.brutal-theme .anon-text,
+body.brutal-theme .tiktok-subtitle {
+    font-family: 'Space Grotesk', sans-serif;
+    color: #888;
+}
+
+body.brutal-theme .neutral-divider {
+    border-top: 2px solid #ccc;
+    border-style: solid;
+}
+
+body.brutal-theme .btn {
+    background: #fff;
+    border: 2px solid #1A1A1A;
+    border-radius: 12px !important;
+    box-shadow: 4px 4px 0px #1A1A1A !important;
+    font-family: 'Space Grotesk', sans-serif;
+    color: #1A1A1A;
+}
+
+body.brutal-theme .btn:active {
+    transform: translate(4px, 4px);
+    box-shadow: 0px 0px 0px #1A1A1A !important;
+}
+
+body.brutal-theme .simulate-press {
+    transform: translate(4px, 4px) !important;
+    box-shadow: 0px 0px 0px #1A1A1A !important;
+}
+
+body.brutal-theme .b-story {
+    background: #FFDA59;
+    border: 2px solid #1A1A1A;
+    box-shadow: 4px 4px 0px #1A1A1A !important;
+}
+
+body.brutal-theme .story-top-label {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 900;
+    letter-spacing: 2px;
+    color: #1A1A1A;
+}
+
+body.brutal-theme .story-typing-area {
+    font-family: 'Space Grotesk', sans-serif;
+    color: #555;
+}
+
+body.brutal-theme .story-submit {
+    background: #1A1A1A;
+    color: #FFDA59;
+    border-radius: 6px !important;
+    box-shadow: 2px 2px 0px #555 !important;
+    animation: none !important;
+}
+
+body.brutal-theme .b-serious {
+    background: #F2F2F0;
+    border: 2px solid #1A1A1A;
+    box-shadow: 4px 4px 0px #1A1A1A !important;
+    font-family: 'Space Grotesk', sans-serif;
+    color: #1A1A1A;
+}
+
+body.brutal-theme .b-serious .normal-text {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 500;
+}
+
+body.brutal-theme .b-serious .word-serious {
+    font-family: 'Space Grotesk', sans-serif;
+    font-style: normal;
+    font-weight: 900;
+    color: #DA7C5D;
+}
+
+body.brutal-theme .serious-plus {
+    color: #ccc;
+    animation: none !important;
+}
+
+body.brutal-theme .b-petition {
+    background: #fff;
+    border: 2px solid #1A1A1A;
+    border-radius: 12px !important;
+    box-shadow: 4px 4px 0px #1A1A1A !important;
+    color: #1A1A1A;
+}
+
+body.brutal-theme .b-petition::after {
+    background: #1A1A1A;
+    height: 3px;
+}
+
+body.brutal-theme .pet-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+}
+
+body.brutal-theme .pet-sub {
+    color: #888;
+    font-family: 'Space Grotesk', sans-serif;
+}
+
+body.brutal-theme .rumors-container {
+    cursor: pointer;
+}
+
+body.brutal-theme .b-rumors-pillow {
+    background: #fff;
+    border: 2px solid #1A1A1A;
+    border-radius: 12px !important;
+    box-shadow: 4px 4px 0px #1A1A1A !important;
+    animation: none !important;
+    transform: none !important;
+}
+
+body.brutal-theme .rumors-header {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 22px;
+    font-weight: 900;
+    color: #1A1A1A;
+}
+
+body.brutal-theme #rumors-dynamic-text {
+    font-family: 'Space Grotesk', sans-serif;
+    color: #888;
+}
+
+body.brutal-theme .sneaker,
+body.brutal-theme .rumor-arm,
+body.brutal-theme .orbit-ear {
+    animation: none !important;
+}
+
+body.brutal-theme .rumors-container.is-button-mode .b-rumors-pillow {
+    box-shadow: 0px 0px 0px #1A1A1A !important;
+    transform: translate(4px, 4px) !important;
+    border-radius: 12px !important;
+}
+
+body.brutal-theme .rumors-container.is-button-mode #rumors-dynamic-text {
+    background: #1A1A1A;
+    color: #FFDA59 !important;
+    border-radius: 6px !important;
+    box-shadow: none !important;
+}
+
+body.brutal-theme .b-photo {
+    background: #fff;
+    border: 2px solid #1A1A1A;
+    border-radius: 12px !important;
+    box-shadow: 4px 4px 0px #1A1A1A !important;
+    color: #1A1A1A;
+    font-family: 'Space Grotesk', sans-serif;
+}
+
+body.brutal-theme .b-complain {
+    background: #fff;
+    border: 2px solid #1A1A1A;
+    border-radius: 12px !important;
+    box-shadow: 4px 4px 0px #1A1A1A !important;
+    color: #1A1A1A;
+    font-family: 'Space Grotesk', sans-serif;
+    font-style: normal;
+    font-size: 16px;
+    font-weight: 700;
+    animation: none !important;
+    text-shadow: none;
+}
+
+body.brutal-theme .b-complain::before,
+body.brutal-theme .b-complain::after {
+    display: none;
+}
+
+body.brutal-theme .complain-pop-text {
+    font-family: 'Space Grotesk', sans-serif;
+    color: #1A1A1A;
+}
+
+body.brutal-theme .b-problem {
+    background: #F2F2F0;
+    background-image: none;
+    border: 2px solid #1A1A1A;
+    border-radius: 12px !important;
+    box-shadow: 4px 4px 0px #1A1A1A !important;
+}
+
+body.brutal-theme .b-problem .map-header {
+    border-bottom: 2px solid #1A1A1A;
+    background: #fff;
+    font-family: 'Space Grotesk', sans-serif;
+}
+
+body.brutal-theme .b-problem .map-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 900;
+    color: #1A1A1A;
+}
+
+body.brutal-theme .b-problem .map-desc {
+    font-family: 'Space Grotesk', sans-serif;
+    color: #888;
+}
+
+body.brutal-theme .b-unpopular {
+    background: #fff;
+    border: 2px solid #1A1A1A;
+    border-radius: 12px !important;
+    box-shadow: 4px 4px 0px #1A1A1A !important;
+}
+
+body.brutal-theme .b-unpopular .fake-post-input {
+    background: #F2F2F0;
+    border: 1px solid #ccc;
+    border-radius: 8px !important;
+    font-family: 'Space Grotesk', sans-serif;
+}
+
+body.brutal-theme .b-unpopular .react {
+    background: #F2F2F0;
+    border: 1px solid #ccc;
+    border-radius: 8px !important;
+    font-family: 'Space Grotesk', sans-serif;
+    color: #1A1A1A;
+}
+
+body.brutal-theme .b-unpopular .react.clicked {
+    background: #FFDA59;
+    border-color: #1A1A1A;
+    color: #1A1A1A;
+}
+
+body.brutal-theme .b-silence {
+    background: #fff;
+    border: 2px solid #1A1A1A;
+    border-radius: 12px !important;
+    box-shadow: 4px 4px 0px #1A1A1A !important;
+    color: #1A1A1A;
+    font-family: 'Space Grotesk', sans-serif;
+}
+
+body.brutal-theme .b-capslock {
+    background: #1A1A1A;
+    color: #fff;
+    border: 2px solid #1A1A1A;
+    border-radius: 12px !important;
+    box-shadow: 4px 4px 0px #888 !important;
+    border-bottom: 2px solid #1A1A1A;
+    border-right: 2px solid #1A1A1A;
+    border-top: 2px solid #1A1A1A;
+    border-left: 2px solid #1A1A1A;
+}
+
+body.brutal-theme .b-capslock .top {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 500;
+    color: #888;
+    font-size: 12px;
+}
+
+body.brutal-theme .b-capslock .bottom {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 900;
+    color: #fff;
+    animation: none !important;
+    text-transform: uppercase;
+}
+
+body.brutal-theme .b-meme {
+    background: #F2F2F0;
+    border: 2px solid #1A1A1A;
+    border-radius: 12px !important;
+    box-shadow: 4px 4px 0px #1A1A1A !important;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 900;
+    color: #1A1A1A;
+}
+
+body.brutal-theme .b-zbir {
+    background: #fff;
+    border: 2px solid #1A1A1A;
+    border-radius: 12px !important;
+    box-shadow: 4px 4px 0px #1A1A1A !important;
+}
+
+body.brutal-theme .b-zbir .zbir-small {
+    font-family: 'Space Grotesk', sans-serif;
+    color: #888;
+}
+
+body.brutal-theme .b-zbir .zbir-big {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 900;
+    color: #1A1A1A;
+}
+
+body.brutal-theme .b-idea {
+    background: #FFDA59;
+    border: 2px solid #1A1A1A;
+    border-style: solid !important;
+    border-radius: 12px !important;
+    box-shadow: 4px 4px 0px #1A1A1A !important;
+}
+
+body.brutal-theme .idea-icon-small {
+    background: #fff;
+    border-radius: 8px !important;
+    color: #1A1A1A;
+}
+
+body.brutal-theme .idea-title-small {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 900;
+    color: #1A1A1A;
+}
+
+body.brutal-theme .b-shopopalo {
+    background: #fff;
+    border: 2px solid #1A1A1A;
+    border-radius: 12px !important;
+    box-shadow: 4px 4px 0px #1A1A1A !important;
+}
+
+body.brutal-theme .b-shopopalo .avatar {
+    background: #1A1A1A;
+    border-radius: 50% !important;
+    color: #fff;
+}
+
+body.brutal-theme .b-shopopalo .input-text {
+    font-family: 'Space Grotesk', sans-serif;
+    color: #888;
+}
+
+body.brutal-theme .b-atmosphere {
+    background: #fff;
+    border: 2px solid #1A1A1A;
+    border-radius: 12px !important;
+    box-shadow: 4px 4px 0px #1A1A1A !important;
+    transform: none;
+    padding: 15px;
+    width: auto;
+}
+
+body.brutal-theme .polaroid-pic {
+    background-color: #F2F2F0;
+    background-image: none;
+    border: 2px solid #1A1A1A;
+    border-radius: 8px !important;
+}
+
+body.brutal-theme .polaroid-text {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: #1A1A1A;
+}
+
+body.brutal-theme .b-admins {
+    background: #1A1A1A;
+    color: #FFDA59;
+    border: 2px solid #1A1A1A;
+    border-radius: 12px !important;
+    box-shadow: 4px 4px 0px #888 !important;
+    font-family: 'Space Grotesk', sans-serif;
+    text-decoration: none;
+}
+
+body.brutal-theme .admin-subtext {
+    color: #888;
+    font-family: 'Space Grotesk', sans-serif;
+}
+
+body.brutal-theme .b-admins:active {
+    border: 2px solid #1A1A1A;
+    transform: translate(4px, 4px);
+    box-shadow: 0px 0px 0px #888 !important;
+    padding: 10px 30px;
+}
+
+body.brutal-theme .side-tag {
+    background: #1A1A1A;
+    color: #FFDA59;
+    border-radius: 8px 0 0 8px !important;
+    box-shadow: none !important;
+}
+
+body.brutal-theme #scroll-fab {
+    background: #1A1A1A;
+    color: #FFDA59;
+    border: 2px solid #1A1A1A;
+    border-radius: 50% !important;
+    box-shadow: 4px 4px 0px #888 !important;
+    animation: none !important;
+}
+
+body.brutal-theme #scroll-fab.show {
+    animation: none !important;
+}
+
+body.brutal-theme .footer-copy {
+    font-family: 'Space Grotesk', sans-serif;
+    color: #aaa;
+    letter-spacing: 2px;
+}
+
+body.brutal-theme .cursor {
+    color: #888;
+}
+
+body.brutal-theme .anon-logo-wrap {
+    background-color: #F2F2F0;
+    border-radius: 50% !important;
+    box-shadow: none !important;
+}
+
+@media (max-width: 400px) {
+    body.brutal-theme .vollkorn-valk { font-size: 18px; }
+    body.brutal-theme .vollkorn-pryim { font-size: 24px; }
+    body.brutal-theme .btn { font-size: 14px; }
+    body.brutal-theme .b-serious .normal-text,
+    body.brutal-theme .b-serious .word-serious { font-size: 18px; }
+    body.brutal-theme .b-capslock .bottom { font-size: 22px; }
+    body.brutal-theme .b-zbir .zbir-big { font-size: 18px; }
+    body.brutal-theme .b-meme { font-size: 16px; }
+}
+
+/*альтернативна тема всьо*/ 
+
+/*баблз*/
 .door-bubble {
     position: absolute;
     background: rgba(255, 255, 255, 0.85); 
