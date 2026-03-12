@@ -222,16 +222,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    const themeToggle = document.getElementById('theme-toggle');
-    if (themeToggle) {
-        themeToggle.addEventListener('change', (e) => {
-            if (e.target.checked) {
-                document.body.classList.add('brutal-theme');
-            } else {
-                document.body.classList.remove('brutal-theme');
-            }
-        });
-    }
+
 
     const complainPhrases = ["🚰на відсутність води", "на сусідів 🏘️", "🐟 на вонючу рибу в магазині", "на 🕳️ яму", "на життя 😫", "на ще щось", "🔥 на паліїв 🔥", "💸🏷️на ціни"];
     let complainIdx = 0;
