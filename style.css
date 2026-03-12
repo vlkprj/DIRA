@@ -2071,3 +2071,174 @@ box-shadow: 0 4px 12px rgba(0,0,0,0.08);
         transition-duration: 0.01ms !important;
     }
 }
+
+/*рюкзак*/
+.bag-btn {
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    width: 46px;
+    height: 46px;
+    background: #fff;
+    border-radius: 50%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    font-size: 22px;
+    cursor: pointer;
+    z-index: 100;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    border: 1px solid #ddd;
+    transition: transform 0.2s;
+}
+
+.bag-btn.visible {
+    display: flex;
+}
+
+.bag-btn:active {
+    transform: scale(0.92);
+}
+
+.bag-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1800;
+    background: rgba(0,0,0,0.4);
+    backdrop-filter: blur(4px);
+    display: none;
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+
+.bag-overlay.open {
+    display: flex;
+}
+
+.bag-panel {
+    background: #FAFAF5;
+    width: 100%;
+    max-width: 500px;
+    max-height: 75vh;
+    border-radius: 24px 24px 0 0;
+    padding: 24px 20px 40px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    overflow: hidden;
+}
+
+.bag-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.bag-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 900;
+    font-size: 18px;
+    color: #1a1a1a;
+}
+
+.bag-close {
+    cursor: pointer;
+    color: #888;
+    font-size: 24px;
+}
+
+.bag-vanish-note {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    color: #bbb;
+    font-style: italic;
+    line-height: 1.4;
+}
+
+.bag-tabs {
+    display: flex;
+    gap: 8px;
+}
+
+.bag-tab {
+    flex: 1;
+    padding: 8px 4px;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    background: #fff;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: #888;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.bag-tab.active {
+    background: #1a1a1a;
+    color: #FFDA59;
+    border-color: #1a1a1a;
+}
+
+.bag-content {
+    overflow-y: auto;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.bag-empty {
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    color: #bbb;
+    text-align: center;
+    padding: 30px 20px;
+    line-height: 1.6;
+}
+
+.bag-item {
+    background: #fff;
+    border: 1px solid #ebebeb;
+    border-radius: 12px;
+    padding: 14px 16px;
+    cursor: pointer;
+    transition: transform 0.1s;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.bag-item:active {
+    transform: scale(0.98);
+}
+
+.bag-item-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    color: #1a1a1a;
+}
+
+.bag-item-sub {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    color: #888;
+    line-height: 1.4;
+}
+
+.bag-item-detail {
+    display: none;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    color: #555;
+    line-height: 1.5;
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid #f0f0f0;
+}
+
+.bag-item.expanded .bag-item-detail {
+    display: block;
+}
+/*рюкзак всьо*/
