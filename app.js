@@ -411,46 +411,44 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         let doorClicks = 0;
-        let hasTappedOnce = false;
-        let lastWasPrediction = false;
+let hasTappedOnce = false;
+let lastPredictionAt = -10;
 
-        doorBtn.addEventListener('click', (event) => {
-            if (!hasTappedOnce) {
-                showDoorBubble(event, "тут може випасти передбачення, артефакт або ачівка, але не в цей раз і не тобі, спробуй ще");
-                hasTappedOnce = true;
-                return;
-            }
-
-            doorClicks++;
-
-            if (achievements[doorClicks]) {
-                showAchievementCard(achievements[doorClicks]);
-                lastWasPrediction = false;
-                if (doorClicks === 523) {
-                    doorBtn.classList.add('door-falling');
-                    setTimeout(() => {
-                        doorBtn.innerText = '◼️';
-                        doorBtn.classList.remove('door-falling');
-                    }, 1000);
-                }
-                return;
-            }
-
-            const rng = Math.random() * 100;
-
-            if (rng < 5) {
-                const randomArtifact = valkyArtifacts[Math.floor(Math.random() * valkyArtifacts.length)];
-                showPredictionPopup(`Знайдено артефакт:<br><br><b>${randomArtifact}</b>`);
-                lastWasPrediction = false;
-            } else if (rng < 25 && !lastWasPrediction) {
-                showPredictionPopup(`🔮 ${getPrediction()}`);
-                lastWasPrediction = true;
-            } else {
-                lastWasPrediction = false;
-                const randomBubbleText = bubbles[Math.floor(Math.random() * bubbles.length)];
-                showDoorBubble(event, randomBubbleText);
-            }
-        });
+doorBtn.addEventListener('click', (event) => {
+    if (!hasTappedOnce) {
+        showDoorBubble(event, "тут може випасти передбачення, артефакт або ачівка, але не в цей раз і не тобі, спробуй ще");
+        hasTappedOnce = true;
+        return;
     }
+
+    doorClicks++;
+
+    if (achievements[doorClicks]) {
+        showAchievementCard(achievements[doorClicks]);
+        if (doorClicks === 523) {
+            doorBtn.classList.add('door-falling');
+            setTimeout(() => {
+                doorBtn.innerText = '◼️';
+                doorBtn.classList.remove('door-falling');
+            }, 1000);
+        }
+        return;
+    }
+
+    const rng = Math.random() * 100;
+    const predictionCooldown = 8;
+
+    if (rng < 2) {
+        const randomArtifact = valkyArtifacts[Math.floor(Math.random() * valkyArtifacts.length)];
+        showPredictionPopup(`Знайдено артефакт:<br><br><b>${randomArtifact}</b>`);
+    } else if (rng < 22 && (doorClicks - lastPredictionAt) >= predictionCooldown) {
+        showPredictionPopup(`🔮 ${getPrediction()}`);
+        lastPredictionAt = doorClicks;
+    } else {
+        const randomBubbleText = bubbles[Math.floor(Math.random() * bubbles.length)];
+        showDoorBubble(event, randomBubbleText);
+    }
+});
+}
 
 });
