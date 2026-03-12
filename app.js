@@ -467,11 +467,11 @@ if (submitActionBtn) {
     if (doorBtn) {
         const bubbles = [
             "🤨", "🙄", "🥱", "🤖", "👊🏻", "🫵🏻", "👁️", "👀", "💥", "🥁", "📸", "🔒", "👁️‍🗨️",
-            "шо?", "та шо?", "по голові собі постукай", "закрито", "перерва", "пізніше", "нє",
-            "Спробуй ще", "не стукай", "Мда", "я двічі не повторюю! чи повторюю?", "тут нічо нема", "може хвате?", "ну ти дайош", "двері не відкриються, серйозно","ну і шо воно ото стукає", "та всьо", "шо нада", "робити вобщє нічого", "а тепер головою", "та..", "хто там?", "ніхто не відкриє", "закрито до завтра", "чо ти стукаєш?", "це не тапалка", "Шо вам треба?", "нікого нема", "я щас різко вийду, ти ляжеш", "до побачення", "може завтра?", "буває", "шо там?", "хммм 🧐",
-            "не в цей раз", "без сюрпризів", "знову ти?", "еххх", "хух",
-            "Міша, всьо х*йня, давай по новой", "шо такоє, хто ето", "та таке",
-            "іди пороби шось може, нє?", "знову нє", "астанавітєсь", "це ж було вже"
+            "шо?", "гарного дня ❤️ (чи вечора)", "ви хто?", "та шо?", "по голові собі постукай", "закрито", "перерва", "пізніше", "нє",
+            "Спробуй ще", "не стукай", "Мда", "я двічі не повторюю! чи повторюю?", "це не кнопка, кнопки внизу", "ну пиши вже шось, шо ти стукаєш", "уже можна починати писати", "тут нічо нема", "може хвате?", "ну ти дайош", "двері не відкриються, серйозно","ну і шо воно ото стукає", "та всьо", "шо нада", "робити вобщє нічого", "а тепер головою", "та..", "хто там?", "ніхто не відкриє", "закрито до завтра", "чо ти стукаєш?", "це не тапалка", "Шо вам треба?", "нікого нема", "я щас різко вийду, ти ляжеш", "до побачення", "може завтра?", "буває", "шо там?", "хммм 🧐",
+            "не в цей раз", "а ви знали, шо тут можна відправити фото на канал?", "тут все анонімно, але гадості і вигаданий брєд про інших людей публікувати не будемо", "без сюрпризів", "знову ти?", "еххх", "хух",
+            "Міша, всьо х*йня, давай по новой", "шо такоє, хто ето", "та таке", "звідки стільки енергії?",
+            "іди пороби шось може, нє?", "знову нє", "астанавітєсь!", "це ж було вже"
         ];
 
         const valkyArtifacts = [
@@ -523,44 +523,158 @@ if (submitActionBtn) {
         }
 
         let doorClicks = 0;
-let hasTappedOnce = false;
-let lastPredictionAt = -10;
+        let hasTappedOnce = false;
+        let lastPredictionAt = -10;
 
-doorBtn.addEventListener('click', (event) => {
-    if (!hasTappedOnce) {
-        showDoorBubble(event, "тут може випасти передбачення, артефакт або ачівка, але не в цей раз і не тобі, спробуй ще");
-        hasTappedOnce = true;
-        return;
-    }
+        doorBtn.addEventListener('click', (event) => {
+            if (!hasTappedOnce) {
+                showDoorBubble(event, "тут може випасти передбачення, артефакт або ачівка, але не в цей раз і не тобі, спробуй ще");
+                hasTappedOnce = true;
+                return;
+            }
 
-    doorClicks++;
+            doorClicks++;
 
-    if (achievements[doorClicks]) {
-        showAchievementCard(achievements[doorClicks]);
-        if (doorClicks === 523) {
-            doorBtn.classList.add('door-falling');
-            setTimeout(() => {
-                doorBtn.innerText = '◼️';
-                doorBtn.classList.remove('door-falling');
-            }, 1000);
-        }
-        return;
-    }
+            if (doorClicks === 2) {
+                bagBtn.classList.add('visible');
+            }
 
-    const rng = Math.random() * 100;
-    const predictionCooldown = 26;
+            if (achievements[doorClicks]) {
+                showAchievementCard(achievements[doorClicks]);
+                
+                const achText = achievements[doorClicks];
+                const achLines = achText.split('\n');
+                addToLoot('achievements', {
+                    title: achLines[0] || 'Досягнення',
+                    preview: achLines[1] ? achLines[1].substring(0, 60) + '...' : '',
+                    full: achLines.slice(1).join('<br>')
+                });
 
-    if (rng < 1) {
-        const randomArtifact = valkyArtifacts[Math.floor(Math.random() * valkyArtifacts.length)];
-        showPredictionPopup(`Знайдено артефакт:<br><br><b>${randomArtifact}</b>`);
-    } else if (rng < 22 && (doorClicks - lastPredictionAt) >= predictionCooldown) {
-        showPredictionPopup(`🔮 ${getPrediction()}`);
-        lastPredictionAt = doorClicks;
-    } else {
-        const randomBubbleText = bubbles[Math.floor(Math.random() * bubbles.length)];
-        showDoorBubble(event, randomBubbleText);
-    }
-});
+                if (doorClicks === 523) {
+                    doorBtn.classList.add('door-falling');
+                    setTimeout(() => {
+                        doorBtn.innerText = '◼️';
+                        doorBtn.classList.remove('door-falling');
+                    }, 1000);
+                }
+                return;
+            }
+
+            const rng = Math.random() * 100;
+            const predictionCooldown = 26;
+
+            if (rng < 1) {
+                const randomArtifact = valkyArtifacts[Math.floor(Math.random() * valkyArtifacts.length)];
+                showPredictionPopup(`Знайдено артефакт:<br><br><b>${randomArtifact}</b>`);
+                
+                addToLoot('artifacts', {
+                    title: randomArtifact,
+                    preview: 'Валківський артефакт',
+                    full: `Знайдено: ${randomArtifact}`
+                });
+
+            } else if (rng < 22 && (doorClicks - lastPredictionAt) >= predictionCooldown) {
+                const predText = getPrediction();
+                showPredictionPopup(`🔮 ${predText}`);
+                
+                addToLoot('predictions', {
+                    title: '🔮 Передбачення',
+                    preview: predText.substring(0, 60) + '...',
+                    full: predText
+                });
+
+                lastPredictionAt = doorClicks;
+
+            } else {
+                const randomBubbleText = bubbles[Math.floor(Math.random() * bubbles.length)];
+                showDoorBubble(event, randomBubbleText);
+            }
+        });
 }
+
+//рюкзак//
+
+const bagBtn = document.getElementById('bag-btn');
+const bagOverlay = document.getElementById('bag-overlay');
+const bagClose = document.getElementById('bag-close');
+const bagContent = document.getElementById('bag-content');
+
+const lootKey = 'valky_loot_v1';
+
+function getLoot() {
+    try {
+        return JSON.parse(localStorage.getItem(lootKey)) || { achievements: [], predictions: [], artifacts: [] };
+    } catch {
+        return { achievements: [], predictions: [], artifacts: [] };
+    }
+}
+
+function saveLoot(loot) {
+    localStorage.setItem(lootKey, JSON.stringify(loot));
+}
+
+function addToLoot(type, item) {
+    const loot = getLoot();
+    loot[type].push(item);
+    saveLoot(loot);
+}
+
+function renderBagTab(tab) {
+    const loot = getLoot();
+    const items = loot[tab] || [];
+    bagContent.innerHTML = '';
+
+    const emptyMessages = {
+        achievements: 'Ви ще не отримали жодного досягнення. Стукайте у двері Валківської Приймальні.',
+        predictions: 'Немає передбачень для вас. Поки що.',
+        artifacts: 'Ви ще не знайшли жодного артефакту. Стукайте у двері Валківської Приймальні.'
+    };
+
+    if (items.length === 0) {
+        bagContent.innerHTML = `<div class="bag-empty">${emptyMessages[tab]}</div>`;
+        return;
+    }
+
+    items.slice().reverse().forEach(item => {
+        const el = document.createElement('div');
+        el.className = 'bag-item';
+        el.innerHTML = `
+            <div class="bag-item-title">${item.title}</div>
+            <div class="bag-item-sub">${item.preview}</div>
+            <div class="bag-item-detail">${item.full}</div>
+        `;
+        el.addEventListener('click', () => el.classList.toggle('expanded'));
+        bagContent.appendChild(el);
+    });
+}
+
+let activeBagTab = 'achievements';
+
+document.querySelectorAll('.bag-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+        document.querySelectorAll('.bag-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        activeBagTab = tab.dataset.tab;
+        renderBagTab(activeBagTab);
+    });
+});
+
+if (bagBtn) {
+    bagBtn.addEventListener('click', () => {
+        bagOverlay.classList.add('open');
+        renderBagTab(activeBagTab);
+    });
+}
+
+if (bagClose) {
+    bagClose.addEventListener('click', () => bagOverlay.classList.remove('open'));
+}
+
+if (bagOverlay) {
+    bagOverlay.addEventListener('click', (e) => {
+        if (e.target === bagOverlay) bagOverlay.classList.remove('open');
+    });
+}
+//рюкзак всьо//
 
 });
