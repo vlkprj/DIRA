@@ -424,7 +424,7 @@ if (submitActionBtn) {
         bubble.style.left = `${rect.left + rect.width / 2}px`;
         bubble.style.top = `${rect.top}px`;
         document.body.appendChild(bubble);
-        setTimeout(() => bubble.remove(), 2000);
+        setTimeout(() => bubble.remove(), 4000);
     }
 
     function showPredictionPopup(text) {
