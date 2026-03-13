@@ -297,6 +297,35 @@
 
 </div>
 
+<div class="submit-overlay photo-overlay" id="photo-overlay">
+    <div class="submit-header">
+        <span class="material-symbols-outlined close-submit" id="close-photo">close</span>
+    </div>
+    <div class="submit-content" id="photo-content">
+        <div class="caps-label" id="photo-overlay-title">ВІДПРАВИТИ ФОТО</div>
+        <div class="photo-drop-zone" id="photo-drop-zone">
+            <input type="file" id="photo-file-input" accept="image/*" style="display:none;">
+            <div class="photo-drop-inner" id="photo-drop-inner">
+                <span class="material-symbols-outlined photo-plus-icon">add</span>
+                <span class="photo-drop-hint">Натисніть +, щоб додати зображення</span>
+            </div>
+            <img id="photo-preview-img" class="photo-preview-img" style="display:none;">
+        </div>
+        <div class="submit-meta">
+            <span class="submit-anon-badge">👤 Анонімно</span>
+            <input class="submit-name-input" id="photo-name" type="text" placeholder="підпис або нікнейм (необовʼязково)">
+        </div>
+        <button class="submit-action-btn" id="photo-action-btn">ВІДПРАВИТИ</button>
+    </div>
+    <div class="submit-sent-screen" id="photo-sent-screen">
+        <span class="material-symbols-outlined close-sent" id="close-photo-sent">close</span>
+        <div class="sent-text">ВІДПРАВЛЕНО У ВАЛКІВСЬКУ ПРИЙМАЛЬНЮ</div>
+        <div class="sent-sub">Очікуйте вашу публікацію на <a href="https://t.me/valkyoperatyvno" target="_blank" class="sent-link">каналі</a></div>
+        <div class="sent-spinner"><span class="material-symbols-outlined spinning">autorenew</span></div>
+    </div>
+</div>
+
+
 <div class="submit-overlay caps-overlay" id="caps-overlay">
     <div class="submit-header">
         <span class="material-symbols-outlined close-submit" id="close-caps">close</span>
