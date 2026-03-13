@@ -318,7 +318,8 @@ function closeSubmitOverlay() {
 }
 
 const mailboxButtons = ['.b-story', '.b-serious', '.b-petition', '.b-complain', '.b-zbir', '.b-idea', '.b-photo', '.side-tag'];
-const holeButtons = ['.b-unpopular', '.b-capslock', '.b-meme', '.b-shopopalo', '.b-atmosphere', '.b-admins', '.rumors-container'];
+const holeButtons = ['.b-unpopular', '.b-meme', '.b-shopopalo', '.b-admins', '.rumors-container'];
+
 
 mailboxButtons.forEach(sel => {
     const el = document.querySelector(sel);
@@ -386,6 +387,58 @@ if (submitActionBtn) {
     });
 }
 //сабміт кінець//
+
+const capsOverlay = document.getElementById('caps-overlay');
+const closeCapsBtn = document.getElementById('close-caps');
+const capsActionBtn = document.getElementById('caps-action-btn');
+const capsEditor = document.getElementById('caps-editor');
+const capsSentScreen = document.getElementById('caps-sent-screen');
+const closeCapsSet = document.getElementById('close-caps-sent');
+const capsContent = document.getElementById('caps-content');
+
+function openCapsOverlay() {
+    capsOverlay.style.display = 'flex';
+    capsContent.style.display = 'flex';
+    capsSentScreen.style.display = 'none';
+    capsEditor.value = '';
+    capsEditor.focus();
+}
+
+function closeCapsOverlay() {
+    capsOverlay.style.display = 'none';
+    capsEditor.value = '';
+}
+
+const capsBtn = document.querySelector('.b-capslock');
+if (capsBtn) capsBtn.addEventListener('click', openCapsOverlay);
+
+if (closeCapsBtn) closeCapsBtn.addEventListener('click', closeCapsOverlay);
+if (closeCapsSet) closeCapsSet.addEventListener('click', closeCapsOverlay);
+
+if (capsEditor) {
+    capsEditor.addEventListener('input', () => {
+        const pos = capsEditor.selectionStart;
+        capsEditor.value = capsEditor.value.toUpperCase();
+        capsEditor.setSelectionRange(pos, pos);
+    });
+    capsEditor.addEventListener('keypress', (e) => {
+        if (e.key.length === 1) {
+            e.preventDefault();
+            const pos = capsEditor.selectionStart;
+            const val = capsEditor.value;
+            capsEditor.value = val.substring(0, pos) + e.key.toUpperCase() + val.substring(pos);
+            capsEditor.setSelectionRange(pos + 1, pos + 1);
+        }
+    });
+}
+
+if (capsActionBtn) {
+    capsActionBtn.addEventListener('click', () => {
+        capsContent.style.display = 'none';
+        capsSentScreen.style.display = 'flex';
+    });
+}
+
 
     function showAchievementCard(text) {
     const cleanText = text.replace(/\n\n📸[\s\S]*/g, '').replace(/\n\n👀[\s\S]*/g, '');
