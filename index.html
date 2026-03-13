@@ -297,6 +297,63 @@
 
 </div>
 
+<div class="submit-overlay atmo-overlay" id="atmo-overlay">
+    <div class="submit-header">
+        <span class="material-symbols-outlined close-submit" id="close-atmo">close</span>
+    </div>
+    <div class="submit-content" id="atmo-content">
+        <div class="caps-label">ПОКАЗАТИ АТМОСФЕРУ</div>
+        <div class="atmo-frames-row">
+            <div class="atmo-frame-pick active" data-frame="polaroid" title="Поларойд">🟦</div>
+            <div class="atmo-frame-pick" data-frame="round" title="Кругла">⭕</div>
+            <div class="atmo-frame-pick" data-frame="wide" title="Широка">▬</div>
+            <div class="atmo-frame-pick" data-frame="torn" title="Рвана">📄</div>
+        </div>
+        <div class="atmo-grid" id="atmo-grid">
+            <div class="atmo-slot" data-idx="0">
+                <input type="file" accept="image/*" class="atmo-file-input">
+                <div class="atmo-slot-inner">
+                    <span class="material-symbols-outlined atmo-plus">add</span>
+                </div>
+                <img class="atmo-slot-img" style="display:none;">
+            </div>
+            <div class="atmo-slot" data-idx="1">
+                <input type="file" accept="image/*" class="atmo-file-input">
+                <div class="atmo-slot-inner">
+                    <span class="material-symbols-outlined atmo-plus">add</span>
+                </div>
+                <img class="atmo-slot-img" style="display:none;">
+            </div>
+            <div class="atmo-slot" data-idx="2">
+                <input type="file" accept="image/*" class="atmo-file-input">
+                <div class="atmo-slot-inner">
+                    <span class="material-symbols-outlined atmo-plus">add</span>
+                </div>
+                <img class="atmo-slot-img" style="display:none;">
+            </div>
+            <div class="atmo-slot" data-idx="3">
+                <input type="file" accept="image/*" class="atmo-file-input">
+                <div class="atmo-slot-inner">
+                    <span class="material-symbols-outlined atmo-plus">add</span>
+                </div>
+                <img class="atmo-slot-img" style="display:none;">
+            </div>
+        </div>
+        <div class="submit-meta">
+            <span class="submit-anon-badge">👤 Анонімно</span>
+            <input class="submit-name-input" id="atmo-name" type="text" placeholder="підпис або нікнейм (необовʼязково)">
+        </div>
+        <button class="submit-action-btn" id="atmo-action-btn">ВІДПРАВИТИ</button>
+    </div>
+    <div class="submit-sent-screen" id="atmo-sent-screen">
+        <span class="material-symbols-outlined close-sent" id="close-atmo-sent">close</span>
+        <div class="sent-text">ВІДПРАВЛЕНО У ВАЛКІВСЬКУ ПРИЙМАЛЬНЮ</div>
+        <div class="sent-sub">Очікуйте вашу публікацію на <a href="https://t.me/valkyoperatyvno" target="_blank" class="sent-link">каналі</a></div>
+        <div class="sent-spinner"><span class="material-symbols-outlined spinning">autorenew</span></div>
+    </div>
+</div>
+
+
 <div class="submit-overlay photo-overlay" id="photo-overlay">
     <div class="submit-header">
         <span class="material-symbols-outlined close-submit" id="close-photo">close</span>
