@@ -351,6 +351,11 @@ holeButtons.forEach(sel => {
 if (closeSubmitBtn) closeSubmitBtn.addEventListener('click', closeSubmitOverlay);
 
 if (closeSentBtn) closeSentBtn.addEventListener('click', closeSubmitOverlay);
+if (previewSendBtn) {
+    submitOverlay.addEventListener('click', (e) => {
+        if (e.target === submitOverlay) closeSubmitOverlay();
+    });
+}
 
 document.querySelectorAll('.toolbar-btn[data-cmd]').forEach(btn => {
     btn.addEventListener('mousedown', (e) => {
@@ -445,17 +450,39 @@ bgColorDots.forEach(dot => {
 });
 
 
+const submitPreviewScreen = document.getElementById('submit-preview-screen');
+const previewPostCard = document.getElementById('preview-post-card');
+const previewMetaLine = document.getElementById('preview-meta-line');
+const previewEditBtn = document.getElementById('preview-edit-btn');
+const previewSendBtn = document.getElementById('preview-send-btn');
+
 if (submitActionBtn) {
     submitActionBtn.addEventListener('click', () => {
+        const nameVal = document.getElementById('submit-name').value.trim();
+        previewPostCard.innerHTML = submitEditor.innerHTML || '<span style="color:#bbb">— порожньо —</span>';
+        previewPostCard.style.background = currentBgColor || '#fff';
+        previewPostCard.style.color = currentTextColor || '#1a1a1a';
+        previewMetaLine.innerText = nameVal ? `від: ${nameVal}` : '👤 Анонімно';
         submitContent.style.display = 'none';
+        submitPreviewScreen.style.display = 'flex';
+    });
+}
 
+if (previewEditBtn) {
+    previewEditBtn.addEventListener('click', () => {
+        submitPreviewScreen.style.display = 'none';
+        submitContent.style.display = 'flex';
+    });
+}
+
+if (previewSendBtn) {
+    previewSendBtn.addEventListener('click', () => {
+        submitPreviewScreen.style.display = 'none';
         submitVideo.play();
-
         submitVideo.onended = () => {
             submitVideo.style.display = 'none';
             submitSentScreen.style.display = 'flex';
         };
-
         setTimeout(() => {
             if (submitSentScreen.style.display !== 'flex') {
                 submitVideo.style.display = 'none';
@@ -464,6 +491,37 @@ if (submitActionBtn) {
         }, 8000);
     });
 }
+
+const capsPreviewScreen = document.getElementById('caps-preview-screen');
+const capsPreviewCard = document.getElementById('caps-preview-card');
+const capsPreviewMetaLine = document.getElementById('caps-preview-meta-line');
+const capsPreviewEditBtn = document.getElementById('caps-preview-edit-btn');
+const capsPreviewSendBtn = document.getElementById('caps-preview-send-btn');
+
+if (capsActionBtn) {
+    capsActionBtn.addEventListener('click', () => {
+        const nameVal = document.getElementById('caps-name').value.trim();
+        capsPreviewCard.innerText = capsEditor.value || '— порожньо —';
+        capsPreviewMetaLine.innerText = nameVal ? `від: ${nameVal}` : '👤 Анонімно';
+        capsContent.style.display = 'none';
+        capsPreviewScreen.style.display = 'flex';
+    });
+}
+
+if (capsPreviewEditBtn) {
+    capsPreviewEditBtn.addEventListener('click', () => {
+        capsPreviewScreen.style.display = 'none';
+        capsContent.style.display = 'flex';
+    });
+}
+
+if (capsPreviewSendBtn) {
+    capsPreviewSendBtn.addEventListener('click', () => {
+        capsPreviewScreen.style.display = 'none';
+        capsSentScreen.style.display = 'flex';
+    });
+}
+
 //сабміт кінець//
 
 const atmoOverlay = document.getElementById('atmo-overlay');
