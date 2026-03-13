@@ -1852,7 +1852,9 @@ box-shadow: 0 4px 12px rgba(0,0,0,0.08);
     background: #1a1a2e;
     display: flex;
     flex-direction: column;
+    max-width: 260px;
 }
+
 
 .card-image-area {
     width: 100%;
@@ -1886,7 +1888,10 @@ box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 .card-body {
     padding: 14px 16px 18px;
     background: linear-gradient(180deg, #1a1a2e 0%, #12122a 100%);
+    word-break: break-word;
+    overflow-wrap: break-word;
 }
+
 
 .card-number {
     font-family: 'Inter', sans-serif;
@@ -2077,20 +2082,34 @@ box-shadow: 0 4px 12px rgba(0,0,0,0.08);
     position: fixed;
     bottom: 80px;
     right: 20px;
-    width: 46px;
-    height: 46px;
+    width: 54px;
+    height: 54px;
     background: #fff;
     border-radius: 50%;
     display: none;
     justify-content: center;
     align-items: center;
-    font-size: 22px;
+    font-size: 28px;
     cursor: pointer;
     z-index: 100;
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     border: 1px solid #ddd;
     transition: transform 0.2s;
+    position: fixed;
 }
+
+.bag-btn.has-items::after {
+    content: '';
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 10px;
+    height: 10px;
+    background: #FF6B81;
+    border-radius: 50%;
+    border: 2px solid #fff;
+}
+
 
 .bag-btn.visible {
     display: flex;
