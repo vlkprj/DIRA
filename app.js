@@ -318,7 +318,8 @@ function closeSubmitOverlay() {
 }
 
 const mailboxButtons = ['.b-story', '.b-serious', '.b-petition', '.b-complain', '.b-zbir', '.b-idea', '.b-photo', '.side-tag'];
-const holeButtons = ['.b-unpopular', '.b-meme', '.b-shopopalo', '.b-admins', '.rumors-container', '.b-problem'];
+const holeButtons = ['.b-unpopular', '.b-shopopalo', '.b-admins', '.rumors-container', '.b-problem'];
+
 
 
 
@@ -388,6 +389,64 @@ if (submitActionBtn) {
     });
 }
 //сабміт кінець//
+const photoOverlay = document.getElementById('photo-overlay');
+const closePhotoBtn = document.getElementById('close-photo');
+const photoActionBtn = document.getElementById('photo-action-btn');
+const photoContent = document.getElementById('photo-content');
+const photoSentScreen = document.getElementById('photo-sent-screen');
+const closePhotoSent = document.getElementById('close-photo-sent');
+const photoDropZone = document.getElementById('photo-drop-zone');
+const photoFileInput = document.getElementById('photo-file-input');
+const photoPreviewImg = document.getElementById('photo-preview-img');
+const photoDropInner = document.getElementById('photo-drop-inner');
+const photoOverlayTitle = document.getElementById('photo-overlay-title');
+
+function openPhotoOverlay(mode) {
+    photoOverlay.style.display = 'flex';
+    photoContent.style.display = 'flex';
+    photoSentScreen.style.display = 'none';
+    photoPreviewImg.style.display = 'none';
+    photoDropInner.style.display = 'flex';
+    photoFileInput.value = '';
+    photoOverlayTitle.innerText = mode === 'meme' ? 'ВІДПРАВИТИ МЕМ' : 'ВІДПРАВИТИ ФОТО';
+}
+
+function closePhotoOverlay() {
+    photoOverlay.style.display = 'none';
+}
+
+const photoBtnEl = document.querySelector('.b-photo');
+const memeBtnEl = document.querySelector('.b-meme');
+if (photoBtnEl) photoBtnEl.addEventListener('click', () => openPhotoOverlay('photo'));
+if (memeBtnEl) memeBtnEl.addEventListener('click', () => openPhotoOverlay('meme'));
+
+if (closePhotoBtn) closePhotoBtn.addEventListener('click', closePhotoOverlay);
+if (closePhotoSent) closePhotoSent.addEventListener('click', closePhotoOverlay);
+
+if (photoDropZone) {
+    photoDropZone.addEventListener('click', () => photoFileInput.click());
+}
+
+if (photoFileInput) {
+    photoFileInput.addEventListener('change', () => {
+        const file = photoFileInput.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            photoPreviewImg.src = e.target.result;
+            photoPreviewImg.style.display = 'block';
+            photoDropInner.style.display = 'none';
+        };
+        reader.readAsDataURL(file);
+    });
+}
+
+if (photoActionBtn) {
+    photoActionBtn.addEventListener('click', () => {
+        photoContent.style.display = 'none';
+        photoSentScreen.style.display = 'flex';
+    });
+}
 
 const capsOverlay = document.getElementById('caps-overlay');
 const closeCapsBtn = document.getElementById('close-caps');
