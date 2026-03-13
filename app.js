@@ -388,12 +388,13 @@ if (submitActionBtn) {
 //сабміт кінець//
 
     function showAchievementCard(text) {
-    const lines = text.split('\n');
+    const cleanText = text.replace(/\n\n📸[\s\S]*/g, '').replace(/\n\n👀[\s\S]*/g, '');
+    const lines = cleanText.split('\n').filter(l => l.trim());
     const titleLine = lines[0] || '';
     const numberMatch = titleLine.match(/Досягнення #(\d+)/);
     const number = numberMatch ? numberMatch[1] : '';
-    const titleText = titleLine.replace(/Досягнення #\d+:\n?/, '').replace(/Досягнення #\d+/, '');
-    const descText = lines.slice(1).join(' ');
+    const titleText = titleLine.replace(/Досягнення #\d+:?\s*/, '').trim();
+    const descText = lines.slice(1).join(' ').trim();
 
     const card = document.createElement('div');
     card.className = 'achievement-card';
@@ -401,12 +402,9 @@ if (submitActionBtn) {
         <div class="card-plastic-wrap">
             <span class="achievement-close" onclick="this.closest('.achievement-card').remove()">✕</span>
             <div class="card-inner">
-                <div class="card-image-area">
-                    <span class="card-image-placeholder">🏆</span>
-                </div>
                 <div class="card-body">
                     <div class="card-number">Досягнення #${number}</div>
-                    <div class="card-title">${titleText || descText.substring(0, 40)}</div>
+                    <div class="card-title">${titleText}</div>
                     <div class="card-desc">${descText}</div>
                 </div>
             </div>
@@ -414,6 +412,7 @@ if (submitActionBtn) {
     `;
     document.body.appendChild(card);
 }
+
 
     function showDoorBubble(event, text) {
         const doorEl = event.currentTarget;
