@@ -309,6 +309,13 @@ function openSubmitOverlay(mode) {
     submitVideo.currentTime = 0;
     submitEditor.innerHTML = '';
     submitEditor.focus();
+    
+    currentBgColor = '#FAF8F4';
+    currentTextColor = '#222221';
+    textColorDots.forEach(d => d.classList.toggle('active', d.dataset.color === '#222221'));
+    bgColorDots.forEach(d => d.classList.toggle('active', d.dataset.color === '#FAF8F4'));
+    applyEditorColors();
+
 }
 
 
@@ -376,6 +383,67 @@ if (attachBtn && attachInput) {
         reader.readAsDataURL(file);
     });
 }
+
+const textColorDots = document.querySelectorAll('.text-color-dot');
+const bgColorDots = document.querySelectorAll('.bg-color-dot');
+
+const safeTextColors = {
+    '#FAF8F4': ['#222221'],
+    '#262624': ['#FAF8F4', '#4282AA', '#B24A3B', '#D97757'],
+    '#FFFFFF': ['#222221'],
+};
+
+const safeBgForText = {
+    '#222221': ['#FAF8F4', '#FFFFFF'],
+    '#B24A3B': ['#FAF8F4', '#FFFFFF'],
+    '#4282AA': ['#262624', '#FAF8F4'],
+    '#D97757': ['#262624', '#FAF8F4'],
+};
+
+let currentBgColor = '#FAF8F4';
+let currentTextColor = '#222221';
+
+function applyEditorColors() {
+    submitEditor.style.background = currentBgColor;
+    submitEditor.style.color = currentTextColor;
+}
+
+textColorDots.forEach(dot => {
+    dot.addEventListener('click', () => {
+        const color = dot.dataset.color;
+        const allowedBgs = safeBgForText[color];
+        if (allowedBgs && !allowedBgs.includes(currentBgColor)) {
+            currentBgColor = allowedBgs[0];
+            bgColorDots.forEach(d => {
+                d.classList.toggle('active', d.dataset.color === currentBgColor);
+            });
+        }
+        currentTextColor = color;
+        textColorDots.forEach(d => d.classList.remove('active'));
+        dot.classList.add('active');
+        applyEditorColors();
+        submitEditor.focus();
+    });
+});
+
+bgColorDots.forEach(dot => {
+    dot.addEventListener('click', () => {
+        const color = dot.dataset.color;
+        const allowedTexts = safeTextColors[color];
+        if (allowedTexts && !allowedTexts.includes(currentTextColor)) {
+            currentTextColor = allowedTexts[0];
+            textColorDots.forEach(d => {
+                d.classList.toggle('active', d.dataset.color === currentTextColor);
+            });
+        }
+        currentBgColor = color;
+        bgColorDots.forEach(d => d.classList.remove('active'));
+        dot.classList.add('active');
+        applyEditorColors();
+        submitEditor.focus();
+    });
+});
+
 
 if (submitActionBtn) {
     submitActionBtn.addEventListener('click', () => {
