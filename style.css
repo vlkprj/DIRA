@@ -1523,7 +1523,9 @@ box-shadow: 0 4px 12px rgba(0,0,0,0.08);
     padding: 8px 12px;
     border-radius: 12px;
     box-sizing: border-box;
+    flex-wrap: nowrap;
 }
+
 
 .submit-overlay.mailbox-mode .submit-toolbar {
     background: #f5f5f5;
@@ -1570,11 +1572,13 @@ box-shadow: 0 4px 12px rgba(0,0,0,0.08);
     cursor: pointer;
     font-family: 'Inter', sans-serif;
     font-size: 12px;
-    padding: 4px 4px;
+    padding: 2px 2px;
     border-radius: 6px;
     outline: none;
-    flex: 1;
+    max-width: 80px;
 }
+
+
 
 .submit-overlay.mailbox-mode .toolbar-select {
     color: #444;
@@ -2532,3 +2536,124 @@ body.submit-open {
     touch-action: none;
 }
 
+.toolbar-attach-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 6px 8px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s;
+    flex-shrink: 0;
+}
+
+.submit-overlay.mailbox-mode .toolbar-attach-btn {
+    color: #444;
+    background: rgba(0,0,0,0.06);
+    border: 1px solid rgba(0,0,0,0.1);
+}
+
+.submit-overlay.hole-mode .toolbar-attach-btn {
+    color: #aaa;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.toolbar-attach-btn:active {
+    background: rgba(128,128,128,0.2);
+}
+
+.toolbar-divider {
+    width: 1px;
+    height: 20px;
+    background: rgba(128,128,128,0.25);
+    flex-shrink: 0;
+    margin: 0 2px;
+}
+
+.toolbar-font-box {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    border-radius: 8px;
+    padding: 4px 8px;
+    flex-shrink: 1;
+    min-width: 0;
+}
+
+.submit-overlay.mailbox-mode .toolbar-font-box {
+    background: rgba(0,0,0,0.04);
+    border: 1px solid rgba(0,0,0,0.1);
+}
+
+.submit-overlay.hole-mode .toolbar-font-box {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.toolbar-font-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.submit-overlay.mailbox-mode .toolbar-font-label {
+    color: #888;
+}
+
+.submit-overlay.hole-mode .toolbar-font-label {
+    color: #666;
+}
+
+.submit-overlay.hole-mode .toolbar-select {
+    color: #aaa;
+}
+
+.submit-overlay.hole-mode .toolbar-select option {
+    background: #1a1a1a;
+    color: #ccc;
+}
+
+.submit-colors-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    max-width: 400px;
+    flex-wrap: wrap;
+    padding: 4px 2px;
+}
+
+.colors-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    color: #aaa;
+    white-space: nowrap;
+}
+
+.color-dot {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.1s, box-shadow 0.1s;
+    flex-shrink: 0;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+}
+
+.color-dot:active {
+    transform: scale(0.9);
+}
+
+.color-dot.active {
+    box-shadow: 0 0 0 2px #fff, 0 0 0 4px #1a1a1a;
+}
+
+.submit-overlay.hole-mode .color-dot.active {
+    box-shadow: 0 0 0 2px #1a1a1a, 0 0 0 4px #fff;
+}
