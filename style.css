@@ -2657,3 +2657,109 @@ body.submit-open {
 .submit-overlay.hole-mode .color-dot.active {
     box-shadow: 0 0 0 2px #1a1a1a, 0 0 0 4px #fff;
 }
+
+.submit-preview-screen {
+    position: absolute;
+    inset: 0;
+    z-index: 20;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    padding: 30px 24px;
+    overflow-y: auto;
+}
+
+.submit-overlay.mailbox-mode .submit-preview-screen {
+    background: #FAFAF5;
+}
+
+.submit-overlay.hole-mode .submit-preview-screen {
+    background: #080C0C;
+}
+
+.caps-overlay .submit-preview-screen {
+    background: #dcdcdc;
+}
+
+.preview-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 400px;
+}
+
+.preview-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    color: #aaa;
+    text-transform: uppercase;
+}
+
+.preview-edit-btn {
+    background: none;
+    border: none;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 6px 10px;
+    border-radius: 8px;
+    transition: background 0.15s;
+}
+
+.submit-overlay.mailbox-mode .preview-edit-btn,
+.caps-overlay .preview-edit-btn {
+    color: #555;
+}
+
+.submit-overlay.hole-mode .preview-edit-btn {
+    color: #888;
+}
+
+.preview-edit-btn:active {
+    background: rgba(128,128,128,0.15);
+}
+
+.preview-post-card {
+    width: 100%;
+    max-width: 400px;
+    min-height: 80px;
+    border-radius: 16px;
+    padding: 20px;
+    box-sizing: border-box;
+    font-size: 16px;
+    line-height: 1.6;
+    word-break: break-word;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+.caps-preview-card {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 900;
+    font-size: 20px;
+    letter-spacing: 1px;
+    background: #e8e8e8;
+    border-radius: 8px;
+    border-bottom: 6px solid #aaa;
+    border-right: 4px solid #bbb;
+    border-top: 2px solid #fff;
+    border-left: 2px solid #eee;
+    color: #333;
+    text-transform: uppercase;
+}
+
+.preview-meta-line {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    color: #aaa;
+    width: 100%;
+    max-width: 400px;
+    text-align: right;
+}
+
+
