@@ -601,17 +601,19 @@ if (capsActionBtn) {
 }
 
 
-    function showDoorBubble(event, text) {
-        const doorEl = event.currentTarget;
-        const rect = doorEl.getBoundingClientRect();
-        const bubble = document.createElement('div');
-        bubble.className = 'door-bubble';
-        bubble.innerText = text;
-        bubble.style.left = `${rect.left + rect.width / 2}px`;
-        bubble.style.top = `${rect.top}px`;
-        document.body.appendChild(bubble);
-        setTimeout(() => bubble.remove(), 9000);
-    }
+function showDoorBubble(event, text) {
+    const doorEl = event.currentTarget;
+    const rect = doorEl.getBoundingClientRect();
+    const bubble = document.createElement('div');
+    bubble.className = 'door-bubble';
+    bubble.innerText = text;
+    bubble.style.left = `${rect.left + rect.width / 2}px`;
+    bubble.style.top = `${rect.top + window.scrollY}px`;
+    bubble.style.position = 'fixed';
+    bubble.style.top = `${rect.top}px`;
+    document.body.appendChild(bubble);
+    setTimeout(() => bubble.remove(), 2500);
+}
 
     function showPredictionPopup(text) {
     const isArtifact = text.includes('артефакт');
