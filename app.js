@@ -505,35 +505,6 @@ if (previewSendBtn) {
     });
 }
 
-const capsPreviewScreen = document.getElementById('caps-preview-screen');
-const capsPreviewCard = document.getElementById('caps-preview-card');
-const capsPreviewMetaLine = document.getElementById('caps-preview-meta-line');
-const capsPreviewEditBtn = document.getElementById('caps-preview-edit-btn');
-const capsPreviewSendBtn = document.getElementById('caps-preview-send-btn');
-
-if (capsActionBtn) {
-    capsActionBtn.addEventListener('click', () => {
-        const nameVal = document.getElementById('caps-name').value.trim();
-        capsPreviewCard.innerText = capsEditor.value || '— порожньо —';
-        capsPreviewMetaLine.innerText = nameVal ? `від: ${nameVal}` : '👤 Анонімно';
-        capsContent.style.display = 'none';
-        capsPreviewScreen.style.display = 'flex';
-    });
-}
-
-if (capsPreviewEditBtn) {
-    capsPreviewEditBtn.addEventListener('click', () => {
-        capsPreviewScreen.style.display = 'none';
-        capsContent.style.display = 'flex';
-    });
-}
-
-if (capsPreviewSendBtn) {
-    capsPreviewSendBtn.addEventListener('click', () => {
-        capsPreviewScreen.style.display = 'none';
-        capsSentScreen.style.display = 'flex';
-    });
-}
 
 //сабміт кінець//
 
@@ -782,12 +753,36 @@ if (capsEditor) {
     });
 }
 
+const capsPreviewScreen = document.getElementById('caps-preview-screen');
+const capsPreviewCard = document.getElementById('caps-preview-card');
+const capsPreviewMetaLine = document.getElementById('caps-preview-meta-line');
+const capsPreviewEditBtn = document.getElementById('caps-preview-edit-btn');
+const capsPreviewSendBtn = document.getElementById('caps-preview-send-btn');
+
 if (capsActionBtn) {
     capsActionBtn.addEventListener('click', () => {
+        const nameVal = document.getElementById('caps-name').value.trim();
+        capsPreviewCard.innerText = capsEditor.value || '— порожньо —';
+        capsPreviewMetaLine.innerText = nameVal ? `від: ${nameVal}` : '👤 Анонімно';
         capsContent.style.display = 'none';
+        capsPreviewScreen.style.display = 'flex';
+    });
+}
+
+if (capsPreviewEditBtn) {
+    capsPreviewEditBtn.addEventListener('click', () => {
+        capsPreviewScreen.style.display = 'none';
+        capsContent.style.display = 'flex';
+    });
+}
+
+if (capsPreviewSendBtn) {
+    capsPreviewSendBtn.addEventListener('click', () => {
+        capsPreviewScreen.style.display = 'none';
         capsSentScreen.style.display = 'flex';
     });
 }
+
 
 
     function showAchievementCard(text) {
