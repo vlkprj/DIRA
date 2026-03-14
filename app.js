@@ -293,8 +293,10 @@ const attachBtn = document.getElementById('attach-btn');
 const attachInput = document.getElementById('attach-input');
 const attachPreview = document.getElementById('attach-preview');
 const fontSelect = document.getElementById('font-select');
+let lastScrollY = 0;
 
 function openSubmitOverlay(mode) {
+    lastScrollY = window.scrollY;
     submitOverlay.className = `submit-overlay ${mode}-mode`;
     submitOverlay.style.display = 'flex';
     submitContent.style.display = 'flex';
@@ -315,20 +317,23 @@ function openSubmitOverlay(mode) {
     textColorDots.forEach(d => d.classList.toggle('active', d.dataset.color === '#222221'));
     bgColorDots.forEach(d => d.classList.toggle('active', d.dataset.color === '#FAF8F4'));
     applyEditorColors();
-
 }
+
 
 
 function closeSubmitOverlay() {
     submitOverlay.style.display = 'none';
     submitOverlay.className = 'submit-overlay';
     submitEditor.innerHTML = '';
-    attachPreview.innerHTML = '';
+    const inlinePreview = document.getElementById('attach-preview-inline');
+    if (inlinePreview) inlinePreview.innerHTML = '';
     submitVideo.pause();
     submitVideo.src = '';
     submitVideo.style.display = 'block';
     document.body.classList.remove('submit-open');
+    window.scrollTo({ top: lastScrollY, behavior: 'instant' });
 }
+
 
 
 const mailboxButtons = ['.b-story', '.b-serious', '.b-petition', '.b-complain', '.b-zbir', '.b-idea', '.b-photo', '.side-tag'];
@@ -533,6 +538,7 @@ const closeAtmoSent = document.getElementById('close-atmo-sent');
 const atmoGrid = document.getElementById('atmo-grid');
 
 function openAtmoOverlay() {
+    lastScrollY = window.scrollY;
     atmoOverlay.style.display = 'flex';
     atmoContent.style.display = 'flex';
     atmoSentScreen.style.display = 'none';
@@ -551,7 +557,9 @@ function openAtmoOverlay() {
 function closeAtmoOverlay() {
     atmoOverlay.style.display = 'none';
     document.body.classList.remove('submit-open');
+    window.scrollTo({ top: lastScrollY, behavior: 'instant' });
 }
+
 
 
 const atmoBtnEl = document.querySelector('.b-atmosphere');
@@ -613,6 +621,7 @@ const photoDropInner = document.getElementById('photo-drop-inner');
 const photoOverlayTitle = document.getElementById('photo-overlay-title');
 
 function openPhotoOverlay(mode) {
+    lastScrollY = window.scrollY;
     photoOverlay.style.display = 'flex';
     photoContent.style.display = 'flex';
     photoSentScreen.style.display = 'none';
@@ -627,7 +636,9 @@ function openPhotoOverlay(mode) {
 function closePhotoOverlay() {
     photoOverlay.style.display = 'none';
     document.body.classList.remove('submit-open');
+    window.scrollTo({ top: lastScrollY, behavior: 'instant' });
 }
+
 
 
 const photoBtnEl = document.querySelector('.b-photo');
@@ -672,6 +683,7 @@ const closeCapsSet = document.getElementById('close-caps-sent');
 const capsContent = document.getElementById('caps-content');
 
 function openCapsOverlay() {
+    lastScrollY = window.scrollY;
     capsOverlay.style.display = 'flex';
     capsContent.style.display = 'flex';
     capsSentScreen.style.display = 'none';
@@ -685,6 +697,7 @@ function closeCapsOverlay() {
     capsOverlay.style.display = 'none';
     capsEditor.value = '';
     document.body.classList.remove('submit-open');
+    window.scrollTo({ top: lastScrollY, behavior: 'instant' });
 }
 
 
