@@ -81,30 +81,31 @@ body, html {
 
 
 .vollkorn-valk {
-    font-family: 'Vollkorn', serif;
-    font-style: italic;
-    font-weight: 400;
-    font-size: 26px;
+    font-family: 'Fira Sans Extra Condensed', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 28px; 
     color: #FFDA59;
     text-transform: uppercase;
     line-height: 1;
 }
 
 .vollkorn-pryim {
-    font-family: 'Vollkorn', serif;
-    font-weight: 500;
-    font-size: 34px;
+    font-family: 'Fira Sans Extra Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 38px;
     color: #fff;
     text-transform: uppercase;
     line-height: 1;
 }
 
 @media (max-width: 400px) {
-    .vollkorn-valk { font-size: 22px; }
-    .vollkorn-pryim { font-size: 28px; }
+    .vollkorn-valk { font-size: 24px; }
+    .vollkorn-pryim { font-size: 32px; }
     .anon-logo-wrap { width: 60px; height: 60px; }
     .top-left-crest { width: 50px; }
 }
+
 
 
 
