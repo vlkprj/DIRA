@@ -306,6 +306,8 @@ function openSubmitOverlay(mode) {
 
     const src = mode === 'mailbox' ? 'skrynka.mp4' : 'blackhole.mp4';
     submitVideo.src = src;
+    submitVideo.style.filter = '';
+    submitVideo.style.transition = '';
     submitVideo.load();
     submitVideo.pause();
     submitVideo.currentTime = 0;
@@ -492,6 +494,8 @@ if (previewEditBtn) {
 if (previewSendBtn) {
     previewSendBtn.addEventListener('click', () => {
         submitPreviewScreen.style.display = 'none';
+        submitVideo.style.filter = 'blur(0px) brightness(0.6)';
+        submitVideo.style.transition = 'filter 1s ease';
         submitVideo.play();
         submitVideo.onended = () => {
             submitVideo.style.display = 'none';
