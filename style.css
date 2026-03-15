@@ -1473,13 +1473,14 @@ box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
 
-.submit-overlay.mailbox-mode {
-    background: #FAFAF5;
+.submit-overlay.mailbox-mode .submit-preview-screen {
+    background: transparent;
 }
 
-.submit-overlay.hole-mode {
-    background: #080C0C;
+.submit-overlay.hole-mode .submit-preview-screen {
+    background: transparent;
 }
+
 
 .submit-header {
     position: relative;
