@@ -475,6 +475,7 @@ if (submitActionBtn) {
         previewPostCard.innerHTML = previewHTML || '<span style="color:#bbb">— порожньо —</span>';
         previewPostCard.style.background = currentBgColor || '#fff';
         previewPostCard.style.color = currentTextColor || '#1a1a1a';
+        previewPostCard.style.fontFamily = submitEditor.style.fontFamily || 'Inter, sans-serif';
         previewMetaLine.innerText = nameVal ? `від: ${nameVal}` : '👤 Анонімно';
         submitContent.style.display = 'none';
         submitPreviewScreen.style.display = 'flex';
