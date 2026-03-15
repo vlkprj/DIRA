@@ -260,20 +260,19 @@
 
        <div class="submit-content" id="submit-content">
 
-        <div class="submit-editor-wrap">
-            <div class="editor-top-bar">
+                <div class="submit-editor-wrap">
+            <div class="submit-editor" id="submit-editor" contenteditable="true" data-placeholder="Пиши сюди..."></div>
+            <div id="attach-preview-inline" class="attach-preview-inline" style="padding: 0 14px 10px;"></div>
+            <div class="editor-bottom-bar">
                 <button class="toolbar-attach-btn" id="attach-btn" title="Прикріпити файл">
                     <span class="material-symbols-outlined" style="font-size:20px;">attach_file</span>
                 </button>
                 <input type="file" id="attach-input" accept="image/*" style="display:none;">
-            </div>
-            <div class="submit-editor" id="submit-editor" contenteditable="true" data-placeholder="Пиши сюди..."></div>
-            <div id="attach-preview-inline" class="attach-preview-inline" style="padding: 0 14px 10px;"></div>
-            <div class="editor-bottom-bar">
+                <div class="toolbar-divider"></div>
                 <button class="toolbar-btn" data-cmd="bold" title="Жирний"><b>B</b></button>
                 <button class="toolbar-btn" data-cmd="italic" title="Курсив"><i style="font-family:serif;">i</i></button>
                 <div class="toolbar-divider"></div>
-                                <div class="toolbar-font-box" id="toolbar-font-box">
+                <div class="toolbar-font-box" id="toolbar-font-box">
                     <span class="toolbar-font-label">Шрифт</span>
                     <select class="toolbar-select" id="font-select">
                         <option value="Inter">Inter</option>
@@ -290,7 +289,6 @@
                         <option value="Fira Sans Extra Condensed">Fira Sans</option>
                     </select>
                 </div>
-
                 <div class="toolbar-divider"></div>
                 <span class="colors-label" style="font-size:10px; white-space:nowrap;">Текст</span>
                 <div class="color-dot text-color-dot active" data-color="#222221" style="background:#222221;"></div>
@@ -307,18 +305,13 @@
 
         <div class="anon-identity-block">
             <div class="anon-icon-wrap">
-                <span class="material-symbols-outlined" style="font-size:18px;">shield_person</span>
+                <span class="material-symbols-outlined" style="font-size:20px;">shield_person</span>
             </div>
-            <div class="anon-text-block">
-                <span class="anon-label">Анонімно</span>
-                <span class="anon-sublabel">Ми не знаємо хто ти</span>
-            </div>
-            <input class="submit-name-input" id="submit-name" type="text" placeholder="або вкажи нік">
+            <input class="submit-name-input" id="submit-name" type="text" placeholder="Анонімно (або вкажіть нік)">
         </div>
 
         <button class="submit-action-btn" id="submit-action-btn">ПЕРЕГЛЯНУТИ</button>
 
-    </div>
 
     <div class="submit-preview-screen" id="submit-preview-screen">
         <div class="preview-header">
