@@ -545,29 +545,34 @@ if (previewSendBtn) {
 
         previewPostCard.classList.add(`fly-to-${mode}`);
 
-        
-        submitPreviewScreen.style.display = 'none';
-        submitVideo.style.display = 'block';
-        submitVideo.style.filter = 'blur(0px) brightness(0.8)';
-        submitVideo.play();
+        const animDuration = mode === 'mailbox' ? 1000 : 1300;
 
-        const finishSend = () => {
-            submitVideo.style.display = 'none';
-            submitSentScreen.style.display = 'flex';
-            previewPostCard.classList.remove(`fly-to-${mode}`);
-            previewMetaLine.style.opacity = '1';
-            const editBtn = document.getElementById('preview-edit-btn');
-            if (editBtn) editBtn.style.opacity = '1';
-            if (previewSendBtn) previewSendBtn.style.opacity = '1';
-            if (previewLabel) previewLabel.style.opacity = '1';
-        };
-
-        submitVideo.onended = finishSend;
         setTimeout(() => {
-            if (submitSentScreen.style.display !== 'flex') finishSend();
-        }, 8000);
+            submitPreviewScreen.style.display = 'none';
+            submitVideo.style.display = 'block';
+            submitVideo.style.filter = 'blur(0px) brightness(0.8)';
+            submitVideo.play();
+
+            const finishSend = () => {
+                submitVideo.style.display = 'none';
+                submitSentScreen.style.display = 'flex';
+                previewPostCard.classList.remove(`fly-to-${mode}`);
+                previewMetaLine.style.opacity = '1';
+                const editBtn = document.getElementById('preview-edit-btn');
+                if (editBtn) editBtn.style.opacity = '1';
+                if (previewSendBtn) previewSendBtn.style.opacity = '1';
+                if (previewLabel) previewLabel.style.opacity = '1';
+            };
+
+            submitVideo.onended = finishSend;
+            setTimeout(() => {
+                if (submitSentScreen.style.display !== 'flex') finishSend();
+            }, 8000);
+
+        }, animDuration);
     });
 }
+
 
 
 
