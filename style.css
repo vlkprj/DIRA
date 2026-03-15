@@ -3174,6 +3174,7 @@ body.submit-open {
     max-width: 400px;
     text-align: right;
 }
+
 @keyframes epicDoorBreak {
     0% { transform: scale(1) rotate(0deg); }
     10% { transform: scale(1.2) rotate(-15deg); }
@@ -3188,9 +3189,9 @@ body.submit-open {
 }
 
 .door-broken-hole {
-    font-size: 38px;
-    filter: brightness(0.2) sepia(1) hue-rotate(180deg) saturate(0);
-    transform: scale(0.9);
+    filter: brightness(0) opacity(0.85);
+    transform: scale(0.95);
 }
+
 
 
