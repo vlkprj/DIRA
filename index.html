@@ -258,9 +258,8 @@
         <span class="material-symbols-outlined close-submit" id="close-submit">close</span>
     </div>
 
-       <div class="submit-content" id="submit-content">
-
-                <div class="submit-editor-wrap">
+    <div class="submit-content" id="submit-content">
+        <div class="submit-editor-wrap">
             <div class="submit-editor" id="submit-editor" contenteditable="true" data-placeholder="Пиши сюди..."></div>
             <div id="attach-preview-inline" class="attach-preview-inline" style="padding: 0 14px 10px;"></div>
             <div class="editor-bottom-bar">
@@ -311,7 +310,7 @@
         </div>
 
         <button class="submit-action-btn" id="submit-action-btn">ПЕРЕГЛЯНУТИ</button>
-
+    </div>
 
     <div class="submit-preview-screen" id="submit-preview-screen">
         <div class="preview-header">
@@ -321,27 +320,21 @@
         <div class="preview-post-card" id="preview-post-card"></div>
         <div class="preview-meta-line" id="preview-meta-line"></div>
         <button class="submit-action-btn" id="preview-send-btn">ВІДПРАВИТИ</button>
-                <div class="preview-logo-watermark">
+        <div class="preview-logo-watermark">
             <img src="anonface.PNG" alt="Анонім">
             <span>Валківська Приймальня</span>
         </div>
     </div>
 
-  <div class="submit-sent-screen" id="submit-sent-screen">
-        <div class="sent-text" id="sent-text">
-            ВІДПРАВЛЕНО У ВАЛКІВСЬКУ ПРИЙМАЛЬНЮ
-        </div>
-        <div class="sent-sub">
-            Очікуйте вашу публікацію на <a href="https://t.me/valkyoperatyvno" target="_blank" class="sent-link">каналі</a>
-        </div>
-        <div class="sent-spinner">
-            <span class="material-symbols-outlined spinning">autorenew</span>
-        </div>
+    <div class="submit-sent-screen" id="submit-sent-screen">
+        <div class="sent-text" id="sent-text">ВІДПРАВЛЕНО У ВАЛКІВСЬКУ ПРИЙМАЛЬНЮ</div>
+        <div class="sent-sub">Очікуйте вашу публікацію на <a href="https://t.me/valkyoperatyvno" target="_blank" class="sent-link">каналі</a></div>
+        <div class="sent-spinner"><span class="material-symbols-outlined spinning">autorenew</span></div>
         <button class="close-sent-btn" id="close-sent">Закрити</button>
     </div>
 
-
 </div>
+
 
 <div class="submit-overlay atmo-overlay" id="atmo-overlay">
     <div class="submit-header">
@@ -352,19 +345,19 @@
 
         <div class="atmo-layout-row">
             <button class="atmo-layout-btn active" data-layout="single-polaroid" title="Один поларойд">
-                <span style="font-size:22px;">🟦</span>
+                <span class="material-symbols-outlined" style="font-size:22px;">photo_polaroid</span>
                 <span>Поларойд</span>
             </button>
             <button class="atmo-layout-btn" data-layout="two-polaroid" title="Два поларойди">
-                <span style="font-size:22px;">🟦🟦</span>
+                <span class="material-symbols-outlined" style="font-size:22px;">photo_library</span>
                 <span>×2</span>
             </button>
             <button class="atmo-layout-btn" data-layout="single-square" title="Один квадрат">
-                <span style="font-size:22px;">⬜</span>
+                <span class="material-symbols-outlined" style="font-size:22px;">crop_square</span>
                 <span>Квадрат</span>
             </button>
             <button class="atmo-layout-btn" data-layout="grid-four" title="Сітка 4">
-                <span style="font-size:22px;">⊞</span>
+                <span class="material-symbols-outlined" style="font-size:22px;">grid_view</span>
                 <span>Сітка</span>
             </button>
         </div>
@@ -384,7 +377,6 @@
         <button class="close-sent-btn" id="close-atmo-sent">Закрити</button>
     </div>
 </div>
-
 
 
 <div class="submit-overlay photo-overlay" id="photo-overlay">
@@ -419,9 +411,6 @@
 </div>
 
 
-</div>
-
-
 <div class="submit-overlay caps-overlay" id="caps-overlay">
     <div class="submit-header">
         <span class="material-symbols-outlined close-submit" id="close-caps">close</span>
@@ -433,9 +422,10 @@
             <span class="submit-anon-badge">👤 Анонімно</span>
             <input class="submit-name-input" id="caps-name" type="text" placeholder="або вкажи імʼя (необовʼязково)">
         </div>
-              <button class="submit-action-btn" id="caps-action-btn">ПЕРЕГЛЯНУТИ</button>
+        <button class="submit-action-btn" id="caps-action-btn">ПЕРЕГЛЯНУТИ</button>
     </div>
-        <div class="submit-preview-screen" id="caps-preview-screen">
+
+    <div class="submit-preview-screen" id="caps-preview-screen">
         <div class="preview-header">
             <span class="preview-label">ПОПЕРЕДНІЙ ПЕРЕГЛЯД</span>
             <button class="preview-edit-btn" id="caps-preview-edit-btn">← Редагувати</button>
@@ -451,9 +441,9 @@
         <div class="sent-spinner"><span class="material-symbols-outlined spinning">autorenew</span></div>
         <button class="close-sent-btn" id="close-caps-sent">Закрити</button>
     </div>
-
 </div>
 
 <script src="app.js"></script>
 </body>
 </html>
+
