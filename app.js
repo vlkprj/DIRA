@@ -1039,40 +1039,56 @@ const getArtifactText = (count) => `\n\n📸 **Ти відкрив(ла) мож�
 
                function getPrediction() {
             let text = predictions[Math.floor(Math.random() * predictions.length)];
-                text = text.replace('{NAME}', names[Math.floor(Math.random() * names.length)]);
-                 text = text.replace('{NAME2}', names2[Math.floor(Math.random() * names2.length)]);
-            
-        
+            text = text.replace('{NAME}', names[Math.floor(Math.random() * names.length)]);
+            text = text.replace('{NAME2}', names2[Math.floor(Math.random() * names2.length)]);
             text = text.replace('{NUM1}', Math.floor(Math.random() * 50) + 1);
-            
             return text;
         }
 
-
-        let doorClicks = 0;
-        let hasTappedOnce = false;
-        let lastPredictionAt = -10;
+        let doorClicks = parseInt(localStorage.getItem('valky_door_clicks')) || 0;
+        let hasTappedOnce = doorClicks > 0;
+        let lastPredictionAt = parseInt(localStorage.getItem('valky_last_pred')) || -10;
         let recentBubbles = []; 
 
+        if (doorBtn && doorClicks >= 523 && doorClicks < 528) {
+            doorBtn.innerText = '🚪';
+            doorBtn.classList.add('door-broken-hole');
+        }
 
-            doorBtn.addEventListener('click', (event) => {
+        doorBtn.addEventListener('click', (event) => {
             if (!hasTappedOnce) {
                 showDoorBubble(event, "тут може випасти передбачення, артефакт або ачівка, але не в цей раз і не тобі, спробуй ще", 6000);
                 hasTappedOnce = true;
                 return;
             }
 
-
             doorClicks++;
-                            if (doorClicks === 523) {
-                    doorBtn.classList.add('door-epic-falling');
-                    setTimeout(() => {
-                        doorBtn.classList.remove('door-epic-falling');
-                        doorBtn.innerText = '🚪';
-                        doorBtn.classList.add('door-broken-hole');
-                    }, 1200);
-                }
-       
+            localStorage.setItem('valky_door_clicks', doorClicks);
+
+            if (doorClicks === 2) {
+                bagBtn.classList.add('visible');
+            }
+
+            if (achievements && achievements[doorClicks]) {
+                showAchievementCard(achievements[doorClicks]);
+                const achText = achievements[doorClicks];
+                const achLines = achText.split('\n');
+                addToLoot('achievements', {
+                    title: achLines[0] || 'Досягнення',
+                    preview: achLines[1] ? achLines[1].substring(0, 60) + '...' : '',
+                    full: achLines.slice(1).join('<br>')
+                });
+            }
+
+            if (doorClicks === 523) {
+                doorBtn.classList.add('door-epic-falling');
+                setTimeout(() => {
+                    doorBtn.classList.remove('door-epic-falling');
+                    doorBtn.innerText = '🚪';
+                    doorBtn.classList.add('door-broken-hole');
+                }, 1200);
+                return;
+            }
 
             if (doorClicks > 523 && doorClicks <= 528) {
                 if (doorClicks === 528) {
@@ -1084,7 +1100,6 @@ const getArtifactText = (count) => `\n\n📸 **Ти відкрив(ла) мож�
                 }
                 return;
             }
-
 
             const rng = Math.random() * 100;
             const predictionCooldown = 36;
@@ -1110,6 +1125,7 @@ const getArtifactText = (count) => `\n\n📸 **Ти відкрив(ла) мож�
                 });
 
                 lastPredictionAt = doorClicks;
+                localStorage.setItem('valky_last_pred', lastPredictionAt);
 
             } else {
                 let availableBubbles = bubbles.filter(b => !recentBubbles.includes(b));
@@ -1124,8 +1140,6 @@ const getArtifactText = (count) => `\n\n📸 **Ти відкрив(ла) мож�
             }
         });
 }
-
-//рюкзак//
 
 const bagBtn = document.getElementById('bag-btn');
 const initialLoot = getLoot();
@@ -1157,7 +1171,6 @@ function addToLoot(type, item) {
     if (bagBtn) bagBtn.classList.add('has-items');
 }
 
-
 function renderBagTab(tab) {
     const loot = getLoot();
     const items = loot[tab] || [];
@@ -1188,6 +1201,7 @@ function renderBagTab(tab) {
 }
 
 let activeBagTab = 'achievements';
+
 
 document.querySelectorAll('.bag-tab').forEach(tab => {
     tab.addEventListener('click', () => {
