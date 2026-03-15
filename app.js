@@ -1025,8 +1025,7 @@ const getArtifactText = (count) => `\n\n📸 **Ти відкрив(ла) мож�
                         doorBtn.classList.add('door-broken-hole');
                     }, 1200);
                 }
-                return;
-            }
+       
 
             if (doorClicks > 523 && doorClicks <= 528) {
                 if (doorClicks === 528) {
