@@ -1030,13 +1030,24 @@ const getArtifactText = (count) => `\n\n📸 **Ти відкрив(ла) мож�
             }
 
             
+                            if (doorClicks === 523) {
+                    doorBtn.classList.add('door-epic-falling');
+                    setTimeout(() => {
+                        doorBtn.classList.remove('door-epic-falling');
+                        doorBtn.innerText = '🚪';
+                        doorBtn.classList.add('door-broken-hole');
+                    }, 1200);
+                }
+                return;
+            }
+
             if (doorClicks > 523 && doorClicks <= 528) {
                 if (doorClicks === 528) {
                     doorBtn.classList.remove('door-broken-hole');
                     doorBtn.innerText = '🚪';
-                    showDoorBubble(event, "ці міцніші", 4000);
+                    showDoorBubble(event, "Ці міцніші", 4000);
                 } else {
-                    showDoorBubble(event, "Ти вибив двері, пам'ятаєш?", 2000);
+                    showDoorBubble(event, "Двері на базу", 2000);
                 }
                 return;
             }
@@ -1068,7 +1079,14 @@ const getArtifactText = (count) => `\n\n📸 **Ти відкрив(ла) мож�
                 lastPredictionAt = doorClicks;
 
             } else {
-                const randomBubbleText = bubbles[Math.floor(Math.random() * bubbles.length)];
+                let availableBubbles = bubbles.filter(b => !recentBubbles.includes(b));
+                if (availableBubbles.length === 0) availableBubbles = bubbles;
+                
+                const randomBubbleText = availableBubbles[Math.floor(Math.random() * availableBubbles.length)];
+                
+                recentBubbles.push(randomBubbleText);
+                if (recentBubbles.length > 15) recentBubbles.shift();
+
                 showDoorBubble(event, randomBubbleText);
             }
         });
