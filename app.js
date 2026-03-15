@@ -300,7 +300,9 @@ function openSubmitOverlay(mode, placeholderText) {
     submitOverlay.className = `submit-overlay ${mode}-mode`;
     submitOverlay.style.display = 'flex';
     submitContent.style.display = 'flex';
+    submitPreviewScreen.style.display = 'none';  
     submitSentScreen.style.display = 'none';
+    submitVideo.style.transition = 'none';
     submitVideo.style.display = 'block';
     document.body.classList.add('submit-open');
 
@@ -516,8 +518,8 @@ if (previewSendBtn) {
         previewMetaLine.style.opacity = '0';
         document.getElementById('preview-edit-btn').style.opacity = '0';
         previewSendBtn.style.opacity = '0';
-        document.querySelector('.preview-label').style.opacity = '0';
-        
+        const previewLabel = document.querySelector('.preview-label');
+        if (previewLabel) previewLabel.style.opacity = '0';
         
         previewPostCard.classList.add(`fly-to-${mode}`);
         
@@ -533,9 +535,10 @@ if (previewSendBtn) {
             
             previewPostCard.classList.remove(`fly-to-${mode}`);
             previewMetaLine.style.opacity = '1';
-            document.getElementById('preview-edit-btn').style.opacity = '1';
-            previewSendBtn.style.opacity = '1';
-            document.querySelector('.preview-label').style.opacity = '1';
+            const editBtn = document.getElementById('preview-edit-btn');
+            if (editBtn) editBtn.style.opacity = '1';
+            if (previewSendBtn) previewSendBtn.style.opacity = '1';
+            if (previewLabel) previewLabel.style.opacity = '1';
         };
 
         submitVideo.onended = finishSend;
