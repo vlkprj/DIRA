@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", () => {
+А document.addEventListener("DOMContentLoaded", () => {
 
     const glitchLetter = document.getElementById('glitch-letter');
     if (glitchLetter) {
@@ -543,18 +543,20 @@ if (previewSendBtn) {
         const previewLabel = document.querySelector('.preview-label');
         if (previewLabel) previewLabel.style.opacity = '0';
 
-        // запускаємо відео одразу
+        
+        submitVideo.style.zIndex = '14';
         submitVideo.style.display = 'block';
         submitVideo.style.filter = 'blur(0px) brightness(0.8)';
         submitVideo.play();
 
-        // картка летить поверх відео
+  
         previewPostCard.classList.add(`fly-to-${mode}`);
 
         const animDuration = mode === 'mailbox' ? 1000 : 1300;
 
         setTimeout(() => {
             submitPreviewScreen.style.display = 'none';
+            submitVideo.style.zIndex = '';
             previewPostCard.classList.remove(`fly-to-${mode}`);
             previewMetaLine.style.opacity = '1';
             const editBtn = document.getElementById('preview-edit-btn');
@@ -574,10 +576,6 @@ if (previewSendBtn) {
         }, 8000);
     });
 }
-
-
-
-
 
 
 //сабміт кінець//
