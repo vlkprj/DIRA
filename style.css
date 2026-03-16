@@ -3313,3 +3313,272 @@ body.submit-open {
     margin-top: 8px;
     opacity: 1 !important; /* на випадок якщо opacity залишився 0 */
 }
+
+.submit-hint-text {
+    font-size: 15px;
+    font-weight: 500;
+    color: rgba(0,0,0,0.38);
+    padding: 0 4px 12px;
+    width: 100%;
+    max-width: 420px;
+    line-height: 1.55;
+    pointer-events: none;
+    min-height: 22px;
+    opacity: 1;
+    transition: none;
+}
+
+.submit-hint-text.vanish {
+    animation: hintVanish 1.8s ease-out forwards;
+}
+
+@keyframes hintVanish {
+    0%   { opacity: 1; filter: blur(0px); letter-spacing: 0px; }
+    100% { opacity: 0; filter: blur(6px); letter-spacing: 5px; }
+}
+
+.submit-editor-wrap {
+    width: 100%;
+    max-width: 420px;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 2px 18px rgba(0,0,0,0.09);
+    display: flex;
+    flex-direction: column;
+}
+
+.submit-overlay.hole-mode .submit-editor-wrap {
+    box-shadow: 0 2px 24px rgba(0,0,0,0.5);
+}
+
+.submit-editor {
+    min-height: 130px;
+    max-height: 220px;
+    overflow-y: auto;
+    padding: 18px 16px 12px;
+    font-size: 16px;
+    line-height: 1.6;
+    outline: none;
+    word-break: break-word;
+    border-bottom: none;
+}
+
+.editor-toolbar-row {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 8px 12px;
+    border-top: 1px solid rgba(128,128,128,0.1);
+    flex-wrap: nowrap;
+    overflow-x: auto;
+}
+
+.submit-overlay.mailbox-mode .editor-toolbar-row {
+    background: rgba(0,0,0,0.025);
+}
+
+.submit-overlay.hole-mode .editor-toolbar-row {
+    background: rgba(255,255,255,0.03);
+    border-top: 1px solid rgba(255,255,255,0.07);
+}
+
+.editor-colors-row {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 10px 14px;
+    border-top: 1px solid rgba(128,128,128,0.1);
+    flex-wrap: nowrap;
+    overflow-x: auto;
+}
+
+.submit-overlay.mailbox-mode .editor-colors-row {
+    background: rgba(0,0,0,0.02);
+}
+
+.submit-overlay.hole-mode .editor-colors-row {
+    background: rgba(255,255,255,0.025);
+    border-top: 1px solid rgba(255,255,255,0.07);
+}
+
+.colors-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.submit-overlay.mailbox-mode .colors-label {
+    color: #bbb;
+}
+
+.submit-overlay.hole-mode .colors-label {
+    color: #555;
+}
+
+.color-dot {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: transform 0.12s, box-shadow 0.12s;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+}
+
+.color-dot:active {
+    transform: scale(0.86);
+}
+
+.color-dot.active {
+    box-shadow: 0 0 0 2.5px #fff, 0 0 0 4.5px #1a1a1a;
+}
+
+.submit-overlay.hole-mode .color-dot.active {
+    box-shadow: 0 0 0 2.5px #111, 0 0 0 4.5px #eee;
+}
+
+.anon-identity-block {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    max-width: 420px;
+    border-radius: 14px;
+    padding: 11px 14px;
+    box-sizing: border-box;
+    margin-top: 2px;
+}
+
+.submit-overlay.mailbox-mode .anon-identity-block {
+    background: rgba(0,0,0,0.04);
+    border: 1px solid rgba(0,0,0,0.08);
+}
+
+.submit-overlay.hole-mode .anon-identity-block {
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.anon-icon-wrap {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.submit-overlay.mailbox-mode .anon-icon-wrap {
+    background: rgba(0,0,0,0.07);
+    color: #777;
+}
+
+.submit-overlay.hole-mode .anon-icon-wrap {
+    background: rgba(255,255,255,0.1);
+    color: #aaa;
+}
+
+.anon-identity-block .submit-name-input {
+    flex: 1;
+    background: none;
+    border: none;
+    outline: none;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 0;
+    min-width: 0;
+}
+
+.submit-overlay.mailbox-mode .anon-identity-block .submit-name-input {
+    color: #333;
+}
+
+.submit-overlay.mailbox-mode .anon-identity-block .submit-name-input::placeholder {
+    color: rgba(0,0,0,0.32);
+}
+
+.submit-overlay.hole-mode .anon-identity-block .submit-name-input {
+    color: #ddd;
+}
+
+.submit-overlay.hole-mode .anon-identity-block .submit-name-input::placeholder {
+    color: rgba(255,255,255,0.28);
+}
+
+.submit-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    max-width: 420px;
+    border-radius: 14px;
+    padding: 11px 14px;
+    box-sizing: border-box;
+    background: rgba(0,0,0,0.04);
+    border: 1px solid rgba(0,0,0,0.08);
+}
+
+.caps-overlay .submit-meta,
+.photo-overlay .submit-meta,
+.atmo-overlay .submit-meta {
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.submit-anon-badge {
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    white-space: nowrap;
+    flex-shrink: 0;
+    color: rgba(0,0,0,0.4);
+}
+
+.caps-overlay .submit-anon-badge,
+.photo-overlay .submit-anon-badge,
+.atmo-overlay .submit-anon-badge {
+    color: rgba(255,255,255,0.4);
+}
+
+.submit-meta .submit-name-input {
+    flex: 1;
+    background: none;
+    border: none;
+    outline: none;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 0;
+    min-width: 0;
+    color: rgba(255,255,255,0.75);
+}
+
+.submit-meta .submit-name-input::placeholder {
+    color: rgba(255,255,255,0.28);
+}
+
+.sent-spinner {
+    color: #888;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 6px 0 10px;
+}
+
+.mini-spinner {
+    width: 22px;
+    height: 22px;
+    animation: miniSpin 1s linear infinite;
+    display: block;
+}
+
+@keyframes miniSpin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+}
