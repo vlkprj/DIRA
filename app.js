@@ -321,17 +321,17 @@ function openSubmitOverlay(mode, placeholderText, defaultFont) {
     submitVideo.pause();
     submitVideo.currentTime = 0;
     submitEditor.innerHTML = '';
-    submitEditor.setAttribute('data-placeholder', placeholderText || 'Пиши сюди...');
-    submitEditor.style.fontFamily = defaultFont || 'Inter, sans-serif';
-    if (fontSelect) fontSelect.value = defaultFont || 'Inter';
-        submitEditor.focus();
-const hintEl = document.getElementById('submit-hint-text');
+       submitEditor.setAttribute('data-placeholder', 'Пишіть сюди...');
+    const hintEl = document.getElementById('submit-hint-text');
     if (hintEl) {
         hintEl.innerText = placeholderText || '';
+        hintEl.style.fontFamily = defaultFont || 'Inter, sans-serif';
+        hintEl.style.color = mode === 'hole' ? 'rgba(255,255,255,0.45)' : 'rgba(0,0,0,0.38)';
         hintEl.classList.remove('vanish');
         void hintEl.offsetWidth;
         setTimeout(() => hintEl.classList.add('vanish'), 15000);
     }
+
 
     currentBgColor = '#FAF8F4';
     currentTextColor = '#222221';
@@ -359,7 +359,7 @@ function closeSubmitOverlay() {
 
 
 
-const mailboxButtons = ['.b-story', '.b-serious', '.b-petition', '.b-complain', '.b-zbir', '.b-idea', '.b-photo', '.side-tag', '.b-write-main', '.b-thank'];
+const mailboxButtons = ['.b-story', '.b-serious', '.b-petition', '.b-complain', '.b-zbir', '.b-idea', '.side-tag', '.b-write-main', '.b-thank'];
 const holeButtons = ['.b-unpopular', '.b-shopopalo', '.b-admins', '.rumors-container', '.b-problem'];
 
 
