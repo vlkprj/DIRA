@@ -293,6 +293,12 @@ const attachBtn = document.getElementById('attach-btn');
 const attachInput = document.getElementById('attach-input');
 const attachPreview = document.getElementById('attach-preview');
 const fontSelect = document.getElementById('font-select');
+const submitPreviewScreen = document.getElementById('submit-preview-screen');
+const previewPostCard = document.getElementById('preview-post-card');
+const previewMetaLine = document.getElementById('preview-meta-line');
+const previewEditBtn = document.getElementById('preview-edit-btn');
+const previewSendBtn = document.getElementById('preview-send-btn');
+
 let lastScrollY = 0;
 
 function openSubmitOverlay(mode, placeholderText, defaultFont) {
@@ -502,12 +508,6 @@ bgColorDots.forEach(dot => {
     });
 });
 
-
-const submitPreviewScreen = document.getElementById('submit-preview-screen');
-const previewPostCard = document.getElementById('preview-post-card');
-const previewMetaLine = document.getElementById('preview-meta-line');
-const previewEditBtn = document.getElementById('preview-edit-btn');
-const previewSendBtn = document.getElementById('preview-send-btn');
 
 if (submitActionBtn) {
     submitActionBtn.addEventListener('click', () => {
