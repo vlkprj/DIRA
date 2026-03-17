@@ -535,10 +535,12 @@ bgColorDots.forEach(dot => {
 function generateValkyCardsHTML(rawText, photosArr, bgColor, textColor, font) {
     let html = '';
     
+  
     const headerHTML = `
-        <div class="valky-card-header">
+        <div class="valky-card-header-pill">
             <img src="anonface.PNG" alt="Анонім">
-            <span>Валківська Приймальня</span>
+            <span class="pill-yellow">ВАЛКІВСЬКА</span>
+            <span class="pill-white">ПРИЙМАЛЬНЯ</span>
         </div>
     `;
     
@@ -547,7 +549,8 @@ function generateValkyCardsHTML(rawText, photosArr, bgColor, textColor, font) {
         const words = rawText.split(' ');
         let currentChunk = '';
         words.forEach(w => {
-            if ((currentChunk + ' ' + w).length > 550) {
+            // Жорсткий ліміт у 350 символів для переносу
+            if ((currentChunk + ' ' + w).length > 350) {
                 chunks.push(currentChunk);
                 currentChunk = w;
             } else {
@@ -562,25 +565,25 @@ function generateValkyCardsHTML(rawText, photosArr, bgColor, textColor, font) {
     chunks.forEach((chunk, idx) => {
         let fontClass = 'fs-small';
         if (chunk.length < 80) fontClass = 'fs-huge';
-        else if (chunk.length < 200) fontClass = 'fs-large';
-        else if (chunk.length < 400) fontClass = 'fs-medium';
+        else if (chunk.length < 180) fontClass = 'fs-large';
+        else if (chunk.length < 280) fontClass = 'fs-medium';
 
         const showHeader = (idx === 0) ? headerHTML : '';
-        const showArrow = (idx < chunks.length - 1) ? '<div class="valky-card-arrow">→</div>' : '';
+        const showArrow = (idx < chunks.length - 1 || photosArr.length > 0) ? '<div class="valky-card-arrow">→</div>' : '';
 
+        
         html += `
-            <div class="valky-card" style="background:${bgColor}; color:${textColor}; font-family:${font};">
+            <div class="valky-card" style="background:${bgColor}; color:${textColor};">
                 ${showHeader}
-                <div class="valky-card-body ${fontClass}">${chunk}</div>
+                <div class="valky-card-body ${fontClass}" style="font-family:${font} !important;">${chunk}</div>
                 ${showArrow}
             </div>
         `;
     });
 
-  
     photosArr.slice(0, 5).forEach(src => {
         html += `
-            <div class="valky-card" style="background:${bgColor}; color:${textColor};">
+            <div class="valky-card" style="background:${bgColor};">
                 ${headerHTML}
                 <img src="${src}" class="valky-card-photo">
             </div>
@@ -590,11 +593,39 @@ function generateValkyCardsHTML(rawText, photosArr, bgColor, textColor, font) {
     return html;
 }
 
+
 //генератор карточок всьо
+
+
+document.querySelectorAll('.anon-checkbox').forEach(cb => {
+    cb.addEventListener('change', (e) => {
+        const inputRow = e.target.closest('.anon-toggle-block').querySelector('.anon-input-row');
+        const inputField = inputRow.querySelector('.anon-name-field');
+        if (e.target.checked) {
+            inputRow.style.display = 'none';
+            inputField.value = ''; 
+        } else {
+            inputRow.style.display = 'block';
+            inputField.focus();
+        }
+    });
+});
+
+
+function getActiveNickname(containerId) {
+    const container = document.getElementById(containerId);
+    if (!container) return '👤 Анонімно';
+    const checkbox = container.querySelector('.anon-checkbox');
+    const input = container.querySelector('.anon-name-field');
+    if (checkbox && checkbox.checked) return '👤 Анонімно';
+    if (input && input.value.trim() !== '') return `від: ${input.value.trim()}`;
+    return '👤 Анонімно';
+}
+
 
 if (submitActionBtn) {
     submitActionBtn.addEventListener('click', () => {
-        const nameVal = document.getElementById('submit-name').value.trim();
+        const nameVal = getActiveNickname('submit-content');
         const rawText = submitEditor.innerText || ''; 
         
         let photosArr = [];
@@ -644,7 +675,10 @@ if (previewSendBtn) {
   
         previewPostCard.classList.add(`fly-to-${mode}`);
 
-        const animDuration = mode === 'mailbox' ? 1000 : 1300;
+        const animDuration = mode === 'hole' ? 1500 : 1000;
+setTimeout(() => {
+}, animDuration);
+
 
         setTimeout(() => {
             submitPreviewScreen.style.display = 'none';
@@ -808,7 +842,7 @@ const atmoPreviewSendBtn = document.getElementById('atmo-preview-send-btn');
 
 if (atmoActionBtn) {
     atmoActionBtn.addEventListener('click', () => {
-        const nameVal = document.getElementById('atmo-name').value.trim();
+        const nameVal = getActiveNickname('atmo-content');
         let photosArr = [];
         
         const imgs = atmoStage.querySelectorAll('.atmo-slot-img-fill');
@@ -961,7 +995,7 @@ const photoPreviewSendBtn = document.getElementById('photo-preview-send-btn');
 
 if (photoActionBtn) {
     photoActionBtn.addEventListener('click', () => {
-        const nameVal = document.getElementById('photo-name').value.trim();
+        const nameVal = getActiveNickname('photo-content');
         const rawText = document.getElementById('photo-caption') ? document.getElementById('photo-caption').value.trim() : '';
         let photosArr = [];
         
@@ -1009,7 +1043,7 @@ if (photoPreviewSendBtn) {
 
         photoPreviewCard.classList.add(`fly-to-${mode}`);
 
-        const animDuration = mode === 'hole' ? 1300 : 1000;
+        const animDuration = mode === 'hole' ? 1500 : 1000;
 
         setTimeout(() => {
             photoPreviewScreen.style.display = 'none';
@@ -1095,7 +1129,7 @@ const capsPreviewSendBtn = document.getElementById('caps-preview-send-btn');
 
 if (capsActionBtn) {
     capsActionBtn.addEventListener('click', () => {
-        const nameVal = document.getElementById('caps-name').value.trim();
+        const nameVal = getActiveNickname('caps-content');
         const rawText = capsEditor.value || ''; 
         
         capsPreviewCard.innerHTML = generateValkyCardsHTML(rawText, [], '#e8e8e8', '#333', "'Space Grotesk', sans-serif");
