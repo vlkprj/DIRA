@@ -3762,3 +3762,24 @@ body.submit-open {
     
     animation: thanosSnap 2.5s cubic-bezier(0.4, 0, 0.2, 1) 0.5s forwards !important;
 }
+
+.atmo-overlay .submit-preview-screen {
+    background: #f0ede8;
+}
+
+.photo-overlay .submit-preview-screen {
+    background: #fff;
+}
+
+.photo-overlay.hole-mode .submit-preview-screen {
+    background: #080C0C;
+}
+
+.atmo-preview-card, .photo-preview-card {
+    border: none !important;
+}
+
+.photo-overlay.hole-mode .preview-edit-btn {
+    color: #888;
+}
+
