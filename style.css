@@ -3783,3 +3783,172 @@ body.submit-open {
     color: #888;
 }
 
+
+.submit-overlay.hole-mode::before {
+    opacity: 0.04 !important; /* Було 0.15, тепер мінімум шуму */
+}
+
+
+@keyframes thanosSnap {
+    0% { transform: scale(1) translate(0, 0); opacity: 1; filter: blur(0px) contrast(1); }
+    40% { transform: scale(0.8) translate(30px, -5px); opacity: 0.8; filter: blur(2px) contrast(1.1); }
+    100% { transform: scale(0) translate(180px, -15px) rotate(15deg); opacity: 0; filter: blur(15px) contrast(1.5); letter-spacing: 10px; }
+}
+
+.fly-to-hole {
+   
+    animation: thanosSnap 1.5s cubic-bezier(0.5, 0, 0.2, 1) forwards !important; 
+}
+
+
+.submit-overlay .submit-preview-screen {
+    background: transparent !important;
+}
+
+
+.submit-hint-text {
+    position: absolute !important;
+    top: 30px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    background: rgba(0,0,0,0.5);
+    color: #fff !important;
+    padding: 8px 20px !important;
+    border-radius: 30px;
+    backdrop-filter: blur(8px);
+    width: auto !important;
+    max-width: 90% !important;
+    text-align: center;
+    z-index: 100;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+
+.anon-toggle-block {
+    width: 100%;
+    max-width: 400px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+    padding: 12px 16px;
+    box-sizing: border-box;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.submit-overlay.mailbox-mode .anon-toggle-block {
+    background: rgba(0, 0, 0, 0.04);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.anon-switch-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.anon-switch-label-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.anon-shield-icon {
+    font-size: 20px;
+    color: #FFDA59;
+}
+.submit-overlay.mailbox-mode .anon-shield-icon { color: #1D3561; }
+
+.anon-label-text {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+}
+.submit-overlay.mailbox-mode .anon-label-text { color: #1a1a1a; }
+
+/*перемикач */
+.anon-switch {
+    position: relative;
+    display: inline-block;
+    width: 44px;
+    height: 24px;
+}
+.anon-switch input { opacity: 0; width: 0; height: 0; }
+.anon-slider {
+    position: absolute; cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: rgba(255,255,255,0.3);
+    border-radius: 24px;
+    transition: .3s;
+}
+.submit-overlay.mailbox-mode .anon-slider { background-color: rgba(0,0,0,0.2); }
+.anon-slider:before {
+    position: absolute; content: "";
+    height: 18px; width: 18px;
+    left: 3px; bottom: 3px;
+    background-color: white;
+    border-radius: 50%;
+    transition: .3s;
+}
+input:checked + .anon-slider { background-color: #27ae60; }
+input:checked + .anon-slider:before { transform: translateX(20px); }
+
+.anon-input-row .submit-name-input {
+    width: 100%;
+    background: rgba(0,0,0,0.2);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: #fff;
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+}
+.submit-overlay.mailbox-mode .anon-input-row .submit-name-input {
+    background: #fff;
+    border: 1px solid rgba(0,0,0,0.1);
+    color: #1a1a1a;
+}
+.anon-input-row .submit-name-input::placeholder { color: rgba(255,255,255,0.5); }
+.submit-overlay.mailbox-mode .anon-input-row .submit-name-input::placeholder { color: rgba(0,0,0,0.4); }
+
+
+
+.valky-card-header-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #1D3561;
+    padding: 6px 14px 6px 6px;
+    border-radius: 30px;
+    font-family: 'Fira Sans Extra Condensed', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    margin: 0 auto 20px auto;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+    flex-shrink: 0;
+}
+.valky-card-header-pill img {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #FAFAF5;
+    padding: 2px;
+    object-fit: contain;
+}
+.pill-yellow { color: #FFDA59; }
+.pill-white { color: #ffffff; }
+
+
+.valky-card-body {
+    padding-bottom: 50px !important; 
+}
+.valky-card-arrow {
+    bottom: 20px !important;
+    font-weight: 900;
+}
