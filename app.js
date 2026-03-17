@@ -800,25 +800,85 @@ if (atmoVideo) {
     atmoVideo.load();
 }
 
+const atmoPreviewScreen = document.getElementById('atmo-preview-screen');
+const atmoPreviewCard = document.getElementById('atmo-preview-card');
+const atmoPreviewMetaLine = document.getElementById('atmo-preview-meta-line');
+const atmoPreviewEditBtn = document.getElementById('atmo-preview-edit-btn');
+const atmoPreviewSendBtn = document.getElementById('atmo-preview-send-btn');
+
 if (atmoActionBtn) {
     atmoActionBtn.addEventListener('click', () => {
+        const nameVal = document.getElementById('atmo-name').value.trim();
+        let photosArr = [];
+        
+        const imgs = atmoStage.querySelectorAll('.atmo-slot-img-fill');
+        imgs.forEach(img => {
+            if (img.style.display !== 'none' && img.src) photosArr.push(img.src);
+        });
+        
+        let rawText = '';
+        const caps = atmoStage.querySelectorAll('.atmo-polaroid-caption');
+        caps.forEach(cap => { if(cap.value.trim()) rawText += cap.value.trim() + '\n'; });
+
+        atmoPreviewCard.innerHTML = generateValkyCardsHTML(rawText, photosArr, '#fff', '#1a1a1a', "'Caveat', cursive");
+        atmoPreviewMetaLine.innerText = nameVal ? `від: ${nameVal}` : '👤 Анонімно';
+        
         atmoContent.style.display = 'none';
+        atmoPreviewScreen.style.display = 'flex';
+    });
+}
+
+if (atmoPreviewEditBtn) {
+    atmoPreviewEditBtn.addEventListener('click', () => {
+        atmoPreviewScreen.style.display = 'none';
+        atmoContent.style.display = 'flex';
+    });
+}
+
+if (atmoPreviewSendBtn) {
+    atmoPreviewSendBtn.addEventListener('click', () => {
+        const mode = 'mailbox';
+        atmoPreviewScreen.style.background = 'transparent';
+        atmoPreviewMetaLine.style.opacity = '0';
+        if (atmoPreviewEditBtn) atmoPreviewEditBtn.style.opacity = '0';
+        atmoPreviewSendBtn.style.opacity = '0';
+        const previewLabel = atmoPreviewScreen.querySelector('.preview-label');
+        if (previewLabel) previewLabel.style.opacity = '0';
+
         if (atmoVideo) {
+            atmoVideo.style.zIndex = '14';
             atmoVideo.style.display = 'block';
+            atmoVideo.style.filter = 'blur(0px) brightness(0.8)';
             atmoVideo.play();
-            const showAtmoSent = () => {
-                atmoVideo.style.display = 'none';
-                atmoSentScreen.style.display = 'flex';
-            };
-            atmoVideo.onended = showAtmoSent;
-            setTimeout(() => {
-                if (atmoSentScreen.style.display !== 'flex') showAtmoSent();
-            }, 8000);
-        } else {
+        }
+
+        atmoPreviewCard.classList.add(`fly-to-${mode}`);
+
+        setTimeout(() => {
+            atmoPreviewScreen.style.display = 'none';
+            atmoPreviewScreen.style.background = '';
+            if (atmoVideo) atmoVideo.style.zIndex = '';
+            atmoPreviewCard.classList.remove(`fly-to-${mode}`);
+            atmoPreviewMetaLine.style.opacity = '1';
+            if (atmoPreviewEditBtn) atmoPreviewEditBtn.style.opacity = '1';
+            atmoPreviewSendBtn.style.opacity = '1';
+            if (previewLabel) previewLabel.style.opacity = '1';
+        }, 1000);
+
+        const finishSend = () => {
+            if (atmoVideo) atmoVideo.style.display = 'none';
             atmoSentScreen.style.display = 'flex';
+        };
+
+        if (atmoVideo) {
+            atmoVideo.onended = finishSend;
+            setTimeout(() => { if (atmoSentScreen.style.display !== 'flex') finishSend(); }, 8000);
+        } else {
+            finishSend();
         }
     });
 }
+
 
 
 const photoOverlay = document.getElementById('photo-overlay');
@@ -893,12 +953,89 @@ if (photoFileInput) {
     });
 }
 
+const photoPreviewScreen = document.getElementById('photo-preview-screen');
+const photoPreviewCard = document.getElementById('photo-preview-card');
+const photoPreviewMetaLine = document.getElementById('photo-preview-meta-line');
+const photoPreviewEditBtn = document.getElementById('photo-preview-edit-btn');
+const photoPreviewSendBtn = document.getElementById('photo-preview-send-btn');
+
 if (photoActionBtn) {
     photoActionBtn.addEventListener('click', () => {
+        const nameVal = document.getElementById('photo-name').value.trim();
+        const rawText = document.getElementById('photo-caption') ? document.getElementById('photo-caption').value.trim() : '';
+        let photosArr = [];
+        
+        if (photoPreviewImg && photoPreviewImg.src && photoPreviewImg.style.display !== 'none') {
+            photosArr.push(photoPreviewImg.src);
+        }
+
+        const isHole = photoOverlay.classList.contains('hole-mode');
+        const bg = isHole ? '#1a1a1a' : '#fff';
+        const tc = isHole ? '#e0e0e0' : '#1a1a1a';
+        const font = isHole ? 'Impact, sans-serif' : "'Inter', sans-serif";
+
+        photoPreviewCard.innerHTML = generateValkyCardsHTML(rawText, photosArr, bg, tc, font);
+        photoPreviewMetaLine.innerText = nameVal ? `від: ${nameVal}` : '👤 Анонімно';
+        
         photoContent.style.display = 'none';
-        photoSentScreen.style.display = 'flex';
+        photoPreviewScreen.style.display = 'flex';
     });
 }
+
+if (photoPreviewEditBtn) {
+    photoPreviewEditBtn.addEventListener('click', () => {
+        photoPreviewScreen.style.display = 'none';
+        photoContent.style.display = 'flex';
+    });
+}
+
+if (photoPreviewSendBtn) {
+    photoPreviewSendBtn.addEventListener('click', () => {
+        const mode = photoOverlay.classList.contains('hole-mode') ? 'hole' : 'mailbox';
+        photoPreviewScreen.style.background = 'transparent';
+        photoPreviewMetaLine.style.opacity = '0';
+        if (photoPreviewEditBtn) photoPreviewEditBtn.style.opacity = '0';
+        photoPreviewSendBtn.style.opacity = '0';
+        const previewLabel = photoPreviewScreen.querySelector('.preview-label');
+        if (previewLabel) previewLabel.style.opacity = '0';
+
+        const photoVideo = document.getElementById('photo-video');
+        if (photoVideo) {
+            photoVideo.style.zIndex = '14';
+            photoVideo.style.display = 'block';
+            photoVideo.style.filter = 'blur(0px) brightness(0.8)';
+            photoVideo.play();
+        }
+
+        photoPreviewCard.classList.add(`fly-to-${mode}`);
+
+        const animDuration = mode === 'hole' ? 1300 : 1000;
+
+        setTimeout(() => {
+            photoPreviewScreen.style.display = 'none';
+            photoPreviewScreen.style.background = '';
+            if (photoVideo) photoVideo.style.zIndex = '';
+            photoPreviewCard.classList.remove(`fly-to-${mode}`);
+            photoPreviewMetaLine.style.opacity = '1';
+            if (photoPreviewEditBtn) photoPreviewEditBtn.style.opacity = '1';
+            photoPreviewSendBtn.style.opacity = '1';
+            if (previewLabel) previewLabel.style.opacity = '1';
+        }, animDuration);
+
+        const finishSend = () => {
+            if (photoVideo) photoVideo.style.display = 'none';
+            photoSentScreen.style.display = 'flex';
+        };
+
+        if (photoVideo) {
+            photoVideo.onended = finishSend;
+            setTimeout(() => { if (photoSentScreen.style.display !== 'flex') finishSend(); }, 8000);
+        } else {
+            finishSend();
+        }
+    });
+}
+
 
 const capsOverlay = document.getElementById('caps-overlay');
 const closeCapsBtn = document.getElementById('close-caps');
