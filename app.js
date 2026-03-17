@@ -595,19 +595,28 @@ function generateValkyCardsHTML(rawText, photosArr, bgColor, textColor, font) {
 if (submitActionBtn) {
     submitActionBtn.addEventListener('click', () => {
         const nameVal = document.getElementById('submit-name').value.trim();
-        let previewHTML = submitEditor.innerHTML || '';
-        if (attachPreviewInline && attachPreviewInline.innerHTML) {
-            previewHTML += attachPreviewInline.innerHTML;
+        const rawText = submitEditor.innerText || ''; 
+        
+        let photosArr = [];
+        const inlinePreview = document.getElementById('attach-preview-inline');
+        if (inlinePreview) {
+            const imgs = inlinePreview.querySelectorAll('img');
+            imgs.forEach(img => photosArr.push(img.src));
         }
-        previewPostCard.innerHTML = previewHTML || '<span style="color:#bbb">— порожньо —</span>';
-        previewPostCard.style.background = currentBgColor || '#fff';
-        previewPostCard.style.color = currentTextColor || '#1a1a1a';
-        previewPostCard.style.fontFamily = submitEditor.style.fontFamily || 'Inter, sans-serif';
+
+        const isHole = submitOverlay.classList.contains('hole-mode');
+        const bg = currentBgColor || (isHole ? '#1a1a1a' : '#fff');
+        const tc = currentTextColor || (isHole ? '#e0e0e0' : '#1a1a1a');
+        const font = submitEditor.style.fontFamily || 'Inter, sans-serif';
+
+        previewPostCard.innerHTML = generateValkyCardsHTML(rawText, photosArr, bg, tc, font);
         previewMetaLine.innerText = nameVal ? `від: ${nameVal}` : '👤 Анонімно';
+        
         submitContent.style.display = 'none';
         submitPreviewScreen.style.display = 'flex';
     });
 }
+
 
 if (previewEditBtn) {
     previewEditBtn.addEventListener('click', () => {
@@ -950,12 +959,16 @@ const capsPreviewSendBtn = document.getElementById('caps-preview-send-btn');
 if (capsActionBtn) {
     capsActionBtn.addEventListener('click', () => {
         const nameVal = document.getElementById('caps-name').value.trim();
-        capsPreviewCard.innerText = capsEditor.value || '— порожньо —';
+        const rawText = capsEditor.value || ''; 
+        
+        capsPreviewCard.innerHTML = generateValkyCardsHTML(rawText, [], '#e8e8e8', '#333', "'Space Grotesk', sans-serif");
         capsPreviewMetaLine.innerText = nameVal ? `від: ${nameVal}` : '👤 Анонімно';
+        
         capsContent.style.display = 'none';
         capsPreviewScreen.style.display = 'flex';
     });
 }
+
 
 if (capsPreviewEditBtn) {
     capsPreviewEditBtn.addEventListener('click', () => {
