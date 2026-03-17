@@ -532,24 +532,24 @@ bgColorDots.forEach(dot => {
 });
 
 // Генератор карточок
-function generateValkyCardsHTML(rawText, photosArr, bgColor, textColor, font) {
+function generateValkyCardsHTML(rawText, photosArr, bgColor, textColor, font, authorName) {
     let html = '';
     
-  
     const headerHTML = `
-        <div class="valky-card-header-pill">
+        <div class="valky-card-header-pill" style="transform: scale(0.85); margin-bottom: 8px;">
             <img src="anonface.PNG" alt="Анонім">
             <span class="pill-yellow">ВАЛКІВСЬКА</span>
             <span class="pill-white">ПРИЙМАЛЬНЯ</span>
         </div>
     `;
+
+    const authorHTML = `<div class="valky-card-author">${authorName}</div>`;
     
     let chunks = [];
     if (rawText.trim().length > 0) {
         const words = rawText.split(' ');
         let currentChunk = '';
         words.forEach(w => {
-            // Жорсткий ліміт у 350 символів для переносу
             if ((currentChunk + ' ' + w).length > 350) {
                 chunks.push(currentChunk);
                 currentChunk = w;
@@ -559,7 +559,7 @@ function generateValkyCardsHTML(rawText, photosArr, bgColor, textColor, font) {
         });
         if (currentChunk) chunks.push(currentChunk);
     } else if (photosArr.length === 0) {
-        chunks.push("— порожньо —");
+        chunks.push("порожньо");
     }
 
     chunks.forEach((chunk, idx) => {
@@ -573,19 +573,23 @@ function generateValkyCardsHTML(rawText, photosArr, bgColor, textColor, font) {
 
         
         html += `
-            <div class="valky-card" style="background:${bgColor}; color:${textColor};">
+            <div class="valky-card" style="background:${bgColor}; color:${textColor}; font-family:${font} !important;">
                 ${showHeader}
                 <div class="valky-card-body ${fontClass}" style="font-family:${font} !important;">${chunk}</div>
                 ${showArrow}
+                ${authorHTML}
             </div>
         `;
     });
 
     photosArr.slice(0, 5).forEach(src => {
         html += `
-            <div class="valky-card" style="background:${bgColor};">
+            <div class="valky-card" style="background:${bgColor}; color:${textColor}; font-family:${font} !important;">
                 ${headerHTML}
-                <img src="${src}" class="valky-card-photo">
+                <div class="valky-card-photo-wrap">
+                    <img src="${src}" class="valky-card-photo">
+                </div>
+                ${authorHTML}
             </div>
         `;
     });
@@ -594,9 +598,11 @@ function generateValkyCardsHTML(rawText, photosArr, bgColor, textColor, font) {
 }
 
 
+
 //генератор карточок всьо
 
 
+// Анонімність //
 document.querySelectorAll('.anon-checkbox').forEach(cb => {
     cb.addEventListener('change', (e) => {
         const inputRow = e.target.closest('.anon-toggle-block').querySelector('.anon-input-row');
@@ -611,7 +617,6 @@ document.querySelectorAll('.anon-checkbox').forEach(cb => {
     });
 });
 
-
 function getActiveNickname(containerId) {
     const container = document.getElementById(containerId);
     if (!container) return '👤 Анонімно';
@@ -622,7 +627,7 @@ function getActiveNickname(containerId) {
     return '👤 Анонімно';
 }
 
-
+// Головний редактор //
 if (submitActionBtn) {
     submitActionBtn.addEventListener('click', () => {
         const nameVal = getActiveNickname('submit-content');
@@ -640,14 +645,13 @@ if (submitActionBtn) {
         const tc = currentTextColor || (isHole ? '#e0e0e0' : '#1a1a1a');
         const font = submitEditor.style.fontFamily || 'Inter, sans-serif';
 
-        previewPostCard.innerHTML = generateValkyCardsHTML(rawText, photosArr, bg, tc, font);
-        previewMetaLine.innerText = nameVal ? `від: ${nameVal}` : '👤 Анонімно';
+        previewPostCard.innerHTML = generateValkyCardsHTML(rawText, photosArr, bg, tc, font, nameVal);
+        if (previewMetaLine) previewMetaLine.style.display = 'none';
         
         submitContent.style.display = 'none';
         submitPreviewScreen.style.display = 'flex';
     });
 }
-
 
 if (previewEditBtn) {
     previewEditBtn.addEventListener('click', () => {
@@ -660,54 +664,53 @@ if (previewSendBtn) {
     previewSendBtn.addEventListener('click', () => {
         const mode = submitOverlay.classList.contains('mailbox-mode') ? 'mailbox' : 'hole';
         submitPreviewScreen.style.background = 'transparent';
-        previewMetaLine.style.opacity = '0';
-        document.getElementById('preview-edit-btn').style.opacity = '0';
+        if (previewMetaLine) previewMetaLine.style.opacity = '0';
+        const editBtn = document.getElementById('preview-edit-btn');
+        if (editBtn) editBtn.style.opacity = '0';
         previewSendBtn.style.opacity = '0';
         const previewLabel = document.querySelector('.preview-label');
         if (previewLabel) previewLabel.style.opacity = '0';
 
-        
-        submitVideo.style.zIndex = '14';
-        submitVideo.style.display = 'block';
-        submitVideo.style.filter = 'blur(0px) brightness(0.8)';
-        submitVideo.play();
-
+        if (submitVideo) {
+            submitVideo.currentTime = 0;
+            submitVideo.style.zIndex = '14';
+            submitVideo.style.display = 'block';
+            submitVideo.style.filter = 'blur(0px) brightness(0.8)';
+            submitVideo.play();
+        }
   
         previewPostCard.classList.add(`fly-to-${mode}`);
 
-        const animDuration = mode === 'hole' ? 1500 : 1000;
-setTimeout(() => {
-}, animDuration);
-
+        const animDuration = mode === 'hole' ? 4600 : 1000;
 
         setTimeout(() => {
             submitPreviewScreen.style.display = 'none';
             submitPreviewScreen.style.background = '';
-            submitVideo.style.zIndex = '';
+            if (submitVideo) submitVideo.style.zIndex = '';
             previewPostCard.classList.remove(`fly-to-${mode}`);
-            previewMetaLine.style.opacity = '1';
-            const editBtn = document.getElementById('preview-edit-btn');
+            if (previewMetaLine) previewMetaLine.style.opacity = '1';
             if (editBtn) editBtn.style.opacity = '1';
             if (previewSendBtn) previewSendBtn.style.opacity = '1';
             if (previewLabel) previewLabel.style.opacity = '1';
         }, animDuration);
 
         const finishSend = () => {
-            submitVideo.style.display = 'none';
+            if (submitVideo) submitVideo.style.display = 'none';
             submitSentScreen.style.display = 'flex';
         };
 
-        submitVideo.onended = finishSend;
-                finishSendTimeout = setTimeout(() => {
-            if (submitSentScreen.style.display !== 'flex') finishSend();
-        }, 8000);
-
+        if (submitVideo) {
+            submitVideo.onended = finishSend;
+            finishSendTimeout = setTimeout(() => {
+                if (submitSentScreen.style.display !== 'flex') finishSend();
+            }, 8000);
+        } else {
+            finishSend();
+        }
     });
 }
 
-
-//сабміт кінець//
-
+// Атмосфера //
 const atmoOverlay = document.getElementById('atmo-overlay');
 const closeAtmoBtn = document.getElementById('close-atmo');
 const atmoActionBtn = document.getElementById('atmo-action-btn');
@@ -732,15 +735,11 @@ function openAtmoOverlay() {
     renderAtmoStage(currentAtmoLayout);
 }
 
-
-
 function closeAtmoOverlay() {
     atmoOverlay.style.display = 'none';
     document.body.classList.remove('submit-open');
     window.scrollTo({ top: lastScrollY, behavior: 'instant' });
 }
-
-
 
 const atmoBtnEl = document.querySelector('.b-atmosphere');
 if (atmoBtnEl) atmoBtnEl.addEventListener('click', openAtmoOverlay);
@@ -854,8 +853,8 @@ if (atmoActionBtn) {
         const caps = atmoStage.querySelectorAll('.atmo-polaroid-caption');
         caps.forEach(cap => { if(cap.value.trim()) rawText += cap.value.trim() + '\n'; });
 
-        atmoPreviewCard.innerHTML = generateValkyCardsHTML(rawText, photosArr, '#fff', '#1a1a1a', "'Caveat', cursive");
-        atmoPreviewMetaLine.innerText = nameVal ? `від: ${nameVal}` : '👤 Анонімно';
+        atmoPreviewCard.innerHTML = generateValkyCardsHTML(rawText, photosArr, '#e8e6e1', '#1a1a1a', "'Caveat', cursive", nameVal);
+        if (atmoPreviewMetaLine) atmoPreviewMetaLine.style.display = 'none';
         
         atmoContent.style.display = 'none';
         atmoPreviewScreen.style.display = 'flex';
@@ -873,13 +872,14 @@ if (atmoPreviewSendBtn) {
     atmoPreviewSendBtn.addEventListener('click', () => {
         const mode = 'mailbox';
         atmoPreviewScreen.style.background = 'transparent';
-        atmoPreviewMetaLine.style.opacity = '0';
+        if (atmoPreviewMetaLine) atmoPreviewMetaLine.style.opacity = '0';
         if (atmoPreviewEditBtn) atmoPreviewEditBtn.style.opacity = '0';
         atmoPreviewSendBtn.style.opacity = '0';
         const previewLabel = atmoPreviewScreen.querySelector('.preview-label');
         if (previewLabel) previewLabel.style.opacity = '0';
 
         if (atmoVideo) {
+            atmoVideo.currentTime = 0;
             atmoVideo.style.zIndex = '14';
             atmoVideo.style.display = 'block';
             atmoVideo.style.filter = 'blur(0px) brightness(0.8)';
@@ -893,9 +893,9 @@ if (atmoPreviewSendBtn) {
             atmoPreviewScreen.style.background = '';
             if (atmoVideo) atmoVideo.style.zIndex = '';
             atmoPreviewCard.classList.remove(`fly-to-${mode}`);
-            atmoPreviewMetaLine.style.opacity = '1';
+            if (atmoPreviewMetaLine) atmoPreviewMetaLine.style.opacity = '1';
             if (atmoPreviewEditBtn) atmoPreviewEditBtn.style.opacity = '1';
-            atmoPreviewSendBtn.style.opacity = '1';
+            if (atmoPreviewSendBtn) atmoPreviewSendBtn.style.opacity = '1';
             if (previewLabel) previewLabel.style.opacity = '1';
         }, 1000);
 
@@ -913,8 +913,7 @@ if (atmoPreviewSendBtn) {
     });
 }
 
-
-
+// Фото і Мем //
 const photoOverlay = document.getElementById('photo-overlay');
 const closePhotoBtn = document.getElementById('close-photo');
 const photoActionBtn = document.getElementById('photo-action-btn');
@@ -948,21 +947,16 @@ function openPhotoOverlay(type, mode) {
     }
 }
 
-
-
 function closePhotoOverlay() {
     photoOverlay.style.display = 'none';
     document.body.classList.remove('submit-open');
     window.scrollTo({ top: lastScrollY, behavior: 'instant' });
 }
 
-
-
 const photoBtnEl = document.querySelector('.b-photo');
 const memeBtnEl = document.querySelector('.b-meme');
 if (photoBtnEl) photoBtnEl.addEventListener('click', () => openPhotoOverlay('photo', 'mailbox'));
 if (memeBtnEl) memeBtnEl.addEventListener('click', () => openPhotoOverlay('meme', 'hole'));
-
 
 if (closePhotoBtn) closePhotoBtn.addEventListener('click', closePhotoOverlay);
 if (closePhotoSent) closePhotoSent.addEventListener('click', closePhotoOverlay);
@@ -1008,8 +1002,8 @@ if (photoActionBtn) {
         const tc = isHole ? '#e0e0e0' : '#1a1a1a';
         const font = isHole ? 'Impact, sans-serif' : "'Inter', sans-serif";
 
-        photoPreviewCard.innerHTML = generateValkyCardsHTML(rawText, photosArr, bg, tc, font);
-        photoPreviewMetaLine.innerText = nameVal ? `від: ${nameVal}` : '👤 Анонімно';
+        photoPreviewCard.innerHTML = generateValkyCardsHTML(rawText, photosArr, bg, tc, font, nameVal);
+        if (photoPreviewMetaLine) photoPreviewMetaLine.style.display = 'none';
         
         photoContent.style.display = 'none';
         photoPreviewScreen.style.display = 'flex';
@@ -1027,7 +1021,7 @@ if (photoPreviewSendBtn) {
     photoPreviewSendBtn.addEventListener('click', () => {
         const mode = photoOverlay.classList.contains('hole-mode') ? 'hole' : 'mailbox';
         photoPreviewScreen.style.background = 'transparent';
-        photoPreviewMetaLine.style.opacity = '0';
+        if (photoPreviewMetaLine) photoPreviewMetaLine.style.opacity = '0';
         if (photoPreviewEditBtn) photoPreviewEditBtn.style.opacity = '0';
         photoPreviewSendBtn.style.opacity = '0';
         const previewLabel = photoPreviewScreen.querySelector('.preview-label');
@@ -1035,6 +1029,7 @@ if (photoPreviewSendBtn) {
 
         const photoVideo = document.getElementById('photo-video');
         if (photoVideo) {
+            photoVideo.currentTime = 0;
             photoVideo.style.zIndex = '14';
             photoVideo.style.display = 'block';
             photoVideo.style.filter = 'blur(0px) brightness(0.8)';
@@ -1043,16 +1038,16 @@ if (photoPreviewSendBtn) {
 
         photoPreviewCard.classList.add(`fly-to-${mode}`);
 
-        const animDuration = mode === 'hole' ? 1500 : 1000;
+        const animDuration = mode === 'hole' ? 4600 : 1000;
 
         setTimeout(() => {
             photoPreviewScreen.style.display = 'none';
             photoPreviewScreen.style.background = '';
             if (photoVideo) photoVideo.style.zIndex = '';
             photoPreviewCard.classList.remove(`fly-to-${mode}`);
-            photoPreviewMetaLine.style.opacity = '1';
+            if (photoPreviewMetaLine) photoPreviewMetaLine.style.opacity = '1';
             if (photoPreviewEditBtn) photoPreviewEditBtn.style.opacity = '1';
-            photoPreviewSendBtn.style.opacity = '1';
+            if (photoPreviewSendBtn) photoPreviewSendBtn.style.opacity = '1';
             if (previewLabel) previewLabel.style.opacity = '1';
         }, animDuration);
 
@@ -1070,7 +1065,7 @@ if (photoPreviewSendBtn) {
     });
 }
 
-
+// Капс //
 const capsOverlay = document.getElementById('caps-overlay');
 const closeCapsBtn = document.getElementById('close-caps');
 const capsActionBtn = document.getElementById('caps-action-btn');
@@ -1089,14 +1084,12 @@ function openCapsOverlay() {
     capsEditor.focus();
 }
 
-
 function closeCapsOverlay() {
     capsOverlay.style.display = 'none';
     capsEditor.value = '';
     document.body.classList.remove('submit-open');
     window.scrollTo({ top: lastScrollY, behavior: 'instant' });
 }
-
 
 const capsBtn = document.querySelector('.b-capslock');
 if (capsBtn) capsBtn.addEventListener('click', openCapsOverlay);
@@ -1132,14 +1125,13 @@ if (capsActionBtn) {
         const nameVal = getActiveNickname('caps-content');
         const rawText = capsEditor.value || ''; 
         
-        capsPreviewCard.innerHTML = generateValkyCardsHTML(rawText, [], '#e8e8e8', '#333', "'Space Grotesk', sans-serif");
-        capsPreviewMetaLine.innerText = nameVal ? `від: ${nameVal}` : '👤 Анонімно';
+        capsPreviewCard.innerHTML = generateValkyCardsHTML(rawText, [], '#e8e8e8', '#333', "'Space Grotesk', sans-serif", nameVal);
+        if (capsPreviewMetaLine) capsPreviewMetaLine.style.display = 'none';
         
         capsContent.style.display = 'none';
         capsPreviewScreen.style.display = 'flex';
     });
 }
-
 
 if (capsPreviewEditBtn) {
     capsPreviewEditBtn.addEventListener('click', () => {
@@ -1159,6 +1151,7 @@ if (capsPreviewSendBtn) {
     capsPreviewSendBtn.addEventListener('click', () => {
         capsPreviewScreen.style.display = 'none';
         if (capsVideo) {
+            capsVideo.currentTime = 0;
             capsVideo.style.display = 'block';
             capsVideo.play();
             const showCapsSent = () => {
@@ -1174,6 +1167,7 @@ if (capsPreviewSendBtn) {
         }
     });
 }
+
 
 
 
