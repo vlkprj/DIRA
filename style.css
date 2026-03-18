@@ -3921,7 +3921,7 @@ body.submit-open {
     animation: flyUpMailbox 1s cubic-bezier(0.5, 0, 0.2, 1) forwards !important;
 }
 
-/*каунтер*/ 
+/*каунтери*/ 
 .char-counter-wrap {
     font-family: 'Inter', sans-serif;
     font-size: 11px;
@@ -3948,4 +3948,21 @@ body.submit-open {
     margin-left: 2px;
     color: #e74c3c;
 }
-/*каунтер всьо*/ 
+
+/*каунтери карточок*/ 
+.card-count-hint {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.7);
+    text-align: center;
+    letter-spacing: 0.5px;
+    min-height: 18px;
+    transition: opacity 0.3s;
+}
+
+.submit-overlay.mailbox-mode .card-count-hint {
+    color: rgba(0,0,0,0.4);
+}
+
+/*каунтери всьо*/ 
