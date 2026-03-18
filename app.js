@@ -606,12 +606,13 @@ function generateValkyCardsHTML(rawText, photosArr, bgColor, textColor, font, au
 function getActiveNickname(containerId) {
     const container = document.getElementById(containerId);
     if (!container) return '👤 Анонімно';
+    const checkbox = container.querySelector('.anon-checkbox');
     const input = container.querySelector('.anon-name-field');
-    if (input && input.value.trim() !== '') {
-        return `від: ${input.value.trim()}`;
-    }
+    if (checkbox && checkbox.checked) return '👤 Анонімно';
+    if (input && input.value.trim() !== '') return `від: ${input.value.trim()}`;
     return '👤 Анонімно';
 }
+
 
 
 // Головний редактор //
