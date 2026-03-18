@@ -603,29 +603,16 @@ function generateValkyCardsHTML(rawText, photosArr, bgColor, textColor, font, au
 
 
 // Анонімність //
-document.querySelectorAll('.anon-checkbox').forEach(cb => {
-    cb.addEventListener('change', (e) => {
-        const inputRow = e.target.closest('.anon-toggle-block').querySelector('.anon-input-row');
-        const inputField = inputRow.querySelector('.anon-name-field');
-        if (e.target.checked) {
-            inputRow.style.display = 'none';
-            inputField.value = ''; 
-        } else {
-            inputRow.style.display = 'block';
-            inputField.focus();
-        }
-    });
-});
-
 function getActiveNickname(containerId) {
     const container = document.getElementById(containerId);
     if (!container) return '👤 Анонімно';
-    const checkbox = container.querySelector('.anon-checkbox');
     const input = container.querySelector('.anon-name-field');
-    if (checkbox && checkbox.checked) return '👤 Анонімно';
-    if (input && input.value.trim() !== '') return `від: ${input.value.trim()}`;
+    if (input && input.value.trim() !== '') {
+        return `від: ${input.value.trim()}`;
+    }
     return '👤 Анонімно';
 }
+
 
 // Головний редактор //
 if (submitActionBtn) {
