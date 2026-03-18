@@ -3769,99 +3769,74 @@ body.submit-open {
 }
 
 
-.anon-toggle-block {
+.anon-identity-block {
     width: 100%;
     max-width: 400px;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
     border-radius: 16px;
-    padding: 12px 16px;
+    padding: 10px 14px;
     box-sizing: border-box;
     margin-top: 10px;
     display: flex;
-    flex-direction: column;
+    align-items: center;
     gap: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
 }
 
-.submit-overlay.mailbox-mode .anon-toggle-block {
-    background: rgba(0, 0, 0, 0.04);
-    border: 1px solid rgba(0, 0, 0, 0.1);
+.submit-overlay.hole-mode .anon-identity-block {
+    background: #ffffff;
+    border: 1px solid #d1d1d1;
 }
 
-.anon-switch-row {
+.anon-icon-wrap {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    width: 100%;
-}
-
-.anon-switch-label-wrap {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.anon-shield-icon {
-    font-size: 20px;
+    flex-shrink: 0;
+    background: #1D3561;
     color: #FFDA59;
 }
-.submit-overlay.mailbox-mode .anon-shield-icon { color: #1D3561; }
 
-.anon-label-text {
-    font-family: 'Inter', sans-serif;
-    font-size: 14px;
-    font-weight: 700;
+.submit-overlay.hole-mode .anon-icon-wrap {
+    background: #1a1a1a;
     color: #fff;
 }
-.submit-overlay.mailbox-mode .anon-label-text { color: #1a1a1a; }
 
-/*перемикач */
-.anon-switch {
-    position: relative;
-    display: inline-block;
-    width: 44px;
-    height: 24px;
+.anon-text-block {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
+    gap: 2px;
 }
-.anon-switch input { opacity: 0; width: 0; height: 0; }
-.anon-slider {
-    position: absolute; cursor: pointer;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background-color: rgba(255,255,255,0.3);
-    border-radius: 24px;
-    transition: .3s;
-}
-.submit-overlay.mailbox-mode .anon-slider { background-color: rgba(0,0,0,0.2); }
-.anon-slider:before {
-    position: absolute; content: "";
-    height: 18px; width: 18px;
-    left: 3px; bottom: 3px;
-    background-color: white;
-    border-radius: 50%;
-    transition: .3s;
-}
-input:checked + .anon-slider { background-color: #27ae60; }
-input:checked + .anon-slider:before { transform: translateX(20px); }
 
-.anon-input-row .submit-name-input {
-    width: 100%;
-    background: rgba(0,0,0,0.2);
-    border: 1px solid rgba(255,255,255,0.1);
-    color: #fff;
-    padding: 10px 14px;
-    border-radius: 10px;
+.anon-label {
     font-family: 'Inter', sans-serif;
-    font-size: 14px;
-}
-.submit-overlay.mailbox-mode .anon-input-row .submit-name-input {
-    background: #fff;
-    border: 1px solid rgba(0,0,0,0.1);
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.5px;
     color: #1a1a1a;
 }
-.anon-input-row .submit-name-input::placeholder { color: rgba(255,255,255,0.5); }
-.submit-overlay.mailbox-mode .anon-input-row .submit-name-input::placeholder { color: rgba(0,0,0,0.4); }
 
+.submit-name-input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    color: #1a1a1a !important;
+    padding: 0;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    outline: none;
+}
+
+.submit-name-input::placeholder {
+    color: #888 !important;
+}
 
 
 .valky-card-header-pill {
