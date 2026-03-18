@@ -3660,6 +3660,23 @@ body.submit-open {
     -webkit-overflow-scrolling: touch;
 }
 .preview-post-card::-webkit-scrollbar { display: none; }
+.preview-swipe-hint {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.6);
+    text-align: center;
+    letter-spacing: 0.5px;
+    margin-top: -8px;
+}
+
+.submit-overlay.mailbox-mode .preview-swipe-hint,
+.caps-overlay .preview-swipe-hint,
+.photo-overlay .preview-swipe-hint,
+.atmo-overlay .preview-swipe-hint {
+    color: rgba(0,0,0,0.35);
+}
+
 
 .caps-preview-card {
     border: none !important;
