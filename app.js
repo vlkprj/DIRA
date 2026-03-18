@@ -348,14 +348,21 @@ submitEditor.addEventListener('input', () => {
     const len = submitEditor.innerText.replace(/\n$/, '').length;
     const counter = document.getElementById('char-counter');
     const counterWrap = document.getElementById('char-counter-wrap');
-    if (!counter || !counterWrap) return;
-    counter.innerText = len;
-    if (len > 350) {
-        counterWrap.classList.add('over-limit');
-    } else {
-        counterWrap.classList.remove('over-limit');
+    if (counter && counterWrap) {
+        counter.innerText = len;
+        if (len > 350) {
+            counterWrap.classList.add('over-limit');
+        } else {
+            counterWrap.classList.remove('over-limit');
+        }
+    }
+    const cardHint = document.getElementById('card-count-hint');
+    if (cardHint) {
+        const cardCount = Math.ceil(len / 350) || 1;
+        cardHint.innerText = cardCount > 1 ? `📄 ${cardCount} картки — свайп →` : '';
     }
 });
+
 
 
     const hintEl = document.getElementById('submit-hint-text');
