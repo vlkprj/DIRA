@@ -330,10 +330,19 @@ function openSubmitOverlay(mode, placeholderText, defaultFont, titleText) {
     document.body.classList.add('submit-open');
 
     const overlayTitle = submitOverlay.querySelector('.submit-overlay-title');
-    if (overlayTitle) {
-        overlayTitle.innerText = titleText || 'НАПИСАТИ';
-        overlayTitle.style.color = '#ffffff';
+    if (overlayTitle) overlayTitle.style.display = 'none'; 
+
+    let innerTitle = submitContent.querySelector('.caps-label.dynamic-title');
+    if (!innerTitle) {
+        innerTitle = document.createElement('div');
+        innerTitle.className = 'caps-label dynamic-title';
+        innerTitle.style.marginBottom = '15px';
+        innerTitle.style.color = '#fff';
+        innerTitle.style.textAlign = 'center';
+        const editorWrap = document.querySelector('.submit-editor-wrap');
+        submitContent.insertBefore(innerTitle, editorWrap);
     }
+    innerTitle.innerText = titleText || 'НАПИСАТИ';
 
     const src = mode === 'mailbox' ? 'skrynka.mp4' : 'blackhole.mp4';
     submitVideo.src = src;
@@ -347,9 +356,7 @@ function openSubmitOverlay(mode, placeholderText, defaultFont, titleText) {
     submitEditor.setAttribute('data-placeholder', 'Пишіть сюди...');
     
     const counter = document.getElementById('char-counter');
-    const counterWrap = document.getElementById('char-counter-wrap');
     if (counter) counter.innerText = '0';
-    if (counterWrap) counterWrap.classList.remove('over-limit');
     
     const cardHint = document.getElementById('card-count-hint');
     if (cardHint) cardHint.innerText = '';
@@ -386,6 +393,7 @@ function openSubmitOverlay(mode, placeholderText, defaultFont, titleText) {
     applyEditorColors();
 }
 
+
 submitEditor.addEventListener('paste', (e) => {
     e.preventDefault();
     const text = (e.clipboardData || window.clipboardData).getData('text/plain');
@@ -397,21 +405,16 @@ submitEditor.addEventListener('input', () => {
     submitEditor.style.fontFamily = submitEditor.dataset.activeFont || 'Inter, sans-serif';
     const len = submitEditor.innerText.replace(/\n$/, '').length;
     const counter = document.getElementById('char-counter');
-    const counterWrap = document.getElementById('char-counter-wrap');
-    if (counter && counterWrap) {
-        counter.innerText = len;
-        if (len > 350) {
-            counterWrap.classList.add('over-limit');
-        } else {
-            counterWrap.classList.remove('over-limit');
-        }
-    }
+    if (counter) counter.innerText = len; 
+    
     const cardHint = document.getElementById('card-count-hint');
     if (cardHint) {
         const cardCount = Math.ceil(len / 350) || 1;
         cardHint.innerText = cardCount > 1 ? `📄 ${cardCount} картки — свайп →` : '';
+        cardHint.style.color = '#fff';
     }
 });
+
 
 
 
