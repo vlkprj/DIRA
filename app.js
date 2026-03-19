@@ -509,11 +509,14 @@ document.querySelectorAll('.toolbar-btn[data-cmd]').forEach(btn => {
 
 if (fontSelect) {
     fontSelect.addEventListener('change', () => {
-        submitEditor.style.fontFamily = fontSelect.value;
-        submitEditor.dataset.activeFont = fontSelect.value;
+        const selectedFont = fontSelect.value;
+        const fontString = `'${selectedFont}', sans-serif`;
+        submitEditor.style.fontFamily = fontString;
+        submitEditor.dataset.activeFont = fontString;
         submitEditor.focus();
     });
 }
+
 
 
 const attachPreviewInline = document.getElementById('attach-preview-inline');
@@ -599,7 +602,6 @@ bgColorDots.forEach(dot => {
 // Генератор карточок
 function generateValkyCardsHTML(rawHTML, photosArr, bgColor, textColor, font, authorName) {
     let html = '';
-    
     const headerHTML = `
         <div class="valky-card-header-pill" style="transform: scale(0.85); margin-bottom: 14px; margin-top: -8px;">
             <img src="anonface.PNG" alt="Анонім">
@@ -607,84 +609,60 @@ function generateValkyCardsHTML(rawHTML, photosArr, bgColor, textColor, font, au
             <span class="pill-white">ПРИЙМАЛЬНЯ</span>
         </div>
     `;
-
     const authorHTML = `<div class="valky-card-author">${authorName}</div>`;
-    
     const CHARS_PER_CARD = 350;
     const MIN_LEFTOVER = 80;
 
-    let chunks = [];
     const tempDiv = document.createElement('div');
     tempDiv.innerHTML = rawHTML;
-    const pureText = tempDiv.innerText || '';
+    const pureText = tempDiv.innerText.trim();
 
-    if (pureText.trim().length > 0) {
+    let chunks = [];
+    let useHTML = false;
+
+    if (pureText.length > 0) {
         if (pureText.length <= CHARS_PER_CARD) {
             chunks.push(rawHTML);
+            useHTML = true;
         } else {
-            const words = rawHTML.split(' ');
+            const words = pureText.split(/\s+/);
             let currentChunk = '';
-            let tempChunks = [];
-            let currentTextLength = 0;
-
             words.forEach(w => {
-                const wTemp = document.createElement('div');
-                wTemp.innerHTML = w;
-                const wLen = wTemp.innerText.length;
-
-                if (currentTextLength + wLen > CHARS_PER_CARD) {
-                    tempChunks.push(currentChunk.trim());
+                if ((currentChunk + ' ' + w).length > CHARS_PER_CARD) {
+                    chunks.push(currentChunk.trim());
                     currentChunk = w;
-                    currentTextLength = wLen;
                 } else {
                     currentChunk += (currentChunk ? ' ' : '') + w;
-                    currentTextLength += wLen + 1;
                 }
             });
-            if (currentChunk.trim()) tempChunks.push(currentChunk.trim());
+            if (currentChunk.trim()) chunks.push(currentChunk.trim());
 
-            if (tempChunks.length > 1) {
-                const lastTemp = document.createElement('div');
-                lastTemp.innerHTML = tempChunks[tempChunks.length - 1];
-                if (lastTemp.innerText.length < MIN_LEFTOVER) {
-                    tempChunks[tempChunks.length - 2] += ' ' + tempChunks[tempChunks.length - 1];
-                    tempChunks.pop();
-                }
+            if (chunks.length > 1 && chunks[chunks.length - 1].length < MIN_LEFTOVER) {
+                chunks[chunks.length - 2] += ' ' + chunks[chunks.length - 1];
+                chunks.pop();
             }
-            chunks = tempChunks;
         }
     } else if (photosArr.length === 0) {
         chunks.push('порожньо');
     }
 
-    const getFontClass = (textStr, isMultiCard) => {
-        const tDiv = document.createElement('div');
-        tDiv.innerHTML = textStr;
-        const len = tDiv.innerText.length;
-        if (isMultiCard) {
-            if (len < 80) return 'fs-large';
-            if (len < 180) return 'fs-medium';
-            return 'fs-small';
-        }
-        if (len < 80) return 'fs-huge';
-        if (len < 180) return 'fs-large';
-        if (len < 280) return 'fs-medium';
-        return 'fs-small';
-    };
-
-    const textAlign = (textStr) => {
-        const tDiv = document.createElement('div');
-        tDiv.innerHTML = textStr;
-        return tDiv.innerText.length > 193 ? 'left' : 'center';
-    };
     const isMultiCard = chunks.length > 1;
 
     chunks.forEach((chunk, idx) => {
-        const fontClass = getFontClass(chunk, isMultiCard);
-        const align = textAlign(chunk);
+        const len = useHTML ? pureText.length : chunk.length;
+        let fontClass = 'fs-small';
+        if (isMultiCard) {
+            if (len < 80) fontClass = 'fs-large';
+            else if (len < 180) fontClass = 'fs-medium';
+        } else {
+            if (len < 80) fontClass = 'fs-huge';
+            else if (len < 180) fontClass = 'fs-large';
+            else if (len < 280) fontClass = 'fs-medium';
+        }
+
+        const align = len > 193 ? 'left' : 'center';
         const showHeader = idx === 0 ? headerHTML : '';
-        const showArrow = (idx < chunks.length - 1 || photosArr.length > 0)
-            ? '<div class="valky-card-arrow">→</div>' : '';
+        const showArrow = (idx < chunks.length - 1 || photosArr.length > 0) ? '<div class="valky-card-arrow">→</div>' : '';
 
         html += `
             <div class="valky-card" style="background:${bgColor}; color:${textColor}; font-family:${font} !important;">
@@ -710,6 +688,7 @@ function generateValkyCardsHTML(rawHTML, photosArr, bgColor, textColor, font, au
 
     return html;
 }
+
 
 //генератор карточок всьо
 
