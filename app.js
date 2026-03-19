@@ -602,6 +602,8 @@ bgColorDots.forEach(dot => {
 // Генератор карточок
 function generateValkyCardsHTML(rawHTML, photosArr, bgColor, textColor, font, authorName) {
     let html = '';
+    const safeFont = font.replace(/"/g, "'"); 
+    
     const headerHTML = `
         <div class="valky-card-header-pill" style="transform: scale(0.85); margin-bottom: 14px; margin-top: -8px;">
             <img src="anonface.PNG" alt="Анонім">
@@ -611,36 +613,30 @@ function generateValkyCardsHTML(rawHTML, photosArr, bgColor, textColor, font, au
     `;
     const authorHTML = `<div class="valky-card-author">${authorName}</div>`;
     const CHARS_PER_CARD = 350;
-    const MIN_LEFTOVER = 80;
 
     const tempDiv = document.createElement('div');
-    tempDiv.innerHTML = rawHTML;
-    const pureText = tempDiv.innerText.trim();
+    tempDiv.innerHTML = rawHTML.replace(/<br\s*\/?>/gi, '\n'); 
+    let pureText = tempDiv.innerText || '';
 
     let chunks = [];
     let useHTML = false;
 
-    if (pureText.length > 0) {
+    if (pureText.trim().length > 0) {
         if (pureText.length <= CHARS_PER_CARD) {
             chunks.push(rawHTML);
             useHTML = true;
         } else {
-            const words = pureText.split(/\s+/);
             let currentChunk = '';
-            words.forEach(w => {
-                if ((currentChunk + ' ' + w).length > CHARS_PER_CARD) {
+            const tokens = pureText.split(/([ \n])/);
+            for (let t of tokens) {
+                if ((currentChunk + t).length > CHARS_PER_CARD) {
                     chunks.push(currentChunk.trim());
-                    currentChunk = w;
+                    currentChunk = t;
                 } else {
-                    currentChunk += (currentChunk ? ' ' : '') + w;
+                    currentChunk += t;
                 }
-            });
-            if (currentChunk.trim()) chunks.push(currentChunk.trim());
-
-            if (chunks.length > 1 && chunks[chunks.length - 1].length < MIN_LEFTOVER) {
-                chunks[chunks.length - 2] += ' ' + chunks[chunks.length - 1];
-                chunks.pop();
             }
+            if (currentChunk.trim()) chunks.push(currentChunk.trim());
         }
     } else if (photosArr.length === 0) {
         chunks.push('порожньо');
@@ -663,11 +659,13 @@ function generateValkyCardsHTML(rawHTML, photosArr, bgColor, textColor, font, au
         const align = len > 193 ? 'left' : 'center';
         const showHeader = idx === 0 ? headerHTML : '';
         const showArrow = (idx < chunks.length - 1 || photosArr.length > 0) ? '<div class="valky-card-arrow">→</div>' : '';
+        
+        const finalContent = useHTML ? chunk : chunk.replace(/\n/g, '<br>');
 
         html += `
-            <div class="valky-card" style="background:${bgColor}; color:${textColor}; font-family:${font} !important;">
+            <div class="valky-card" style="background:${bgColor}; color:${textColor}; font-family:${safeFont} !important;">
                 ${showHeader}
-                <div class="valky-card-body ${fontClass}" style="font-family:${font} !important; text-align:${align};">${chunk}</div>
+                <div class="valky-card-body ${fontClass}" style="font-family:${safeFont} !important; text-align:${align};">${finalContent}</div>
                 ${showArrow}
                 ${authorHTML}
             </div>
@@ -676,7 +674,7 @@ function generateValkyCardsHTML(rawHTML, photosArr, bgColor, textColor, font, au
 
     photosArr.slice(0, 5).forEach(src => {
         html += `
-            <div class="valky-card" style="background:${bgColor}; color:${textColor}; font-family:${font} !important;">
+            <div class="valky-card" style="background:${bgColor}; color:${textColor}; font-family:${safeFont} !important;">
                 ${headerHTML}
                 <div class="valky-card-photo-wrap">
                     <img src="${src}" class="valky-card-photo">
@@ -688,6 +686,7 @@ function generateValkyCardsHTML(rawHTML, photosArr, bgColor, textColor, font, au
 
     return html;
 }
+
 
 
 //генератор карточок всьо
