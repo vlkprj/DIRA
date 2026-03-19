@@ -946,21 +946,81 @@ const atmoPreviewMetaLine = document.getElementById('atmo-preview-meta-line');
 const atmoPreviewEditBtn = document.getElementById('atmo-preview-edit-btn');
 const atmoPreviewSendBtn = document.getElementById('atmo-preview-send-btn');
 
+let currentAtmoBg = '#FAF8F4';
+const atmoBgDots = document.querySelectorAll('.atmo-bg-dot');
+
+atmoBgDots.forEach(dot => {
+    dot.addEventListener('click', () => {
+        atmoBgDots.forEach(d => d.classList.remove('active'));
+        dot.classList.add('active');
+        currentAtmoBg = dot.dataset.color;
+    });
+});
+
 if (atmoActionBtn) {
     atmoActionBtn.addEventListener('click', () => {
         const nameVal = getActiveNickname('atmo-content');
-        let photosArr = [];
+        let photosData = [];
         
-        const imgs = atmoStage.querySelectorAll('.atmo-slot-img-fill');
-        imgs.forEach(img => {
-            if (img.style.display !== 'none' && img.src) photosArr.push(img.src);
+        const slots = atmoStage.querySelectorAll('.atmo-polaroid-slot, .atmo-square-slot');
+        slots.forEach(slot => {
+            const img = slot.querySelector('.atmo-slot-img-fill');
+            const cap = slot.querySelector('.atmo-polaroid-caption');
+            if (img && img.style.display !== 'none' && img.src) {
+                photosData.push({
+                    src: img.src,
+                    caption: cap && cap.value ? cap.value.trim() : '',
+                    isPolaroid: slot.classList.contains('atmo-polaroid-slot')
+                });
+            }
         });
         
-        let rawText = '';
-        const caps = atmoStage.querySelectorAll('.atmo-polaroid-caption');
-        caps.forEach(cap => { if(cap.value.trim()) rawText += cap.value.trim() + '\n'; });
+        const textColor = ['#FAF8F4', '#FFFFFF'].includes(currentAtmoBg) ? '#1a1a1a' : '#FAF8F4';
+        let html = '';
+        
+        const headerHTML = `
+            <div class="valky-card-header-pill" style="transform: scale(0.85); margin-bottom: 14px; margin-top: -8px;">
+                <img src="anonface.PNG" alt="Анонім">
+                <span class="pill-yellow">ВАЛКІВСЬКА</span>
+                <span class="pill-white">ПРИЙМАЛЬНЯ</span>
+            </div>
+        `;
+        const authorHTML = `<div class="valky-card-author" style="color:${textColor};">${nameVal}</div>`;
 
-        atmoPreviewCard.innerHTML = generateValkyCardsHTML(rawText, photosArr, '#e8e6e1', '#1a1a1a', "'Caveat', cursive", nameVal);
+        if (photosData.length > 0) {
+            html += `
+                <div class="valky-card" style="background:${currentAtmoBg}; justify-content: space-between; align-items: center;">
+                    ${headerHTML}
+                    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; width: 100%; margin: auto 0;">
+            `;
+            
+            photosData.forEach(p => {
+                if (p.isPolaroid) {
+                    html += `
+                        <div style="background: #fff; padding: 10px 10px 30px 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); border-radius: 2px; display: flex; flex-direction: column; align-items: center; width: 42%;">
+                            <img src="${p.src}" style="width: 100%; aspect-ratio: 1/1; object-fit: cover; border: 1px solid #eee;">
+                            ${p.caption ? `<div style="font-family: 'Caveat', cursive; font-size: 18px; color: #111; margin-top: 8px; text-align: center; line-height: 1;">${p.caption}</div>` : ''}
+                        </div>
+                    `;
+                } else {
+                    html += `
+                        <div style="width: 42%; aspect-ratio: 1/1; box-shadow: 0 4px 10px rgba(0,0,0,0.15);">
+                            <img src="${p.src}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 4px;">
+                        </div>
+                    `;
+                }
+            });
+
+            html += `
+                    </div>
+                    ${authorHTML}
+                </div>
+            `;
+        } else {
+            html += `<div class="valky-card" style="background:${currentAtmoBg};"><div style="color:${textColor}; margin: auto;">Пусто</div></div>`;
+        }
+
+        atmoPreviewCard.innerHTML = html;
         if (atmoPreviewMetaLine) atmoPreviewMetaLine.style.display = 'none';
         
         atmoContent.style.display = 'none';
@@ -968,57 +1028,6 @@ if (atmoActionBtn) {
     });
 }
 
-if (atmoPreviewEditBtn) {
-    atmoPreviewEditBtn.addEventListener('click', () => {
-        atmoPreviewScreen.style.display = 'none';
-        atmoContent.style.display = 'flex';
-    });
-}
-
-if (atmoPreviewSendBtn) {
-    atmoPreviewSendBtn.addEventListener('click', () => {
-        const mode = 'mailbox';
-        atmoPreviewScreen.style.background = 'transparent';
-        if (atmoPreviewMetaLine) atmoPreviewMetaLine.style.opacity = '0';
-        if (atmoPreviewEditBtn) atmoPreviewEditBtn.style.opacity = '0';
-        atmoPreviewSendBtn.style.opacity = '0';
-        const previewLabel = atmoPreviewScreen.querySelector('.preview-label');
-        if (previewLabel) previewLabel.style.opacity = '0';
-
-        if (atmoVideo) {
-            atmoVideo.currentTime = 0;
-            atmoVideo.style.zIndex = '14';
-            atmoVideo.style.display = 'block';
-            atmoVideo.style.filter = 'blur(0px) brightness(0.8)';
-            atmoVideo.play();
-        }
-
-        atmoPreviewCard.classList.add(`fly-to-${mode}`);
-
-        setTimeout(() => {
-            atmoPreviewScreen.style.display = 'none';
-            atmoPreviewScreen.style.background = '';
-            if (atmoVideo) atmoVideo.style.zIndex = '';
-            atmoPreviewCard.classList.remove(`fly-to-${mode}`);
-            if (atmoPreviewMetaLine) atmoPreviewMetaLine.style.opacity = '1';
-            if (atmoPreviewEditBtn) atmoPreviewEditBtn.style.opacity = '1';
-            if (atmoPreviewSendBtn) atmoPreviewSendBtn.style.opacity = '1';
-            if (previewLabel) previewLabel.style.opacity = '1';
-        }, 1000);
-
-        const finishSend = () => {
-            if (atmoVideo) atmoVideo.style.display = 'none';
-            atmoSentScreen.style.display = 'flex';
-        };
-
-        if (atmoVideo) {
-            atmoVideo.onended = finishSend;
-            setTimeout(() => { if (atmoSentScreen.style.display !== 'flex') finishSend(); }, 8000);
-        } else {
-            finishSend();
-        }
-    });
-}
 
 // Фото і Мем //
 const photoOverlay = document.getElementById('photo-overlay');
