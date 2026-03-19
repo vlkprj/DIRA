@@ -1010,8 +1010,6 @@ if (atmoActionBtn) {
     });
 }
 
-}
-
 
 // Фото і Мем //
 const photoOverlay = document.getElementById('photo-overlay');
