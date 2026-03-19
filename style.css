@@ -3980,6 +3980,7 @@ body.submit-open {
 }
 
 /*каунтери карточок*/ 
+
 .card-count-hint {
     font-family: 'Inter', sans-serif;
     font-size: 12px;
@@ -3996,3 +3997,43 @@ body.submit-open {
 }
 
 /*каунтери всьо*/ 
+
+
+#char-counter-wrap {
+    margin-right: 18px;
+}
+
+.submit-header {
+    justify-content: center;
+    position: relative;
+}
+
+.submit-overlay-title {
+    color: #ffffff;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 18px; 
+    font-weight: bold;
+}
+
+.close-submit {
+    position: absolute;
+    right: 20px;
+}
+
+.atmo-stage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+
+.atmo-stage--two-polaroid {
+    flex-wrap: wrap;
+}
+
+.fly-to-hole {
+    z-index: 9999 !important;
+    position: relative;
+}
