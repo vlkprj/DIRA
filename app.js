@@ -1381,51 +1381,7 @@ const getArtifactText = (count) => `\n\n📸 **Ти відкрив(ла) мож�
 
 Обовʼязково опиши що це, де і коли ти це сфоткав(ла), додай своє імʼя або нік, який буде відображатись. Відправляй фото разом зі скріншотом цієї картки сюди: @valkyshobot 👈🏻 Якщо все ок — ми додамо твій артефакт у додаток, щоб інші теж могли його знайти 🔍`;
 
-    const fxClasses = ['door-glow', 'door-glitch', 'fx-anime', 'fx-glitch', 'fx-upside-down', 'fx-black-hole'];
-
-    doorBtn.addEventListener('click', (e) => {
-        doorBtn.classList.remove(...fxClasses);
-        void doorBtn.offsetWidth; 
-        
-        const randomFx = fxClasses[Math.floor(Math.random() * fxClasses.length)];
-        doorBtn.classList.add(randomFx);
-
-        const rect = doorBtn.getBoundingClientRect();
-        const centerX = rect.left + rect.width / 2;
-        const centerY = rect.top + rect.height / 2;
-
-        for (let i = 0; i < 6; i++) {
-            const splinter = document.createElement('div');
-            splinter.className = 'door-splinter';
-            document.body.appendChild(splinter);
-            
-            const angle = Math.random() * Math.PI * 2;
-            const velocity = 20 + Math.random() * 40;
-            const tx = Math.cos(angle) * velocity;
-            const ty = Math.sin(angle) * velocity - 20;
-            
-            splinter.style.left = `${centerX}px`;
-            splinter.style.top = `${centerY}px`;
-            splinter.style.setProperty('--tx', `${tx}px`);
-            splinter.style.setProperty('--ty', `${ty}px`);
-            splinter.style.animation = 'splinterFly 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards';
-            
-            setTimeout(() => splinter.remove(), 600);
-        }
-
-        if (Math.random() < 0.02) {
-            const ghost = document.createElement('div');
-            ghost.className = 'door-ghost';
-            ghost.innerText = '👻';
-            document.body.appendChild(ghost);
-            
-            ghost.style.left = `${centerX - 15}px`;
-            ghost.style.top = `${centerY - 15}px`;
-            ghost.style.animation = 'ghostFloat 1.5s ease-out forwards';
-            
-            setTimeout(() => ghost.remove(), 1500);
-        }
-    });
+    
 
 
         const achievements = {
@@ -1542,78 +1498,123 @@ const getArtifactText = (count) => `\n\n📸 **Ти відкрив(ла) мож�
             doorBtn.classList.add('door-broken-hole');
         }
 
-        doorBtn.addEventListener('click', (event) => {
-            if (!hasTappedOnce) {
-                showDoorBubble(event, "тут може випасти передбачення, артефакт або ачівка, але не в цей раз і не тобі, спробуй ще", 6000);
-                hasTappedOnce = true;
-                return;
+            const fxClasses = ['door-glow', 'door-glitch', 'fx-anime', 'fx-glitch', 'fx-upside-down', 'fx-black-hole'];
+
+    doorBtn.addEventListener('click', (event) => {
+        const rect = doorBtn.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+
+        for (let i = 0; i < 6; i++) {
+            const splinter = document.createElement('div');
+            splinter.className = 'door-splinter';
+            document.body.appendChild(splinter);
+            
+            const angle = Math.random() * Math.PI * 2;
+            const velocity = 20 + Math.random() * 40;
+            const tx = Math.cos(angle) * velocity;
+            const ty = Math.sin(angle) * velocity - 20;
+            
+            splinter.style.left = `${centerX}px`;
+            splinter.style.top = `${centerY}px`;
+            splinter.style.setProperty('--tx', `${tx}px`);
+            splinter.style.setProperty('--ty', `${ty}px`);
+            splinter.style.animation = 'splinterFly 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards';
+            
+            setTimeout(() => splinter.remove(), 600);
+        }
+
+        if (Math.random() < 0.02) {
+            const ghost = document.createElement('div');
+            ghost.className = 'door-ghost';
+            ghost.innerText = '👻';
+            document.body.appendChild(ghost);
+            
+            ghost.style.left = `${centerX - 15}px`;
+            ghost.style.top = `${centerY - 15}px`;
+            ghost.style.animation = 'ghostFloat 1.5s ease-out forwards';
+            
+            setTimeout(() => ghost.remove(), 1500);
+        }
+
+        if (!hasTappedOnce) {
+            showDoorBubble(event, "тут може випасти передбачення, артефакт або ачівка, але не в цей раз і не тобі, спробуй ще", 6000);
+            hasTappedOnce = true;
+            return;
+        }
+
+        doorClicks++;
+        localStorage.setItem('valky_door_clicks', doorClicks);
+
+        if (doorClicks === 2) {
+            bagBtn.classList.add('visible');
+        }
+
+        if (achievements && achievements[doorClicks]) {
+            showAchievementCard(achievements[doorClicks]);
+            const achText = achievements[doorClicks];
+            const achLines = achText.split('\n');
+            addToLoot('achievements', {
+                title: achLines[0] || 'Досягнення',
+                preview: achLines[1] ? achLines[1].substring(0, 60) + '...' : '',
+                full: achLines.slice(1).join('<br>')
+            });
+        }
+
+        if (doorClicks === 523) {
+            doorBtn.classList.add('door-epic-falling');
+            setTimeout(() => {
+                doorBtn.classList.remove('door-epic-falling');
+                doorBtn.innerText = '🚪';
+                doorBtn.classList.add('door-broken-hole');
+            }, 1200);
+            return;
+        }
+
+        if (doorClicks > 523 && doorClicks <= 528) {
+            if (doorClicks === 528) {
+                doorBtn.classList.remove('door-broken-hole');
+                doorBtn.innerText = '🚪';
+                showDoorBubble(event, "Ці міцніші", 4000);
+            } else {
+                showDoorBubble(event, "Двері на базу", 2000);
             }
+            return;
+        }
 
-            doorClicks++;
-            localStorage.setItem('valky_door_clicks', doorClicks);
+        const rng = Math.random() * 100;
+        const predictionCooldown = 36;
 
-            if (doorClicks === 2) {
-                bagBtn.classList.add('visible');
-            }
+        if (rng < 1) {
+            const randomArtifact = valkyArtifacts[Math.floor(Math.random() * valkyArtifacts.length)];
+            showPredictionPopup(`Знайдено артефакт:<br><br><b>${randomArtifact}</b>`);
+            
+            addToLoot('artifacts', {
+                title: randomArtifact,
+                preview: 'Валківський артефакт',
+                full: `Знайдено: ${randomArtifact}`
+            });
 
-            if (achievements && achievements[doorClicks]) {
-                showAchievementCard(achievements[doorClicks]);
-                const achText = achievements[doorClicks];
-                const achLines = achText.split('\n');
-                addToLoot('achievements', {
-                    title: achLines[0] || 'Досягнення',
-                    preview: achLines[1] ? achLines[1].substring(0, 60) + '...' : '',
-                    full: achLines.slice(1).join('<br>')
-                });
-            }
+        } else if (rng < 22 && (doorClicks - lastPredictionAt) >= predictionCooldown) {
+            const predText = getPrediction();
+            showPredictionPopup(`🔮 ${predText}`);
+            
+            addToLoot('predictions', {
+                title: '🔮 Передбачення',
+                preview: predText.substring(0, 60) + '...',
+                full: predText
+            });
 
-            if (doorClicks === 523) {
-                doorBtn.classList.add('door-epic-falling');
-                setTimeout(() => {
-                    doorBtn.classList.remove('door-epic-falling');
-                    doorBtn.innerText = '🚪';
-                    doorBtn.classList.add('door-broken-hole');
-                }, 1200);
-                return;
-            }
+            lastPredictionAt = doorClicks;
+            localStorage.setItem('valky_last_pred', lastPredictionAt);
 
-            if (doorClicks > 523 && doorClicks <= 528) {
-                if (doorClicks === 528) {
-                    doorBtn.classList.remove('door-broken-hole');
-                    doorBtn.innerText = '🚪';
-                    showDoorBubble(event, "Ці міцніші", 4000);
-                } else {
-                    showDoorBubble(event, "Двері на базу", 2000);
-                }
-                return;
-            }
-
-            const rng = Math.random() * 100;
-            const predictionCooldown = 36;
-
-            if (rng < 1) {
-                const randomArtifact = valkyArtifacts[Math.floor(Math.random() * valkyArtifacts.length)];
-                showPredictionPopup(`Знайдено артефакт:<br><br><b>${randomArtifact}</b>`);
+        } else {
+            if (Math.random() < 0.15) {
+                doorBtn.classList.remove(...fxClasses);
+                void doorBtn.offsetWidth; 
                 
-                addToLoot('artifacts', {
-                    title: randomArtifact,
-                    preview: 'Валківський артефакт',
-                    full: `Знайдено: ${randomArtifact}`
-                });
-
-            } else if (rng < 22 && (doorClicks - lastPredictionAt) >= predictionCooldown) {
-                const predText = getPrediction();
-                showPredictionPopup(`🔮 ${predText}`);
-                
-                addToLoot('predictions', {
-                    title: '🔮 Передбачення',
-                    preview: predText.substring(0, 60) + '...',
-                    full: predText
-                });
-
-                lastPredictionAt = doorClicks;
-                localStorage.setItem('valky_last_pred', lastPredictionAt);
-
+                const randomFx = fxClasses[Math.floor(Math.random() * fxClasses.length)];
+                doorBtn.classList.add(randomFx);
             } else {
                 let availableBubbles = bubbles.filter(b => !recentBubbles.includes(b));
                 if (availableBubbles.length === 0) availableBubbles = bubbles;
@@ -1625,8 +1626,10 @@ const getArtifactText = (count) => `\n\n📸 **Ти відкрив(ла) мож�
 
                 showDoorBubble(event, randomBubbleText);
             }
-        });
+        }
+    });
 }
+
 
 const bagBtn = document.getElementById('bag-btn');
 const initialLoot = getLoot();
