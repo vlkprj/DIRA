@@ -863,6 +863,7 @@ function buildAtmoSlot(isPolaroid, captionEnabled) {
         cap.type = 'text';
         cap.className = 'atmo-polaroid-caption';
         cap.placeholder = 'підпис...';
+        cap.maxLength = 35;
         slot.appendChild(cap);
     }
     
