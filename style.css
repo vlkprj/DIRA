@@ -3881,6 +3881,28 @@ body.submit-open {
     transition: background 0.3s ease;
 }
 
+/*пару фіксів*/ 
+.submit-content, .atmo-content, .photo-content, .caps-content {
+    padding-bottom: 140px !important; 
+}
+
+
+.close-submit, #close-atmo, #close-photo, #close-caps {
+    width: 44px !important;
+    height: 44px !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+}
+
+
+.preview-header, .submit-action-btn {
+    position: relative;
+    z-index: 150 !important;
+}
+/*фікси всьо */
+
 /* АНІМАЦІЇ */
 @keyframes pillowSway { 0% { transform: skewX(-4deg) rotate(-4deg); } 100% { transform: skewX(4deg) rotate(4deg); } }
 @keyframes stepLeft { 0% { transform: translateY(0) scaleY(0.9); } 100% { transform: translateY(-12px) scaleY(1.1); } }
@@ -4035,3 +4057,4 @@ body.submit-open {
     .row-container { gap: 10px; }
     .breathe-msg { margin-top: 180px; }
 }
+
