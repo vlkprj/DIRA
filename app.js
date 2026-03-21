@@ -1492,6 +1492,10 @@ const getArtifactText = (count) => `\n\n📸 **Ти відкрив(ла) мож�
         let hasTappedOnce = doorClicks > 0;
         let lastPredictionAt = parseInt(localStorage.getItem('valky_last_pred')) || -10;
         let recentBubbles = []; 
+        
+        if (doorClicks >= 2 && bagBtn) {
+    bagBtn.classList.add('visible');
+}
 
         if (doorBtn && doorClicks >= 523 && doorClicks < 528) {
             doorBtn.innerText = '🚪';
@@ -1549,9 +1553,10 @@ const getArtifactText = (count) => `\n\n📸 **Ти відкрив(ла) мож�
         doorClicks++;
         localStorage.setItem('valky_door_clicks', doorClicks);
 
-        if (doorClicks === 2) {
-            bagBtn.classList.add('visible');
-        }
+        if (doorClicks >= 2) {
+    bagBtn.classList.add('visible');
+}
+
 
         if (achievements && achievements[doorClicks]) {
             showAchievementCard(achievements[doorClicks]);
