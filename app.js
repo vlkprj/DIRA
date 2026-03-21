@@ -385,8 +385,12 @@ function openSubmitOverlay(mode, placeholderText, defaultFont, titleText) {
         hintEl.style.color = mode === 'hole' ? '#ccc' : '#fff';
         hintEl.classList.remove('vanish');
         void hintEl.offsetWidth;
-        setTimeout(() => hintEl.classList.add('vanish'), 3500);
+        
+
+        const readTime = Math.max(3500, (placeholderText || '').length * 70);
+        setTimeout(() => hintEl.classList.add('vanish'), readTime);
     }
+
 
     currentBgColor = '#FAF8F4';
     currentTextColor = '#222221';
