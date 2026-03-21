@@ -437,41 +437,35 @@ body, html {
 
 /*порадьте*/
 .b-advice {
-    --advice-main-color: #4A6CA5; 
-    
-    font-family: 'Fira Sans Extra Condensed', sans-serif;
-    color: var(--advice-main-color) !important;
-    border-color: var(--advice-main-color) !important;
-    transition: all 0.2s ease-in-out;
+    background: #fff;
+    border: 2px solid #4A6CA5;
+    border-radius: 30px;
+    padding: 12px 22px;
     display: inline-flex;
     align-items: center;
-    justify-content: center;
+    gap: 10px;
+    font-family: 'Fira Sans Extra Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    color: #4A6CA5;
+    box-shadow: 0 4px 12px rgba(74,108,165,0.15);
+    transition: background 0.2s, color 0.2s;
+    cursor: pointer;
 }
-
 
 .b-advice .advice-icon {
     font-size: 20px;
-    margin-right: 8px;
-    color: var(--advice-main-color);
-    transition: color 0.2s ease-in-out;
-    
-
-    font-variation-settings:
-      'FILL' 0,
-      'wght' 400,
-      'GRAD' 0,
-      'opsz' 24;
+    transition: color 0.2s;
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
 }
 
-.b-advice:hover, 
 .b-advice:active {
-    background-color: var(--advice-main-color) !important;
-    color: #fff !important;
+    background: #4A6CA5;
+    color: #fff;
 }
 
-.b-advice:hover .advice-icon,
 .b-advice:active .advice-icon {
-    color: #fff !important;
+    color: #fff;
 }
 
 
