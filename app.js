@@ -1647,9 +1647,8 @@ const getArtifactText = (count) => `\n\n📸 **Ти відкрив(ла) мож�
             return;
         }
 
-        const rng = Math.random() * 100;
-        const predictionCooldown = 36;
-
+                const rng = Math.random() * 100;
+        const predictionCooldown = 85; 
         if (rng < 1) {
             const randomArtifact = valkyArtifacts[Math.floor(Math.random() * valkyArtifacts.length)];
             showPredictionPopup(`Знайдено артефакт:<br><br><b>${randomArtifact}</b>`);
@@ -1659,11 +1658,8 @@ const getArtifactText = (count) => `\n\n📸 **Ти відкрив(ла) мож�
                 preview: 'Валківський артефакт',
                 full: `Знайдено: ${randomArtifact}`
             });
+        } else if (rng < 15 && (doorClicks - lastPredictionAt) >= predictionCooldown) {
 
-        } else if (rng < 22 && (doorClicks - lastPredictionAt) >= predictionCooldown) {
-            const predText = getPrediction();
-            showPredictionPopup(`🔮 ${predText}`);
-            
             addToLoot('predictions', {
                 title: '🔮 Передбачення',
                 preview: predText.substring(0, 60) + '...',
@@ -1709,7 +1705,11 @@ const lootKey = 'valky_loot_v1';
 
 function getLoot() {
     try {
-        return JSON.parse(localStorage.getItem(lootKey)) || { achievements: [], predictions: [], artifacts: [] };
+        const data = JSON.parse(localStorage.getItem(lootKey));
+        if (data && Array.isArray(data.achievements) && Array.isArray(data.predictions) && Array.isArray(data.artifacts)) {
+            return data;
+        }
+        return { achievements: [], predictions: [], artifacts: [] };
     } catch {
         return { achievements: [], predictions: [], artifacts: [] };
     }
@@ -1724,6 +1724,11 @@ function addToLoot(type, item) {
     loot[type].push(item);
     saveLoot(loot);
     if (bagBtn) bagBtn.classList.add('has-items');
+}
+
+const initialLoot = getLoot();
+if (bagBtn && (initialLoot.achievements.length || initialLoot.predictions.length || initialLoot.artifacts.length)) {
+    bagBtn.classList.add('has-items');
 }
 
 function renderBagTab(tab) {
