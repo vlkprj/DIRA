@@ -1693,10 +1693,6 @@ const getArtifactText = (count) => `\n\n📸 **Ти відкрив(ла) мож�
 
 
 
-const initialLoot = getLoot();
-if (bagBtn && (initialLoot.achievements.length || initialLoot.predictions.length || initialLoot.artifacts.length)) {
-    bagBtn.classList.add('has-items');
-}
 const bagOverlay = document.getElementById('bag-overlay');
 const bagClose = document.getElementById('bag-close');
 const bagContent = document.getElementById('bag-content');
