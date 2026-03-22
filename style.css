@@ -112,11 +112,13 @@ body, html {
     font-size: 11px;
     font-weight: 800;
     letter-spacing: 0.5px;
-    display: inline-block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 150px;
     cursor: pointer;
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     z-index: 20;
-    white-space: nowrap;
     transition: transform 0.2s, box-shadow 0.2s;
     border: 1px solid #f0f0f0;
 }
@@ -127,9 +129,8 @@ body, html {
 }
 
 
-.link-left { left: 10px; transform: rotate(-4deg); } 
-.link-right { right: 10px; transform: rotate(4deg); } 
-
+.link-left  { left: 10px;  transform: rotate(-4deg) translateY(2px); }
+.link-right { right: 10px; transform: rotate(4deg) translateY(2px); }
 
 /*вступ*/ 
 .tiktok-subtitle {
