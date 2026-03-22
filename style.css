@@ -3506,13 +3506,13 @@ body.submit-open {
 
 
 .b-write-main {
-    background: #FFD541 !important;
-    color: #000 !important;
+    background: #988780 !important;
+    color: #FAFBF5 !important;
     border: none !important;
     box-shadow: 0 4px 15px rgba(0,0,0,0.15) !important;
 }
 .b-write-main .write-icon {
-    color: #000 !important;
+    color: #FAFBF5 !important;
 }
 
 .submit-action-btn, .close-sent-btn {
