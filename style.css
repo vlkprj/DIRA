@@ -1344,7 +1344,17 @@ box-shadow: 0 4px 12px rgba(0,0,0,0.08);
     overflow: hidden;
     touch-action: none;
     overscroll-behavior: none;
+    background-color: #1a1a1a;
 }
+
+.submit-overlay.mailbox-mode {
+    background-color: #1D3561;
+}
+
+.submit-overlay.hole-mode {
+    background-color: #080C0C;
+}
+
 
 .submit-video-bg {
     position: absolute;
@@ -1369,11 +1379,13 @@ box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 .submit-header {
     position: relative;
     z-index: 10;
-    padding: 20px 20px 0 20px;
+    padding: 45px 20px 10px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-shrink: 0;
 }
+
 
 .submit-overlay-title {
     font-family: 'Fira Sans Extra Condensed', sans-serif;
@@ -2642,11 +2654,6 @@ box-shadow: 0 4px 12px rgba(0,0,0,0.08);
     background: #fff;
 }
 
-.photo-overlay .submit-action-btn {
-    background: #1a1a1a;
-    color: #FFDA59;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.2);
-}
 
 .photo-overlay .caps-label {
     color: #555;
@@ -2704,12 +2711,6 @@ box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 
 .atmo-overlay {
     background: #f0ede8;
-}
-
-.atmo-overlay .submit-action-btn {
-    background: #1a1a1a;
-    color: #FFDA59;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.2);
 }
 
 .atmo-overlay .caps-label {
@@ -2864,6 +2865,33 @@ body.submit-open {
     transition: background 0.15s;
     flex-shrink: 0;
 }
+
+/*сабміт оверлей акшн батон фікс для фото-атмо-мем*/ 
+.photo-overlay .submit-action-btn,
+.atmo-overlay .submit-action-btn,
+.preview-edit-btn {
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+}
+
+.preview-edit-btn {
+    padding: 8px 16px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 14px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+}
+
+.preview-edit-btn:active {
+    background: rgba(0, 0, 0, 0.7);
+    transform: scale(0.95);
+}
+
 
 .submit-overlay.mailbox-mode .toolbar-attach-btn {
     color: #444;
