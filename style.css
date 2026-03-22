@@ -3949,6 +3949,39 @@ body.submit-open {
 }
 /*фікси всьо */
 
+
+/* кнопки фікси*/
+.photo-overlay .submit-action-btn,
+.atmo-overlay .submit-action-btn,
+.atmo-preview-screen .preview-edit-btn,
+.photo-preview-screen .preview-edit-btn,
+#atmo-preview-edit-btn,
+#photo-preview-edit-btn {
+    background: rgba(0, 0, 0, 0.5) !important;
+    color: #fff !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    backdrop-filter: blur(4px) !important;
+    -webkit-backdrop-filter: blur(4px) !important;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.2) !important;
+}
+
+/* кнопки фікси ще */
+#atmo-preview-edit-btn,
+#photo-preview-edit-btn {
+    padding: 8px 16px !important;
+    font-family: 'Space Grotesk', sans-serif !important;
+    font-size: 14px !important;
+    border-radius: 20px !important;
+    cursor: pointer !important;
+    transition: background 0.2s, transform 0.1s !important;
+}
+
+#atmo-preview-edit-btn:active,
+#photo-preview-edit-btn:active {
+    background: rgba(0, 0, 0, 0.8) !important;
+    transform: scale(0.95) !important;
+}
+
 /* АНІМАЦІЇ */
 @keyframes pillowSway { 0% { transform: skewX(-4deg) rotate(-4deg); } 100% { transform: skewX(4deg) rotate(4deg); } }
 @keyframes stepLeft { 0% { transform: translateY(0) scaleY(0.9); } 100% { transform: translateY(-12px) scaleY(1.1); } }
