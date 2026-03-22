@@ -1788,4 +1788,31 @@ if (bagOverlay) {
 }
 //рюкзак всьо//
 
+//  Модалка Правил //
+const rulesModal = document.getElementById('rules-modal');
+const closeRulesBtn = document.getElementById('close-rules-btn');
+const openRulesBtns = document.querySelectorAll('.open-rules-btn');
+
+if (rulesModal && closeRulesBtn) {
+    
+    openRulesBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            rulesModal.style.display = 'flex';
+        });
+    });
+
+  
+    closeRulesBtn.addEventListener('click', () => {
+        rulesModal.style.display = 'none';
+    });
+
+    
+    rulesModal.addEventListener('click', (e) => {
+        if (e.target === rulesModal) {
+            rulesModal.style.display = 'none';
+        }
+    });
+}
+
+
 });
