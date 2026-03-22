@@ -3927,6 +3927,96 @@ body.submit-open {
     transition: background 0.3s ease;
 }
 
+/* модалка з правилами */
+.rules-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    z-index: 9999;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.rules-modal-box {
+    background: #FAFAF5;
+    border-radius: 24px;
+    width: 100%;
+    max-width: 320px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    transform: translateY(20px);
+    animation: modalPop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+
+.rules-modal-title {
+    font-family: 'Fira Sans Extra Condensed', sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    text-align: center;
+    color: #1a1a1a;
+}
+
+.rules-modal-content {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    color: #444;
+    line-height: 1.5;
+    text-align: center;
+    min-height: 80px;
+}
+
+.rules-modal-close {
+    background: #1a1a1a;
+    color: #FFDA59;
+    border: none;
+    padding: 12px;
+    border-radius: 16px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.1s;
+}
+
+.rules-modal-close:active {
+    transform: scale(0.95);
+}
+
+/* Кнопка виклику в anon-block */
+.open-rules-btn {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-left: auto;
+    color: #888;
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    cursor: pointer;
+    padding: 6px 8px;
+    border-radius: 8px;
+    transition: background 0.2s, color 0.2s;
+}
+
+.open-rules-btn:active {
+    background: rgba(128,128,128,0.2);
+    color: #555;
+}
+
+
+
 /*пару фіксів*/ 
 .submit-content, .atmo-content, .photo-content, .caps-content {
     padding-bottom: 140px !important; 
@@ -4196,6 +4286,10 @@ body.submit-open {
     10% { transform: translateX(-50%) scale(0.95); filter: contrast(10) brightness(0) drop-shadow(0 0 10px rgba(0,0,0,0.5)); }
     90% { transform: translateX(-50%) scale(0.95); filter: contrast(10) brightness(0) drop-shadow(0 0 10px rgba(0,0,0,0.5)); }
     100% { transform: translateX(-50%) scale(1); filter: contrast(1) brightness(1); }
+}
+
+@keyframes modalPop {
+    to { transform: translateY(0); }
 }
 
 
