@@ -4077,6 +4077,37 @@ body.submit-open {
     transform: scale(0.95);
 }
 
+/*хеппі бьоздей*/
+.festive-birthday-card {
+    background: #FAF8F4 !important; 
+    border: 3px solid #FFDA59; 
+    position: relative;
+    overflow: hidden;
+}
+
+
+.festive-birthday-card::before {
+    content: "✨ 🎂 🎈 🎁 🎉 ✨ 🎂 🎈 🎁 🎉 ✨ 🎂 🎈 🎁 🎉 ✨ 🎂 🎈 🎁 🎉 ✨ 🎂 🎈 🎁 🎉";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    font-size: 32px;
+    letter-spacing: 15px;
+    opacity: 0.08; 
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    justify-content: center;
+    line-height: 1.8;
+    pointer-events: none;
+    z-index: 0;
+}
+
+
+.festive-birthday-card > * {
+    position: relative;
+    z-index: 1; 
+}
+
 
 
 /*пару фіксів*/ 
