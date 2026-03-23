@@ -611,8 +611,7 @@ bgColorDots.forEach(dot => {
     });
 });
 
-// Генератор карточок
-function generateValkyCardsHTML(rawHTML, photosArr, bgColor, textColor, font, authorName) {
+function generateValkyCardsHTML(rawHTML, photosArr, bgColor, textColor, font, authorName, extraClass = '') {
     let html = '';
     const safeFont = font.replace(/"/g, "'"); 
     
@@ -675,7 +674,7 @@ function generateValkyCardsHTML(rawHTML, photosArr, bgColor, textColor, font, au
         const finalContent = useHTML ? chunk : chunk.replace(/\n/g, '<br>');
 
         html += `
-            <div class="valky-card" style="background:${bgColor}; color:${textColor}; font-family:${safeFont} !important;">
+            <div class="valky-card ${extraClass}" style="background:${bgColor}; color:${textColor}; font-family:${safeFont} !important;">
                 ${showHeader}
                 <div class="valky-card-body ${fontClass}" style="font-family:${safeFont} !important; text-align:${align};">${finalContent}</div>
                 ${showArrow}
@@ -683,6 +682,7 @@ function generateValkyCardsHTML(rawHTML, photosArr, bgColor, textColor, font, au
             </div>
         `;
     });
+
 
     photosArr.slice(0, 5).forEach(src => {
         html += `
@@ -737,7 +737,14 @@ if (submitActionBtn) {
         const tc = currentTextColor || (isHole ? '#e0e0e0' : '#1a1a1a');
         const font = submitEditor.style.fontFamily || 'Inter, sans-serif';
 
-        previewPostCard.innerHTML = generateValkyCardsHTML(rawText, photosArr, bg, tc, font, nameVal);
+        
+        const innerTitle = document.querySelector('.caps-label.dynamic-title');
+        const isBirthday = innerTitle && innerTitle.innerText === 'ПРИВІТАТИ З ДНЕМ НАРОДЖЕННЯ';
+        const extraClass = isBirthday ? 'festive-birthday-card' : '';
+
+      
+        previewPostCard.innerHTML = generateValkyCardsHTML(rawText, photosArr, bg, tc, font, nameVal, extraClass);
+
         if (previewMetaLine) previewMetaLine.style.display = 'none';
         const swipeHint = document.getElementById('preview-swipe-hint');
 if (swipeHint) {
