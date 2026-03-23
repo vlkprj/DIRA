@@ -1813,6 +1813,48 @@ if (rulesModal && closeRulesBtn) {
         }
     });
 }
+setInterval(() => {
+    const mainBtn = document.getElementById('submit-action-btn');
+    const mainEditor = document.getElementById('submit-editor');
+    const attachPreview = document.getElementById('attach-preview-inline');
+    
+    if (mainBtn && mainEditor) {
+        const hasText = mainEditor.innerText.trim().length > 0;
+        const hasAttach = attachPreview && attachPreview.innerHTML.trim() !== '';
+        const isValid = hasText || hasAttach;
+        
+        mainBtn.style.opacity = isValid ? '1' : '0.4';
+        mainBtn.style.pointerEvents = isValid ? 'auto' : 'none';
+    }
+
+    const capsBtn = document.getElementById('caps-action-btn');
+    const capsEditor = document.getElementById('caps-editor');
+    if (capsBtn && capsEditor) {
+        const isValid = capsEditor.value.trim().length > 0;
+        capsBtn.style.opacity = isValid ? '1' : '0.4';
+        capsBtn.style.pointerEvents = isValid ? 'auto' : 'none';
+    }
+
+    const photoBtn = document.getElementById('photo-action-btn');
+    const photoImg = document.getElementById('photo-preview-img');
+    if (photoBtn && photoImg) {
+        const isValid = photoImg.style.display !== 'none' && photoImg.src !== '';
+        photoBtn.style.opacity = isValid ? '1' : '0.4';
+        photoBtn.style.pointerEvents = isValid ? 'auto' : 'none';
+    }
+
+    const atmoBtn = document.getElementById('atmo-action-btn');
+    const atmoStage = document.getElementById('atmo-stage');
+    if (atmoBtn && atmoStage) {
+        const imgs = atmoStage.querySelectorAll('.atmo-slot-img');
+        let isValid = false;
+        imgs.forEach(img => {
+            if (img.src && !img.src.endsWith('null') && img.src !== '') isValid = true;
+        });
+        atmoBtn.style.opacity = isValid ? '1' : '0.4';
+        atmoBtn.style.pointerEvents = isValid ? 'auto' : 'none';
+    }
+}, 300);
 
 
 });
