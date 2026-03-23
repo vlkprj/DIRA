@@ -4104,9 +4104,13 @@ body.submit-open {
 }
 
 .festive-birthday-card > * {
-    position: relative;
     z-index: 1;
 }
+
+.festive-birthday-card > *:not(.valky-card-author) {
+    position: relative;
+}
+
 
 
 
