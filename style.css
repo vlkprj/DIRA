@@ -718,7 +718,7 @@ body, html {
     background: linear-gradient(135deg, #FFDA59 0%, #FF9A9E 100%);
     color: #1a1a1a;
     border-radius: 20px;
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: 'Fira Sans', sans-serif;
     display: flex;
     flex-direction: column;
     justify-content: center;
