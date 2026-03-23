@@ -460,32 +460,49 @@
     Щоб потім не було питань, прочитайте <span class="open-rules-btn">правила</span>
 </div> 
 
-<button class="submit-action-btn" id="photo-action-btn">ВІДПРАВИТИ</button>
-</div> 
+        <button class="submit-action-btn" id="photo-action-btn">ВІДПРАВИТИ</button>
+    </div> <div class="submit-preview-screen" id="photo-preview-screen">
+        <div class="preview-header">
+            <span class="preview-label">ПОПЕРЕДНІЙ ПЕРЕГЛЯД</span>
+            <button class="preview-edit-btn" id="photo-preview-edit-btn">← Редагувати</button>
+        </div>
+        <div class="preview-post-card photo-preview-card" id="photo-preview-card"></div>
+        <div class="preview-meta-line" id="photo-preview-meta-line"></div>
+        <button class="submit-action-btn" id="photo-preview-send-btn">ВІДПРАВИТИ</button>
+    </div>
 
-<div class="submit-overlay caps-overlay" id="caps-overlay">
-        <video class="submit-video-bg" id="caps-video" playsinline muted preload="auto"></video>
+    <div class="submit-sent-screen" id="photo-sent-screen">
+        <div class="sent-text">✅ ВІДПРАВЛЕНО У ВАЛКІВСЬКУ ПРИЙМАЛЬНЮ</div>
+        <div class="sent-sub">Очікуйте вашу публікацію на <a href="https://t.me/valkyoperatyvno" target="_blank" class="sent-link">каналі</a></div>
+        <button class="close-sent-btn" id="close-photo-sent">Закрити</button>
+    </div>
+</div> <div class="submit-overlay caps-overlay" id="caps-overlay">
+    <video class="submit-video-bg" id="caps-video" playsinline muted preload="auto"></video>
     <div class="submit-header">
-    <span class="submit-overlay-title">НАПИСАТИ КАПСОМ</span>
-    <span class="material-symbols-outlined close-submit" id="close-caps">close</span>
-</div>
+        <span class="submit-overlay-title">НАПИСАТИ КАПСОМ</span>
+        <span class="material-symbols-outlined close-submit" id="close-caps">close</span>
+    </div>
 
     <div class="submit-content" id="caps-content">
         <textarea class="caps-editor" id="caps-editor" placeholder="ПИШИ СЮДИ..."></textarea>
-        <!--анон блок--> 
-                   <div class="anon-block">
+        
+        <div class="anon-block">
             <div class="anon-badge">
                 <span class="material-symbols-outlined">domino_mask</span>
                 Анонімно
             </div>
             <div class="anon-divider"></div>
             <input class="anon-name-input-field anon-name-field" type="text" placeholder="Нікнейм (Необовʼязково)">
-        </div> <div class="rules-disclaimer">
+        </div> 
+
+        <div class="rules-disclaimer">
             Щоб потім не було питань, прочитайте <span class="open-rules-btn">правила</span>
-        </div> <button class="submit-action-btn" id="submit-action-btn">ГОТОВО</button>
+        </div> 
+        
+        <button class="submit-action-btn" id="caps-action-btn">ГОТОВО</button>
+    </div> 
 
-    </div> <div class="submit-preview-screen" id="submit-preview-screen">
-
+    <div class="submit-preview-screen" id="caps-preview-screen">
         <div class="preview-header">
             <span class="preview-label">ПОПЕРЕДНІЙ ПЕРЕГЛЯД</span>
             <button class="preview-edit-btn" id="caps-preview-edit-btn">← Редагувати</button>
