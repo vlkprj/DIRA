@@ -322,7 +322,9 @@ const buttonTitles = {
     '.rumors-container': 'ЧУТКИ',
     '.b-problem': 'ОТАКА ПРОБЛЕМА',
     '.b-advice': 'ПОТРІБНА ПОРАДА'
+    '.b-birthday': 'ПРИВІТАТИ З ДНЕМ НАРОДЖЕННЯ'
 };
+
 
 
 function openSubmitOverlay(mode, placeholderText, defaultFont, titleText) {
@@ -444,15 +446,15 @@ function closeSubmitOverlay() {
 
 
 
-const mailboxButtons = ['.b-story', '.b-serious', '.b-petition', '.b-complain', '.b-zbir', '.b-idea', '.side-tag', '.b-write-main', '.b-thank', '.b-advice'];
+const mailboxButtons = ['.b-story', '.b-serious', '.b-petition', '.b-complain', '.b-birthday', '.b-zbir', '.b-idea', '.side-tag', '.b-write-main', '.b-thank', '.b-advice'];
 const holeButtons = ['.b-unpopular', '.b-shopopalo', '.b-admins', '.rumors-container', '.b-problem'];
 
 
 const buttonPlaceholders = {
     '.b-write-main': 'Ну пишіть',
     '.b-story': 'Розказуйте',
-    '.b-serious': 'Пишіть щось, ну тільки ж серйозне',
-    '.b-petition': 'Це ж неофіційне звернення, ви ж розумієте? Але вони побачать, не сумнівайтеся 👀',
+    '.b-serious': 'Пишіть щось, ну тільки ж серйозне(о)',
+    '.b-petition': 'Це ж неофіційне звернення, ви ж розумієте? Але ВОНИ побачать, не сумнівайтеся 👀',
     '.b-complain': 'Шо там вже сталося? Розказуйте-показуйте. Матюкатись можна.',
     '.b-zbir': 'Додайте будь ласка всю важливу інформацію, офіційний (якщо є) запит, контакти і посилання, а також текст збору. Ми перевіримо і обовʼязково опублікуємо',
     '.b-idea': 'Цікаво-цікаво. Розказуйте',
@@ -460,9 +462,10 @@ const buttonPlaceholders = {
     '.b-unpopular': 'Ага, тобто хочете срач розпочати?',
     '.b-shopopalo': 'Пишіть своє шопопало, але майте на увазі, що якщо шопопалість вашого шопопала буде занадто, ми не гарантуємо, що опублікуємо це на каналі',
     '.b-admins': 'Ну пишіть вже...',
-    '.rumors-container': 'Ну розказуйте шо чули, шо бачили. Чи ви запитати?',
+    '.rumors-container': 'Ну розказуйте шо чули, шо бачили. Чи ви просто запитати?',
     '.b-problem': 'Розказуйте-показуйте. Де, шо і коли',
-    '.b-advice': 'Можливо вам підкажуть щось'
+    '.b-advice': 'Можливо вам підкажуть щось',
+    '.b-birthday': 'Напишіть своє привітання, побажання. Можна додати картинку'
 };
 
 
@@ -480,6 +483,7 @@ const buttonFonts = {
     '.b-zbir': 'Space Grotesk',
     '.b-idea': 'Oswald',
     '.b-shopopalo': 'Balsamiq Sans',
+    '.b-birthday': 'Bad Script',
     '.b-admins': 'Fira Sans Extra Condensed',
     '.b-advice': 'Fira Sans Extra Condensed'
 };
@@ -1219,111 +1223,6 @@ if (photoPreviewSendBtn) {
         }
     });
 }
-
-// Капс //
-const capsOverlay = document.getElementById('caps-overlay');
-const closeCapsBtn = document.getElementById('close-caps');
-const capsActionBtn = document.getElementById('caps-action-btn');
-const capsEditor = document.getElementById('caps-editor');
-const capsSentScreen = document.getElementById('caps-sent-screen');
-const closeCapsSet = document.getElementById('close-caps-sent');
-const capsContent = document.getElementById('caps-content');
-
-function openCapsOverlay() {
-    lastScrollY = window.scrollY;
-    capsOverlay.style.display = 'flex';
-    capsContent.style.display = 'flex';
-    capsSentScreen.style.display = 'none';
-    capsEditor.value = '';
-    document.body.classList.add('submit-open');
-    capsEditor.focus();
-}
-
-function closeCapsOverlay() {
-    capsOverlay.style.display = 'none';
-    capsEditor.value = '';
-    document.body.classList.remove('submit-open');
-    window.scrollTo({ top: lastScrollY, behavior: 'instant' });
-}
-
-const capsBtn = document.querySelector('.b-capslock');
-if (capsBtn) capsBtn.addEventListener('click', openCapsOverlay);
-
-if (closeCapsBtn) closeCapsBtn.addEventListener('click', closeCapsOverlay);
-if (closeCapsSet) closeCapsSet.addEventListener('click', closeCapsOverlay);
-
-if (capsEditor) {
-    capsEditor.addEventListener('input', () => {
-        const pos = capsEditor.selectionStart;
-        capsEditor.value = capsEditor.value.toUpperCase();
-        capsEditor.setSelectionRange(pos, pos);
-    });
-    capsEditor.addEventListener('keypress', (e) => {
-        if (e.key.length === 1) {
-            e.preventDefault();
-            const pos = capsEditor.selectionStart;
-            const val = capsEditor.value;
-            capsEditor.value = val.substring(0, pos) + e.key.toUpperCase() + val.substring(pos);
-            capsEditor.setSelectionRange(pos + 1, pos + 1);
-        }
-    });
-}
-
-const capsPreviewScreen = document.getElementById('caps-preview-screen');
-const capsPreviewCard = document.getElementById('caps-preview-card');
-const capsPreviewMetaLine = document.getElementById('caps-preview-meta-line');
-const capsPreviewEditBtn = document.getElementById('caps-preview-edit-btn');
-const capsPreviewSendBtn = document.getElementById('caps-preview-send-btn');
-
-if (capsActionBtn) {
-    capsActionBtn.addEventListener('click', () => {
-        const nameVal = getActiveNickname('caps-content');
-        const rawText = capsEditor.value || ''; 
-        
-        capsPreviewCard.innerHTML = generateValkyCardsHTML(rawText, [], '#e8e8e8', '#333', "'Space Grotesk', sans-serif", nameVal);
-        if (capsPreviewMetaLine) capsPreviewMetaLine.style.display = 'none';
-        
-        capsContent.style.display = 'none';
-        capsPreviewScreen.style.display = 'flex';
-    });
-}
-
-if (capsPreviewEditBtn) {
-    capsPreviewEditBtn.addEventListener('click', () => {
-        capsPreviewScreen.style.display = 'none';
-        capsContent.style.display = 'flex';
-    });
-}
-
-const capsVideo = document.getElementById('caps-video');
-
-if (capsVideo) {
-    capsVideo.src = 'blackhole.mp4';
-    capsVideo.load();
-}
-
-if (capsPreviewSendBtn) {
-    capsPreviewSendBtn.addEventListener('click', () => {
-        capsPreviewScreen.style.display = 'none';
-        if (capsVideo) {
-            capsVideo.currentTime = 0;
-            capsVideo.style.display = 'block';
-            capsVideo.play();
-            const showCapsSent = () => {
-                capsVideo.style.display = 'none';
-                capsSentScreen.style.display = 'flex';
-            };
-            capsVideo.onended = showCapsSent;
-            setTimeout(() => {
-                if (capsSentScreen.style.display !== 'flex') showCapsSent();
-            }, 8000);
-        } else {
-            capsSentScreen.style.display = 'flex';
-        }
-    });
-}
-
-
 
 
     function showAchievementCard(text) {
