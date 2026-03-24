@@ -1545,9 +1545,8 @@ box-shadow: 0 4px 12px rgba(0,0,0,0.08);
     width: 100%;
     overflow-y: auto; 
     -webkit-overflow-scrolling: touch; 
-    -webkit-mask-image: linear-gradient(to bottom, transparent 0px, black 25px, black 100%);
-    mask-image: linear-gradient(to bottom, transparent 0px, black 25px, black 100%);
-
+     -webkit-mask-image: linear-gradient(to bottom, transparent 0px, black 8px, black 100%);
+    mask-image: linear-gradient(to bottom, transparent 0px, black 8px, black 100%);
 }
 
 
@@ -1642,6 +1641,19 @@ div#atmo-content div.editor-colors-row {
     outline: none;
     max-width: 80px;
 }
+
+#atmo-colors-bar {
+    background: #fff !important;
+    border: 1px solid rgba(0,0,0,0.12) !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05) !important;
+    border-radius: 20px !important;
+    margin: 0 auto 20px auto !important;
+    display: inline-flex !important;
+    width: max-content !important;
+    justify-content: center !important;
+    align-self: center !important;
+}
+
 
 .submit-overlay.mailbox-mode .toolbar-select {
     color: #444;
