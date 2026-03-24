@@ -1543,7 +1543,15 @@ box-shadow: 0 4px 12px rgba(0,0,0,0.08);
     max-width: 500px;
     margin: 0 auto;
     width: 100%;
+    overflow-y: auto; 
+    -webkit-overflow-scrolling: touch; 
 }
+
+
+.submit-content > * {
+    flex-shrink: 0;
+}
+
 
 .submit-toolbar {
     display: flex;
@@ -3599,7 +3607,6 @@ body.submit-open {
 
 .submit-content {
     justify-content: flex-start !important;
-    padding-top: 15vh !important;
 }
 
 .submit-editor {
