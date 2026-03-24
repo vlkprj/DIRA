@@ -957,12 +957,30 @@ body, html {
 
 /*дисклеймер все*/
 
-.submit-overlay.mailbox-mode .rules-disclaimer .open-rules-btn {
-    color: #444;
+.submit-overlay.mailbox-mode .rules-disclaimer {
+    color: #fff;
 }
+
+.submit-overlay.mailbox-mode .rules-disclaimer .open-rules-btn {
+    color: #fff;
+}
+
+.submit-overlay.mailbox-mode .rules-disclaimer .open-rules-btn:active {
+    color: #ccc;
+}
+
+.submit-overlay.hole-mode .rules-disclaimer {
+    color: #aaa;
+}
+
 .submit-overlay.hole-mode .rules-disclaimer .open-rules-btn {
     color: #aaa;
 }
+
+.submit-overlay.hole-mode .rules-disclaimer .open-rules-btn:active {
+    color: #888;
+}
+
 
 /*дихальні вправи */ 
 .silence-overlay {
