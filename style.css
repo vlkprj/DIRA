@@ -1548,9 +1548,23 @@ box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
 
-.submit-content > * {
+.submit-editor-wrap,
+.atmo-stage {
     flex-shrink: 0;
 }
+
+#atmo-content .editor-colors-row {
+    background: #fff !important;
+    border: 1px solid rgba(0,0,0,0.12) !important;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.08) !important;
+    border-radius: 16px !important;
+    margin-top: 0 !important;
+    margin-bottom: 15px !important;
+    width: 100% !important;
+    max-width: 400px !important;
+    box-sizing: border-box !important;
+}
+
 
 
 .submit-toolbar {
@@ -3900,15 +3914,18 @@ body.submit-open {
     padding-bottom: 20px !important;
 }
 .submit-action-btn {
-    margin-top: 25px !important;
-    margin-bottom: 20px !important;
+    position: sticky !important;
+    bottom: 20px !important;
     z-index: 100;
+    margin-top: auto;
 }
 
-
-
-
-
+.submit-content .submit-action-btn {
+    position: relative !important;
+    bottom: auto !important;
+    margin-top: 20px !important;
+    margin-bottom: 20px !important;
+}
 
 .preview-label, .preview-edit-btn, .atmo-overlay-title, .photo-overlay-title {
     color: #fff !important;
