@@ -746,11 +746,27 @@ if (submitActionBtn) {
         previewPostCard.innerHTML = generateValkyCardsHTML(rawText, photosArr, bg, tc, font, nameVal, extraClass);
 
         if (previewMetaLine) previewMetaLine.style.display = 'none';
-        const swipeHint = document.getElementById('preview-swipe-hint');
+       const swipeHint = document.getElementById('preview-swipe-hint');
 if (swipeHint) {
     const cardCount = previewPostCard.querySelectorAll('.valky-card').length;
-    swipeHint.innerText = cardCount > 1 ? `${cardCount} картки · свайп →` : '';
+    if (cardCount > 1) {
+        swipeHint.innerHTML = `
+            <div class="preview-nav-controls">
+                <button class="nav-arrow-btn left-btn"><span class="material-symbols-outlined">chevron_left</span></button>
+                <button class="nav-arrow-btn right-btn"><span class="material-symbols-outlined">chevron_right</span></button>
+            </div>
+        `;
+        swipeHint.querySelector('.left-btn').addEventListener('click', () => {
+            previewPostCard.scrollBy({ left: -previewPostCard.clientWidth, behavior: 'smooth' });
+        });
+        swipeHint.querySelector('.right-btn').addEventListener('click', () => {
+            previewPostCard.scrollBy({ left: previewPostCard.clientWidth, behavior: 'smooth' });
+        });
+    } else {
+        swipeHint.innerHTML = '';
+    }
 }
+
 
         submitContent.style.display = 'none';
         submitPreviewScreen.style.display = 'flex';
