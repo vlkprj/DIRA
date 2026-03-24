@@ -423,10 +423,14 @@ submitEditor.addEventListener('input', () => {
     const cardHint = document.getElementById('card-count-hint');
     if (cardHint) {
         const cardCount = Math.ceil(len / 350) || 1;
-        cardHint.innerText = cardCount > 1 ? `📄 ${cardCount} картки — свайп →` : '';
-        cardHint.style.color = '#fff';
+        if (cardCount > 1) {
+            cardHint.innerHTML = `<div style="display:inline-flex; align-items:center; gap:6px; background:rgba(255,255,255,0.25); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); padding:6px 16px; border-radius:20px; font-size:13px; font-family:'Inter',sans-serif; color:#fff; font-weight:600; box-shadow:0 4px 15px rgba(0,0,0,0.1); border:1px solid rgba(255,255,255,0.1);"><span class="material-symbols-outlined" style="font-size:18px;">auto_awesome_mosaic</span> Розділено на ${cardCount} картки</div>`;
+        } else {
+            cardHint.innerHTML = '';
+        }
     }
 });
+
 
 
 
