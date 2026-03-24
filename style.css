@@ -1556,12 +1556,16 @@ box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 #atmo-content .editor-colors-row {
     background: #fff !important;
     border: 1px solid rgba(0,0,0,0.12) !important;
+    border-top: 1px solid rgba(0,0,0,0.12) !important;
     box-shadow: 0 4px 24px rgba(0,0,0,0.08) !important;
     border-radius: 16px !important;
     margin: 0 auto 15px auto !important;
-    width: fit-content !important;
+    width: max-content !important;
+    max-width: 100% !important;
+    justify-content: center !important;
     box-sizing: border-box !important;
 }
+
 
 
 
@@ -4208,8 +4212,9 @@ body.submit-open {
 
 /*пару фіксів*/ 
 .submit-content, .atmo-content, .photo-content, .caps-content {
-    padding-bottom: 140px !important; 
+    padding-bottom: 30px !important; 
 }
+
 
 
 .close-submit, #close-atmo, #close-photo, #close-caps {
