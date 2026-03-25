@@ -438,15 +438,36 @@ function closeSubmitOverlay() {
     submitOverlay.style.display = 'none';
     submitOverlay.className = 'submit-overlay';
     submitEditor.innerHTML = '';
+    
     const inlinePreview = document.getElementById('attach-preview-inline');
     if (inlinePreview) inlinePreview.innerHTML = '';
+    
     submitVideo.pause();
     submitVideo.src = '';
     submitVideo.style.display = 'block';
+    
     clearTimeout(finishSendTimeout);
     document.body.classList.remove('submit-open');
     window.scrollTo({ top: lastScrollY, behavior: 'instant' });
+
+    const atmoPreviewScreen = document.getElementById('atmo-preview-screen');
+    const atmoContent = document.getElementById('atmo-content');
+    const atmoSentScreen = document.getElementById('atmo-sent-screen');
+
+    if (atmoPreviewScreen) atmoPreviewScreen.style.display = 'none';
+    if (atmoContent) atmoContent.style.display = 'flex';
+    if (atmoSentScreen) atmoSentScreen.style.display = 'none';
+
+    const atmoImgs = document.querySelectorAll('.atmo-slot-img-fill');
+    atmoImgs.forEach(img => {
+        img.src = '';
+        img.style.display = 'none';
+    });
+
+    const atmoCaps = document.querySelectorAll('.atmo-polaroid-caption');
+    atmoCaps.forEach(cap => cap.value = '');
 }
+
 
 
 
