@@ -3170,10 +3170,43 @@ body.submit-open {
     transform: scale(0.9);
 }
 
+.submit-editor-wrap {
+    overflow: visible !important;
+}
+
+.color-picker-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.colors-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    color: #888;
+    white-space: nowrap;
+}
+
+.main-color-btn {
+    display: block;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: transform 0.15s ease;
+    flex-shrink: 0;
+}
+
+.main-color-btn:active {
+    transform: scale(0.9);
+}
+
 .color-popover {
     position: absolute;
-    bottom: 100%;
-    margin-bottom: 12px;
+    top: 36px;
     left: 50%;
     transform: translateX(-50%) scale(0.9);
     background: #ffffff;
@@ -3185,7 +3218,7 @@ body.submit-open {
     gap: 8px;
     box-shadow: 0 8px 25px rgba(0,0,0,0.15);
     opacity: 0;
-    visibility: hidden;
+    pointer-events: none;
     transition: all 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     width: max-content;
     z-index: 99999;
@@ -3193,10 +3226,9 @@ body.submit-open {
 
 .color-popover.show {
     opacity: 1;
-    visibility: visible;
+    pointer-events: auto;
     transform: translateX(-50%) scale(1);
 }
-
 
 .submit-overlay.hole-mode .color-popover {
     background: #1a1a1a;
@@ -3220,7 +3252,6 @@ body.submit-open {
     transform: scale(0.9);
 }
 
-
 .inline-done-btn {
     background: #1a1a1a;
     color: #ffffff;
@@ -3238,6 +3269,8 @@ body.submit-open {
     transition: transform 0.15s ease, opacity 0.2s, background 0.2s, color 0.2s;
     opacity: 0;
     pointer-events: none;
+    flex-shrink: 0;
+    white-space: nowrap;
 }
 
 .submit-overlay.hole-mode .inline-done-btn {
@@ -3262,7 +3295,6 @@ body.submit-open {
 .inline-done-btn:active:not(:disabled) {
     transform: scale(0.95);
 }
-
 
 
 
