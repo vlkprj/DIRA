@@ -888,6 +888,8 @@ function buildAtmoSlot(isPolaroid, captionEnabled) {
     const img = document.createElement('img');
     img.className = 'atmo-slot-img-fill';
     img.style.display = 'none';
+    img.style.objectFit = 'cover';
+    img.style.objectPosition = '50% 50%';
     
     const input = document.createElement('input');
     input.type = 'file';
@@ -907,8 +909,43 @@ function buildAtmoSlot(isPolaroid, captionEnabled) {
         slot.appendChild(cap);
     }
     
+    let isDragging = false;
+    let startX, startY, startPosX, startPosY;
+
+    img.addEventListener('touchstart', (e) => {
+        if (e.touches.length > 1) return;
+        isDragging = false;
+        startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
+        const pos = img.style.objectPosition.split(' ');
+        startPosX = parseFloat(pos[0]) || 50;
+        startPosY = parseFloat(pos[1]) || 50;
+    }, { passive: true });
+
+    img.addEventListener('touchmove', (e) => {
+        if (e.touches.length > 1) return;
+        const dx = e.touches[0].clientX - startX;
+        const dy = e.touches[0].clientY - startY;
+
+        if (Math.abs(dx) > 5 || Math.abs(dy) > 5) {
+            isDragging = true;
+            e.preventDefault();
+            const percentX = (dx / img.offsetWidth) * 100;
+            const percentY = (dy / img.offsetHeight) * 100;
+            
+            let newX = startPosX - (percentX * 1.5);
+            let newY = startPosY - (percentY * 1.5);
+            
+            newX = Math.max(0, Math.min(100, newX));
+            newY = Math.max(0, Math.min(100, newY));
+            
+            img.style.objectPosition = `${newX}% ${newY}%`;
+        }
+    }, { passive: false });
+    
     slot.addEventListener('click', (e) => {
         if (e.target.tagName === 'INPUT' && e.target.type === 'text') return;
+        if (isDragging) return;
         input.click();
     });
     
@@ -919,6 +956,7 @@ function buildAtmoSlot(isPolaroid, captionEnabled) {
         reader.onload = (ev) => {
             img.src = ev.target.result;
             img.style.display = 'block';
+            img.style.objectPosition = '50% 50%';
             inner.style.display = 'none';
         };
         reader.readAsDataURL(file);
@@ -926,6 +964,7 @@ function buildAtmoSlot(isPolaroid, captionEnabled) {
     
     return slot;
 }
+
 
 function renderAtmoStage(layout) {
     if (!atmoStage) return;
@@ -994,7 +1033,8 @@ if (atmoActionBtn) {
                 photosData.push({
                     src: img.src,
                     caption: cap && cap.value ? cap.value.trim() : '',
-                    isPolaroid: slot.classList.contains('atmo-polaroid-slot')
+                    isPolaroid: slot.classList.contains('atmo-polaroid-slot'),
+                    objPos: img.style.objectPosition || '50% 50%'
                 });
             }
         });
@@ -1003,7 +1043,7 @@ if (atmoActionBtn) {
         let html = '';
         
         const headerHTML = `
-            <div class="valky-card-header-pill" style="transform: scale(0.6); margin-bottom: 5px; margin-top: -15px;">
+            <div class="valky-card-header-pill" style="transform: scale(0.85); margin-bottom: 14px; margin-top: -8px;">
                 <img src="anonface.PNG" alt="Анонім">
                 <span class="pill-yellow">ВАЛКІВСЬКА</span>
                 <span class="pill-white">ПРИЙМАЛЬНЯ</span>
@@ -1023,7 +1063,7 @@ if (atmoActionBtn) {
                 photosData.forEach(p => {
                     html += `
                         <div style="background: #fff; padding: 6px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); border-radius: 2px;">
-                            <img src="${p.src}" style="width: 100%; aspect-ratio: 1/1; object-fit: cover; border: 1px solid #eee; display: block;">
+                            <img src="${p.src}" style="width: 100%; aspect-ratio: 1/1; object-fit: cover; object-position: ${p.objPos}; border: 1px solid #eee; display: block;">
                         </div>
                     `;
                 });
@@ -1041,7 +1081,7 @@ if (atmoActionBtn) {
 
                     html += `
                         <div style="position: absolute; left: ${left}; right: ${right}; top: ${top}; z-index: ${zIndex}; background: #fff; padding: 10px 10px 15px 10px; box-shadow: ${shadow}; border-radius: 2px; display: flex; flex-direction: column; width: ${width}; transform: rotate(${rotate});">
-                            <img src="${p.src}" style="width: 100%; aspect-ratio: 1/1; object-fit: cover; border: 1px solid #eee;">
+                            <img src="${p.src}" style="width: 100%; aspect-ratio: 1/1; object-fit: cover; object-position: ${p.objPos}; border: 1px solid #eee;">
                             <div style="flex: 1; display: flex; align-items: center; justify-content: center; min-height: 35px; padding-top: 5px;">
                                 ${p.caption ? `<div style="font-family: 'Caveat', cursive; font-size: 16px; color: #111; text-align: center; line-height: 1;">${p.caption}</div>` : ''}
                             </div>
@@ -1058,7 +1098,7 @@ if (atmoActionBtn) {
 
                 html += `
                     <div style="background: #fff; padding: 10px 10px ${pb} 10px; box-shadow: 0 6px 15px rgba(0,0,0,0.15); border-radius: 2px; display: flex; flex-direction: column; width: ${w};">
-                        <img src="${p.src}" style="width: 100%; aspect-ratio: 1/1; object-fit: cover; border: 1px solid #eee; display: block;">
+                        <img src="${p.src}" style="width: 100%; aspect-ratio: 1/1; object-fit: cover; object-position: ${p.objPos}; border: 1px solid #eee; display: block;">
                         ${!isSquare ? `
                         <div style="display: flex; align-items: center; justify-content: center; min-height: ${minH}; padding-top: 8px;">
                             ${p.caption ? `<div style="font-family: 'Caveat', cursive; font-size: 22px; color: #111; text-align: center; line-height: 1;">${p.caption}</div>` : ''}
@@ -1077,7 +1117,7 @@ if (atmoActionBtn) {
             html += `<div class="valky-card" style="background:${currentAtmoBg};"><div style="color:${textColor}; margin: auto;">Пусто</div></div>`;
         }
 
-                atmoPreviewCard.innerHTML = html;
+        atmoPreviewCard.innerHTML = html;
         if (atmoPreviewMetaLine) atmoPreviewMetaLine.style.display = 'none';
         
         atmoContent.style.display = 'none';
@@ -1087,6 +1127,7 @@ if (atmoActionBtn) {
         if (atmoHeader) atmoHeader.style.display = 'none';
     });
 }
+
 
 if (atmoPreviewEditBtn) {
     atmoPreviewEditBtn.addEventListener('click', () => {
