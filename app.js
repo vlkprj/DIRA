@@ -964,6 +964,7 @@ if (atmoActionBtn) {
         slots.forEach(slot => {
             const img = slot.querySelector('.atmo-slot-img-fill');
             const cap = slot.querySelector('.atmo-polaroid-caption');
+         
             if (img && img.style.display !== 'none' && img.src) {
                 photosData.push({
                     src: img.src,
@@ -977,36 +978,68 @@ if (atmoActionBtn) {
         let html = '';
         
         const headerHTML = `
-            <div class="valky-card-header-pill" style="transform: scale(0.85); margin-bottom: 14px; margin-top: -8px;">
+            <div class="valky-card-header-pill" style="transform: scale(0.6); margin-bottom: 5px; margin-top: -15px;">
                 <img src="anonface.PNG" alt="Анонім">
                 <span class="pill-yellow">ВАЛКІВСЬКА</span>
                 <span class="pill-white">ПРИЙМАЛЬНЯ</span>
             </div>
         `;
-        const authorHTML = `<div class="valky-card-author" style="color:${textColor};">${nameVal}</div>`;
+        const authorHTML = `<div class="valky-card-author" style="color:${textColor}; margin-top: 15px;">${nameVal}</div>`;
 
         if (photosData.length > 0) {
             html += `
-                <div class="valky-card" style="background:${currentAtmoBg}; justify-content: space-between; align-items: center;">
+                <div class="valky-card" style="background:${currentAtmoBg}; justify-content: space-between; align-items: center; padding-top: 25px;">
                     ${headerHTML}
-                    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; width: 100%; margin: auto 0;">
+                    <div style="display: flex; flex-wrap: wrap; justify-content: center; width: 100%; margin: auto 0; position: relative;">
             `;
             
-            const itemWidth = photosData.length === 1 ? '80%' : '45%';
-            
-            photosData.forEach(p => {
-                        if (p.isPolaroid) {
-            html += `
-                <div style="background: #fff; padding: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); border-radius: 2px; display: flex; flex-direction: column; width: ${itemWidth}; min-height: 100%;">
-                    <img src="${p.src}" style="width: 100%; aspect-ratio: 1/1; object-fit: cover; border: 1px solid #eee;">
-                    <div style="flex: 1; display: flex; align-items: center; justify-content: center; min-height: 40px; padding-top: 5px;">
-                        ${p.caption ? `<div style="font-family: 'Caveat', cursive; font-size: 18px; color: #111; text-align: center; line-height: 1;">${p.caption}</div>` : ''}
-                    </div>
-                </div>
-            `;
-        }
+            if (photosData.length === 4) {
+                html += `<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; width: 100%;">`;
+                photosData.forEach(p => {
+                    html += `
+                        <div style="background: #fff; padding: 6px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); border-radius: 2px;">
+                            <img src="${p.src}" style="width: 100%; aspect-ratio: 1/1; object-fit: cover; border: 1px solid #eee; display: block;">
+                        </div>
+                    `;
+                });
+                html += `</div>`;
+            } else if (photosData.length === 2) {
+                html += `<div style="display: flex; justify-content: center; align-items: center; width: 100%; height: 280px; position: relative;">`;
+                photosData.forEach((p, idx) => {
+                    const rotate = idx === 0 ? '-6deg' : '8deg';
+                    const left = idx === 0 ? '5%' : 'auto';
+                    const right = idx === 1 ? '5%' : 'auto';
+                    const zIndex = idx === 0 ? '1' : '2';
+                    const top = idx === 0 ? '10px' : '40px';
 
-            });
+                    html += `
+                        <div style="position: absolute; left: ${left}; right: ${right}; top: ${top}; z-index: ${zIndex}; background: #fff; padding: 10px; box-shadow: 0 8px 16px rgba(0,0,0,0.2); border-radius: 2px; display: flex; flex-direction: column; width: 60%; transform: rotate(${rotate});">
+                            <img src="${p.src}" style="width: 100%; aspect-ratio: 1/1; object-fit: cover; border: 1px solid #eee;">
+                            <div style="flex: 1; display: flex; align-items: center; justify-content: center; min-height: 35px; padding-top: 5px;">
+                                ${p.caption ? `<div style="font-family: 'Caveat', cursive; font-size: 16px; color: #111; text-align: center; line-height: 1;">${p.caption}</div>` : ''}
+                            </div>
+                        </div>
+                    `;
+                });
+                html += `</div>`;
+            } else {
+                const p = photosData[0];
+                const isSquare = !p.isPolaroid;
+                const pb = isSquare ? '10px' : '10px';
+                const minH = isSquare ? '0' : '45px';
+                const w = isSquare ? '85%' : '80%';
+
+                html += `
+                    <div style="background: #fff; padding: 10px 10px ${pb} 10px; box-shadow: 0 6px 15px rgba(0,0,0,0.15); border-radius: 2px; display: flex; flex-direction: column; width: ${w};">
+                        <img src="${p.src}" style="width: 100%; aspect-ratio: 1/1; object-fit: cover; border: 1px solid #eee; display: block;">
+                        ${!isSquare ? `
+                        <div style="display: flex; align-items: center; justify-content: center; min-height: ${minH}; padding-top: 8px;">
+                            ${p.caption ? `<div style="font-family: 'Caveat', cursive; font-size: 22px; color: #111; text-align: center; line-height: 1;">${p.caption}</div>` : ''}
+                        </div>
+                        ` : ''}
+                    </div>
+                `;
+            }
 
             html += `
                     </div>
@@ -1024,6 +1057,7 @@ if (atmoActionBtn) {
         atmoPreviewScreen.style.display = 'flex';
     });
 }
+
 if (atmoPreviewEditBtn) {
     atmoPreviewEditBtn.addEventListener('click', () => {
         atmoPreviewScreen.style.display = 'none';
