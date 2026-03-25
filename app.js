@@ -442,9 +442,18 @@ function closeSubmitOverlay() {
     const inlinePreview = document.getElementById('attach-preview-inline');
     if (inlinePreview) inlinePreview.innerHTML = '';
     
-    submitVideo.pause();
-    submitVideo.src = '';
-    submitVideo.style.display = 'block';
+    if (typeof submitVideo !== 'undefined' && submitVideo) {
+        submitVideo.pause();
+        submitVideo.src = '';
+        submitVideo.style.display = 'block';
+    }
+
+    if (typeof atmoVideo !== 'undefined' && atmoVideo) {
+        atmoVideo.pause();
+        atmoVideo.currentTime = 0;
+        atmoVideo.style.display = 'block';
+        atmoVideo.style.filter = '';
+    }
     
     clearTimeout(finishSendTimeout);
     document.body.classList.remove('submit-open');
@@ -470,6 +479,7 @@ function closeSubmitOverlay() {
     const allHeaders = document.querySelectorAll('.submit-header');
     allHeaders.forEach(h => h.style.display = 'flex');
 }
+
 
 
 
