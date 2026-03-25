@@ -4332,6 +4332,19 @@ body.submit-open {
     cursor: pointer;
 }
 
+span.preview-label {
+    color: #888 !important;
+}
+
+#atmo-preview-send-btn {
+    position: relative !important;
+    z-index: 1010 !important;
+    bottom: auto !important;
+    margin-top: 30px !important;
+    margin-bottom: 20px !important;
+    pointer-events: auto !important;
+}
+
 
 /* АНІМАЦІЇ */
 @keyframes pillowSway { 0% { transform: skewX(-4deg) rotate(-4deg); } 100% { transform: skewX(4deg) rotate(4deg); } }
