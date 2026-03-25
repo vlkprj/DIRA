@@ -1064,17 +1064,17 @@ if (atmoActionBtn) {
                 <span class="pill-white">ПРИЙМАЛЬНЯ</span>
             </div>
         `;
-        const authorHTML = `<div class="valky-card-author" style="color:${textColor}; margin-top: 15px;">${nameVal}</div>`;
+        const authorHTML = `<div class="valky-card-author" style="color:${textColor};">${nameVal}</div>`;
 
         if (photosData.length > 0) {
             html += `
-                <div class="valky-card" style="background:${currentAtmoBg}; justify-content: space-between; align-items: center; padding-top: 25px;">
+                <div class="valky-card" style="background:${currentAtmoBg}; justify-content: space-between; align-items: center;">
                     ${headerHTML}
                     <div style="display: flex; flex-wrap: wrap; justify-content: center; width: 100%; margin: auto 0; position: relative;">
             `;
             
             if (photosData.length === 4) {
-                html += `<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; width: 100%; margin-top: 10px;">`;
+                html += `<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; width: 100%; margin-bottom: 24px;">`;
                 photosData.forEach(p => {
                     html += `
                         <div style="background: #fff; padding: 6px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); border-radius: 2px;">
@@ -1084,13 +1084,13 @@ if (atmoActionBtn) {
                 });
                 html += `</div>`;
             } else if (photosData.length === 2) {
-                html += `<div style="display: flex; justify-content: center; align-items: center; width: 100%; height: 340px; position: relative;">`;
+                html += `<div style="display: flex; justify-content: center; align-items: center; width: 100%; height: 320px; position: relative; margin-bottom: 24px;">`;
                 photosData.forEach((p, idx) => {
                     const rotate = idx === 0 ? '-6deg' : '9deg';
                     const left = idx === 0 ? '0%' : 'auto';
                     const right = idx === 1 ? '-4%' : 'auto';
                     const zIndex = idx === 0 ? '1' : '2';
-                    const top = idx === 0 ? '0px' : '65px';
+                    const top = idx === 0 ? '0px' : '55px';
                     const width = idx === 0 ? '58%' : '65%';
                     const shadow = idx === 0 ? '0 4px 15px rgba(0,0,0,0.15)' : '0 12px 30px rgba(0,0,0,0.3)';
 
@@ -1108,11 +1108,11 @@ if (atmoActionBtn) {
                 const p = photosData[0];
                 const isSquare = !p.isPolaroid;
                 const pb = isSquare ? '10px' : '10px';
-                const minH = isSquare ? '0' : '45px';
+                const minH = isSquare ? '0' : '40px';
                 const w = isSquare ? '85%' : '80%';
 
                 html += `
-                    <div style="background: #fff; padding: 10px 10px ${pb} 10px; box-shadow: 0 6px 15px rgba(0,0,0,0.15); border-radius: 2px; display: flex; flex-direction: column; width: ${w}; margin-top: -15px;">
+                    <div style="background: #fff; padding: 10px 10px ${pb} 10px; box-shadow: 0 6px 15px rgba(0,0,0,0.15); border-radius: 2px; display: flex; flex-direction: column; width: ${w}; margin-top: -10px; margin-bottom: 24px;">
                         <img src="${p.src}" style="width: 100%; aspect-ratio: 1/1; object-fit: cover; object-position: ${p.objPos}; border: 1px solid #eee; display: block;">
                         ${!isSquare ? `
                         <div style="display: flex; align-items: center; justify-content: center; min-height: ${minH}; padding-top: 8px;">
@@ -1142,6 +1142,7 @@ if (atmoActionBtn) {
         if (atmoHeader) atmoHeader.style.display = 'none';
     });
 }
+
 
 
 
