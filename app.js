@@ -684,19 +684,38 @@ document.querySelectorAll('.bg-color-dot').forEach(dot => {
     });
 });
 
+function updateInlineDoneButtonState() {
+    if (!submitEditor || !inlineDoneBtn) return;
+    const textLength = submitEditor.innerText.trim().length;
+    const hasPhoto = attachPreviewInline && attachPreviewInline.innerHTML.trim() !== '';
+    inlineDoneBtn.disabled = (textLength === 0 && !hasPhoto);
+}
+
 if (submitEditor) {
     submitEditor.addEventListener('focus', () => {
+        updateInlineDoneButtonState();
         inlineDoneBtn.classList.add('show');
     });
+    
     submitEditor.addEventListener('blur', () => {
         setTimeout(() => inlineDoneBtn.classList.remove('show'), 150);
     });
+
+    submitEditor.addEventListener('input', updateInlineDoneButtonState);
+}
+
+if (attachPreviewInline) {
+    const observer = new MutationObserver(updateInlineDoneButtonState);
+    observer.observe(attachPreviewInline, { childList: true });
 }
 
 inlineDoneBtn.addEventListener('mousedown', (e) => {
     e.preventDefault();
-    submitEditor.blur();
+    if (!inlineDoneBtn.disabled) {
+        submitEditor.blur();
+    }
 });
+
 
 
 
