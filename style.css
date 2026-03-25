@@ -3176,6 +3176,19 @@ body.submit-open {
     background: #dcdcdc;
 }
 
+.submit-preview-screen {
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    justify-content: flex-start !important;
+    padding-top: 30px !important;
+    padding-bottom: 50px !important;
+}
+
+.preview-label {
+    color: #777 !important;
+}
+
+
 .preview-header {
     display: flex;
     justify-content: space-between;
