@@ -1551,12 +1551,15 @@ box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 
 
 .submit-content:has(.attach-thumb-full) .submit-action-btn,
-.submit-content:has(.atmo-stage--single-square) .submit-action-btn {
+.submit-content:has(.atmo-stage--single-square) .submit-action-btn,
+.submit-content:has(.atmo-slot-img-fill[style*="display: block"]) .submit-action-btn,
+.submit-content:has(.atmo-slot-img-fill[style*="display:block"]) .submit-action-btn {
     position: sticky !important;
     bottom: 20px !important;
     margin-top: auto !important;
     z-index: 100;
 }
+
 
 .submit-editor-wrap,
 .atmo-stage {
