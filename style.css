@@ -3162,20 +3162,20 @@ body.submit-open {
 }
 
 .inline-done-btn {
-    background: #F4C73E;
-    color: #1a1a1a;
+    background: #1a1a1a;
+    color: #ffffff;
     border: none;
-    border-radius: 16px;
-    padding: 6px 14px;
+    border-radius: 20px;
+    padding: 8px 18px;
     font-family: 'Inter', sans-serif;
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 600;
     display: flex;
     align-items: center;
-    gap: 4px;
-    box-shadow: 0 2px 8px rgba(244, 199, 62, 0.3);
+    gap: 6px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
     cursor: pointer;
-    transition: transform 0.15s ease, opacity 0.2s;
+    transition: transform 0.15s ease, opacity 0.2s, background 0.2s;
     opacity: 0;
     pointer-events: none;
 }
@@ -3187,7 +3187,9 @@ body.submit-open {
 
 .inline-done-btn:active {
     transform: scale(0.95);
+    background: #333333;
 }
+
 
 
 .submit-preview-screen {
