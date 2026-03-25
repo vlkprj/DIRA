@@ -4379,6 +4379,30 @@ span.preview-label {
     opacity: 1;
 }
 
+.ios-done-btn {
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    background: #F4C73E;
+    color: #1a1a1a;
+    padding: 8px 18px;
+    border-radius: 20px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    z-index: 99999;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-20px);
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.ios-done-btn.show {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+}
 
 
 /* АНІМАЦІЇ */
