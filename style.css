@@ -4345,6 +4345,12 @@ span.preview-label {
     pointer-events: auto !important;
 }
 
+.submit-preview-screen .valky-card,
+.submit-preview-screen .preview-post-card {
+    flex-shrink: 0 !important;
+    height: max-content !important;
+}
+
 
 /* АНІМАЦІЇ */
 @keyframes pillowSway { 0% { transform: skewX(-4deg) rotate(-4deg); } 100% { transform: skewX(4deg) rotate(4deg); } }
