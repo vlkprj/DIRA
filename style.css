@@ -712,6 +712,7 @@ body, html {
     align-items: center;
 }
 
+/*др*/
 .b-birthday {
     position: relative;
     background-color: #FAFAF5;
@@ -746,22 +747,24 @@ body, html {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     color: transparent;
+    position: relative;
     z-index: 2;
-    padding-bottom: 2px;
+    padding-bottom: 8px;
+    margin-bottom: -4px;
+    filter: drop-shadow(0px 3px 5px rgba(180, 130, 30, 0.3));
 }
 
 .b-birthday .bd-middle {
     font-family: 'Bad Script', cursive;
-    font-size: 22px;
-    line-height: 1;
-    margin-bottom: -2px;
+    font-size: 26px;
+    line-height: 1.2;
 }
 
 .b-birthday .bd-bottom {
     font-family: 'Bad Script', cursive;
     font-size: 30px;
     font-weight: 700;
-    line-height: 1.1;
+    line-height: 1.2;
 }
 
 .bd-emoji {
@@ -786,19 +789,14 @@ body, html {
 }
 
 .e3 {
-    top: 8px;
-    right: 12px;
+    top: 25px;
+    right: 10px;
     font-size: 20px;
     animation-delay: 2s;
-    opacity: 0.8;
-    z-index: 3;
+    opacity: 0.9;
+    z-index: 10;
 }
 
-
-
-
-
-        
         /* Шопопало */
         .b-shopopalo {
             background: #f0f2f5;
