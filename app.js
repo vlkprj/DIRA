@@ -894,6 +894,7 @@ function buildAtmoSlot(isPolaroid, captionEnabled) {
     const input = document.createElement('input');
     input.type = 'file';
     input.accept = 'image/*';
+    input.multiple = true;
     input.style.display = 'none';
     
     slot.appendChild(inner);
@@ -950,20 +951,34 @@ function buildAtmoSlot(isPolaroid, captionEnabled) {
     });
     
     input.addEventListener('change', () => {
-        const file = input.files[0];
-        if (!file) return;
-        const reader = new FileReader();
-        reader.onload = (ev) => {
-            img.src = ev.target.result;
-            img.style.display = 'block';
-            img.style.objectPosition = '50% 50%';
-            inner.style.display = 'none';
-        };
-        reader.readAsDataURL(file);
+        const files = Array.from(input.files);
+        if (!files.length) return;
+        
+        const allSlots = document.querySelectorAll('#atmo-stage .atmo-polaroid-slot, #atmo-stage .atmo-square-slot');
+        const currentIndex = Array.from(allSlots).indexOf(slot);
+        
+        files.forEach((file, i) => {
+            const targetSlot = allSlots[currentIndex + i];
+            if (targetSlot) {
+                const targetImg = targetSlot.querySelector('.atmo-slot-img-fill');
+                const targetInner = targetSlot.querySelector('.atmo-slot-placeholder');
+                const reader = new FileReader();
+                reader.onload = (ev) => {
+                    targetImg.src = ev.target.result;
+                    targetImg.style.display = 'block';
+                    targetImg.style.objectPosition = '50% 50%';
+                    if(targetInner) targetInner.style.display = 'none';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+        
+        input.value = '';
     });
     
     return slot;
 }
+
 
 
 function renderAtmoStage(layout) {
@@ -1049,17 +1064,17 @@ if (atmoActionBtn) {
                 <span class="pill-white">ПРИЙМАЛЬНЯ</span>
             </div>
         `;
-        const authorHTML = `<div class="valky-card-author" style="color:${textColor}; margin-top: 15px;">${nameVal}</div>`;
+        const authorHTML = `<div class="valky-card-author" style="color:${textColor}; margin-top: 30px; margin-bottom: 5px;">${nameVal}</div>`;
 
         if (photosData.length > 0) {
             html += `
-                <div class="valky-card" style="background:${currentAtmoBg}; justify-content: space-between; align-items: center; padding-top: 25px;">
+                <div class="valky-card" style="background:${currentAtmoBg}; justify-content: space-between; align-items: center; padding-top: 25px; padding-bottom: 20px;">
                     ${headerHTML}
                     <div style="display: flex; flex-wrap: wrap; justify-content: center; width: 100%; margin: auto 0; position: relative;">
             `;
             
             if (photosData.length === 4) {
-                html += `<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; width: 100%;">`;
+                html += `<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; width: 100%; margin-bottom: 25px; margin-top: -15px;">`;
                 photosData.forEach(p => {
                     html += `
                         <div style="background: #fff; padding: 6px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); border-radius: 2px;">
@@ -1127,6 +1142,7 @@ if (atmoActionBtn) {
         if (atmoHeader) atmoHeader.style.display = 'none';
     });
 }
+
 
 
 if (atmoPreviewEditBtn) {
