@@ -3170,9 +3170,6 @@ body.submit-open {
     transform: scale(0.9);
 }
 
-.submit-editor-wrap {
-    overflow: visible !important;
-}
 
 .color-picker-wrap {
     position: relative;
@@ -3206,9 +3203,8 @@ body.submit-open {
 
 .color-popover {
     position: absolute;
-    top: 36px;
-    left: 50%;
-    transform: translateX(-50%) scale(0.9);
+    bottom: 38px;
+    left: -5px;
     background: #ffffff;
     border: 1px solid rgba(0,0,0,0.1);
     border-radius: 12px;
@@ -3218,22 +3214,24 @@ body.submit-open {
     gap: 8px;
     box-shadow: 0 8px 25px rgba(0,0,0,0.15);
     opacity: 0;
-    pointer-events: none;
-    transition: all 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    visibility: hidden;
+    transition: opacity 0.2s ease, transform 0.2s ease;
     width: max-content;
     z-index: 99999;
+    transform: translateY(8px);
 }
 
 .color-popover.show {
     opacity: 1;
-    pointer-events: auto;
-    transform: translateX(-50%) scale(1);
+    visibility: visible;
+    transform: translateY(0);
 }
 
 .submit-overlay.hole-mode .color-popover {
     background: #1a1a1a;
     border: 1px solid rgba(255,255,255,0.1);
 }
+
 
 .color-dot {
     display: block;
