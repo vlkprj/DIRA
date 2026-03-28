@@ -4301,10 +4301,12 @@ span.preview-label {
     display: flex;
     flex-direction: column;
     flex-shrink: 0;
+    background: #fff; 
 }
 
 .submit-overlay.hole-mode .submit-editor-wrap {
     box-shadow: 0 2px 24px rgba(0,0,0,0.5);
+    background: #1a1a1a;
 }
 
 .atmo-stage {
@@ -4318,15 +4320,14 @@ span.preview-label {
     overflow-y: auto;
     padding: 18px 20px 12px;
     font-family: 'Inter', sans-serif;
-    font-size: 22px;
-    line-height: 1.6;
+    font-size: 20px; 
+    line-height: 1.65;
     outline: none;
     box-sizing: border-box;
     word-wrap: break-word;
     border: none;
-    border-bottom: none;
-    border-radius: 18px 18px 0 0;
     box-shadow: none;
+    border-radius: 18px 18px 0 0; 
 }
 
 .editor-toolbar-row {
@@ -4347,12 +4348,32 @@ span.preview-label {
     border-top: 1px solid rgba(255,255,255,0.07);
 }
 
+.editor-colors-row {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 10px 14px;
+    border-top: 1px solid rgba(128,128,128,0.1);
+    flex-wrap: wrap;
+    position: relative; 
+    z-index: 100; 
+    border-radius: 0 0 18px 18px; 
+}
+
+.submit-overlay.mailbox-mode .editor-colors-row {
+    background: rgba(0,0,0,0.02);
+}
+
+.submit-overlay.hole-mode .editor-colors-row {
+    background: rgba(255,255,255,0.025);
+    border-top: 1px solid rgba(255,255,255,0.07);
+}
+
 .color-picker-wrap {
     position: relative;
     display: flex;
     align-items: center;
     gap: 6px;
-    z-index: 100;
 }
 
 .main-color-btn {
@@ -4372,7 +4393,7 @@ span.preview-label {
 
 .color-popover {
     position: absolute;
-    bottom: 35px;
+    bottom: 40px; 
     top: auto;
     left: 50%;
     transform: translateX(-50%) scale(0.9);
@@ -4418,6 +4439,15 @@ span.preview-label {
 .color-dot:active {
     transform: scale(0.9);
 }
+
+.color-dot.active {
+    box-shadow: 0 0 0 2.5px #fff, 0 0 0 4.5px #1a1a1a;
+}
+
+.submit-overlay.hole-mode .color-dot.active {
+    box-shadow: 0 0 0 2.5px #111, 0 0 0 4.5px #eee;
+}
+
 
 
 /* АНІМАЦІЇ */
