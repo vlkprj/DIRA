@@ -3521,8 +3521,9 @@ body.submit-open {
     padding: 10px 14px;
     border-top: 1px solid rgba(128,128,128,0.1);
     flex-wrap: nowrap;
-    overflow-x: auto;
+    overflow: visible;
 }
+
 
 .submit-overlay.mailbox-mode .editor-colors-row {
     background: rgba(0,0,0,0.02);
