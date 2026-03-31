@@ -3140,7 +3140,8 @@ body.submit-open {
 
 .color-popover {
     position: absolute;
-    top: 36px;
+    bottom: 40px;
+    top: auto; 
     left: 50%;
     transform: translateX(-50%) scale(0.9);
     background: #ffffff;
@@ -3157,6 +3158,7 @@ body.submit-open {
     width: max-content;
     z-index: 99999;
 }
+
 
 .color-popover.show {
     opacity: 1;
