@@ -3095,12 +3095,15 @@ body.submit-open {
     color: #ccc;
 }
 
-.color-picker-wrap {
-    position: relative;
-    display: flex;
-    align-items: center;
-    gap: 6px;
+
+.colors-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    color: #888;
+    white-space: nowrap;
 }
+
 
 .colors-label {
     font-family: 'Inter', sans-serif;
@@ -3118,11 +3121,13 @@ body.submit-open {
     cursor: pointer;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     transition: transform 0.15s ease;
+    flex-shrink: 0;
 }
 
 .main-color-btn:active {
     transform: scale(0.9);
 }
+
 
 .color-picker-wrap {
     position: relative;
@@ -3140,51 +3145,7 @@ body.submit-open {
     white-space: nowrap;
 }
 
-.main-color-btn {
-    display: block;
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    cursor: pointer;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    transition: transform 0.15s ease;
-    flex-shrink: 0;
-}
 
-.main-color-btn:active {
-    transform: scale(0.9);
-}
-
-
-.color-picker-wrap {
-    position: relative;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
-
-.colors-label {
-    font-family: 'Inter', sans-serif;
-    font-size: 11px;
-    font-weight: 600;
-    color: #888;
-    white-space: nowrap;
-}
-
-.main-color-btn {
-    display: block;
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    cursor: pointer;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    transition: transform 0.15s ease;
-    flex-shrink: 0;
-}
-
-.main-color-btn:active {
-    transform: scale(0.9);
-}
 
 .color-popover {
     position: absolute;
