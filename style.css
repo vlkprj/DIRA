@@ -3522,7 +3522,10 @@ body.submit-open {
     border-top: 1px solid rgba(128,128,128,0.1);
     flex-wrap: nowrap;
     overflow: visible;
+    overflow-x: visible !important;
+    overflow-y: visible !important;
 }
+
 
 
 .submit-overlay.mailbox-mode .editor-colors-row {
