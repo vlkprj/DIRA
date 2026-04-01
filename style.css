@@ -3243,20 +3243,6 @@ body.submit-open {
 }
 
 
-
-.submit-preview-screen {
-    position: absolute;
-    inset: 0;
-    z-index: 20;
-    display: none;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 16px;
-    padding: 30px 24px;
-    overflow-y: auto;
-}
-
 .submit-overlay.mailbox-mode .submit-sent-screen {
     background: transparent;
 }
@@ -3270,13 +3256,6 @@ body.submit-open {
     background: #dcdcdc;
 }
 
-.submit-preview-screen {
-    overflow-y: auto !important;
-    -webkit-overflow-scrolling: touch !important;
-    justify-content: flex-start !important;
-    padding-top: 30px !important;
-    padding-bottom: 50px !important;
-}
 
 .preview-label {
     color: #777 !important;
@@ -3427,16 +3406,18 @@ body.submit-open {
 .submit-preview-screen {
     position: absolute;
     inset: 0;
-    z-index: 15;                    
+    z-index: 20;
     display: none;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
-    padding: 20px;
-    gap: 24px;
-    background: transparent;
+    gap: 16px;
+    padding: 30px 24px 50px 24px;
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    background: transparent;
 }
+
 
 .submit-preview-screen .preview-header {
     width: 100%;
