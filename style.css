@@ -4727,6 +4727,7 @@ input, textarea, [contenteditable] {
     appearance: none;
     outline: none;
 }
+/*рюкзак поки шо нахер*/ 
 #bag-btn, #bag-overlay {
     display: none !important;
 }
