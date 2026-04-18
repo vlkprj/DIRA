@@ -4744,3 +4744,65 @@ input, textarea, [contenteditable] {
 #bag-btn, #bag-overlay {
     display: none !important;
 }
+
+.wysiwyg-card-wrap {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+#wysiwyg-card {
+    background: #FAF8F4;
+    color: #222221;
+}
+
+.valky-card-header-pill {
+    transform: scale(0.85);
+    margin-bottom: 14px;
+    margin-top: -8px;
+}
+
+.wysiwyg-text-centerer {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+}
+
+.wysiwyg-input {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    min-height: unset !important;
+    padding: 0 !important;
+    outline: none !important;
+    width: 100%;
+    text-align: center;
+}
+
+.wysiwyg-controls-wrap {
+    width: 100%;
+    max-width: 420px;
+    margin: 15px auto 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.wysiwyg-controls-wrap .editor-toolbar-row,
+.wysiwyg-controls-wrap .editor-colors-row {
+    border-radius: 12px;
+    border: none !important;
+    justify-content: center;
+}
+
+.wysiwyg-controls-wrap .editor-toolbar-row {
+    position: relative;
+}
+
+#char-counter-wrap {
+    position: absolute;
+    top: -30px;
+    left: 0;
+}
