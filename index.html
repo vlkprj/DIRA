@@ -290,37 +290,40 @@
 
        <div class="submit-content" id="submit-content" style="align-items: center; padding-top: 10px;">
     
-    <div class="submit-editor-wrap" style="background: transparent; border: none; box-shadow: none;">
-        <div class="valky-card" id="wysiwyg-card" style="background: #FAF8F4; color: #222221;">
-            
-            <div class="valky-card-header-pill" style="transform: scale(0.85); margin-bottom: 14px; margin-top: -8px;">
-                <img src="anonface.PNG" alt="Анонім">
-                <span class="pill-yellow">ВАЛКІВСЬКА</span>
-                <span class="pill-white">ПРИЙМАЛЬНЯ</span>
-            </div>
-            
-            <div class="valky-card-body fs-large submit-editor" id="submit-editor" contenteditable="true" data-placeholder="Пишіть сюди..." style="background: transparent; border: none; box-shadow: none; min-height: unset; padding: 0;"></div>
-            
-            <div class="valky-card-arrow">→</div>
-            
-            <div class="valky-card-author" id="card-author-name">👤 Анонімно</div>
-            
+    <div class="submit-editor-wrap wysiwyg-card-wrap">
+    <div class="valky-card" id="wysiwyg-card">
+        
+        <div class="valky-card-header-pill">
+            <img src="anonface.PNG" alt="Анонім">
+            <span class="pill-yellow">ВАЛКІВСЬКА</span>
+            <span class="pill-white">ПРИЙМАЛЬНЯ</span>
         </div>
+        
+        <div class="wysiwyg-text-centerer">
+            <div class="valky-card-body fs-huge submit-editor wysiwyg-input" id="submit-editor" contenteditable="true" data-placeholder="Пишіть сюди..."></div>
+        </div>
+        
+        <div class="valky-card-arrow">→</div>
+        
+        <div class="valky-card-author" id="card-author-name">👤 Анонімно</div>
+        
     </div>
+</div>
 
-    <div class="editor-toolbar-row" style="margin-top: 20px; width: 100%; max-width: 420px; justify-content: center; background: transparent; border: none;">
-        <div class="char-counter-wrap" id="char-counter-wrap" style="position: absolute; top: -30px; left: 0;">
+<div class="wysiwyg-controls-wrap">
+    <div class="editor-toolbar-row">
+        <div class="char-counter-wrap" id="char-counter-wrap">
             <span id="char-counter">0</span>/350
         </div>
         <button class="toolbar-attach-btn" id="attach-btn">
-            <span class="material-symbols-outlined" style="font-size:20px;">attach_file</span>
+            <span class="material-symbols-outlined">attach_file</span>
         </button>
         <input type="file" id="attach-input" accept="image/*" style="display:none;">
         
         <div class="toolbar-divider"></div>
         
         <button class="toolbar-btn" data-cmd="bold"><b>B</b></button>
-        <button class="toolbar-btn" data-cmd="italic"><i style="font-family:serif;">i</i></button>
+        <button class="toolbar-btn" data-cmd="italic"><i>i</i></button>
         
         <div class="toolbar-divider"></div>
         
@@ -341,28 +344,30 @@
         </div>
     </div>
 
-    <div class="editor-colors-row" style="width: 100%; max-width: 420px; justify-content: center; margin-top: 10px; background: transparent; border: none;">
+    <div class="editor-colors-row">
         <div class="color-picker-wrap">
             <span class="colors-label">Текст</span>
-            <div class="main-color-btn" id="main-text-color" style="background:#222221;"></div>
+            <div class="main-color-btn" id="main-text-color"></div>
             <div class="color-popover" id="popover-text">
-                <div class="color-dot text-color-dot" data-color="#222221" style="background:#222221;"></div>
-                <div class="color-dot text-color-dot" data-color="#B24A3B" style="background:#B24A3B;"></div>
-                <div class="color-dot text-color-dot" data-color="#4282AA" style="background:#4282AA;"></div>
-                <div class="color-dot text-color-dot" data-color="#D97757" style="background:#D97757;"></div>
+                <div class="color-dot text-color-dot" data-color="#222221"></div>
+                <div class="color-dot text-color-dot" data-color="#B24A3B"></div>
+                <div class="color-dot text-color-dot" data-color="#4282AA"></div>
+                <div class="color-dot text-color-dot" data-color="#D97757"></div>
             </div>
         </div>
         <div class="toolbar-divider"></div>
         <div class="color-picker-wrap">
             <span class="colors-label">Фон</span>
-            <div class="main-color-btn" id="main-bg-color" style="background:#FAF8F4; border:1px solid #ddd;"></div>
+            <div class="main-color-btn" id="main-bg-color"></div>
             <div class="color-popover" id="popover-bg">
-                <div class="color-dot bg-color-dot" data-color="#FAF8F4" style="background:#FAF8F4; border:1px solid #ddd;"></div>
-                <div class="color-dot bg-color-dot" data-color="#262624" style="background:#262624;"></div>
-                <div class="color-dot bg-color-dot" data-color="#FFFFFF" style="background:#FFFFFF; border:1px solid #ddd;"></div>
+                <div class="color-dot bg-color-dot" data-color="#FAF8F4"></div>
+                <div class="color-dot bg-color-dot" data-color="#262624"></div>
+                <div class="color-dot bg-color-dot" data-color="#FFFFFF"></div>
             </div>
         </div>
     </div>
+</div>
+
 
     <div class="anon-block" style="margin-top: 20px;">
         <div class="anon-badge">
