@@ -1,9 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-    document.body.style.opacity = '0';
-    document.fonts.ready.then(() => {
-        document.body.style.transition = 'opacity 0.4s ease';
-        document.body.style.opacity = '1';
-    });
 
     // ---------- Глобальні змінні, які використовуються пізніше ----------
     let bagBtn, bagOverlay, bagClose, bagContent;
