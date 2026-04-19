@@ -4745,64 +4745,168 @@ input, textarea, [contenteditable] {
     display: none !important;
 }
 
-.wysiwyg-card-wrap {
-    background: transparent !important;
-    border: none !important;
-    box-shadow: none !important;
+/* Антиаліасінг для андроїдів і старих айфонів */
+body, html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
 }
 
-#wysiwyg-card {
-    background: #FAF8F4;
-    color: #222221;
+.wysiwyg-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 3000;
+    background: #080C0C; /* Дефолт для діри, мінятиметься класом */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
 }
 
-.valky-card-header-pill {
-    transform: scale(0.85);
-    margin-bottom: 14px;
-    margin-top: -8px;
+.wysiwyg-overlay.mailbox-mode { background: #1D3561; }
+.wysiwyg-overlay.hole-mode { background: #00090E; }
+
+.fullscreen-video-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+    filter: brightness(0.3) blur(10px);
+    transition: filter 1s ease;
 }
 
-.wysiwyg-text-centerer {
+.fullscreen-video-bg.playing {
+    filter: brightness(0.8) blur(0px);
+}
+
+.wysiwyg-header {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #fff;
+    padding-top: max(20px, env(safe-area-inset-top));
+}
+
+.wysiwyg-step {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: auto;
+    padding-bottom: 120px; /* Місце для sticky кнопки */
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Сама картка 1080/1350 */
+.card-workspace {
+    width: 90%;
+    max-width: 400px;
+    margin-top: 10px;
+    perspective: 1000px;
+}
+
+.prmln-card {
+    width: 100%;
+    aspect-ratio: 1080 / 1350;
+    border-radius: 16px;
+    padding: 24px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+    overflow: hidden;
+}
+
+.card-text-zone {
     flex: 1;
     display: flex;
-    flex-direction: column;
+    align-items: center;
     justify-content: center;
-    width: 100%;
-}
-
-.wysiwyg-input {
-    background: transparent !important;
-    border: none !important;
-    box-shadow: none !important;
-    min-height: unset !important;
-    padding: 0 !important;
-    outline: none !important;
-    width: 100%;
     text-align: center;
+    font-size: 22px;
+    line-height: 1.4;
+    outline: none;
+    word-break: break-word;
+    min-height: 50%;
 }
 
-.wysiwyg-controls-wrap {
-    width: 100%;
-    max-width: 420px;
-    margin: 15px auto 0;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+.card-text-zone:empty::before {
+    content: attr(data-placeholder);
+    opacity: 0.4;
+    pointer-events: none;
 }
 
-.wysiwyg-controls-wrap .editor-toolbar-row,
-.wysiwyg-controls-wrap .editor-colors-row {
-    border-radius: 12px;
-    border: none !important;
-    justify-content: center;
-}
-
-.wysiwyg-controls-wrap .editor-toolbar-row {
-    position: relative;
-}
-
-#char-counter-wrap {
+.valky-card-author {
     position: absolute;
-    top: -30px;
-    left: 0;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 14px;
+    opacity: 0.6;
+    font-weight: 500;
 }
+
+/* STICKY ФУТЕР - Головний фікс для айфонів */
+.sticky-action-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 15px 20px calc(15px + env(safe-area-inset-bottom));
+    background: linear-gradient(to top, rgba(0,0,0,0.8) 20%, transparent);
+    display: flex;
+    justify-content: center;
+    z-index: 100;
+    pointer-events: none; /* Щоб кліки проходили крізь градієнт */
+}
+
+.action-btn-primary {
+    pointer-events: auto; /* Повертаємо клікабельність самій кнопці */
+    background: #fff;
+    color: #000;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 16px;
+    font-weight: 900;
+    padding: 16px 40px;
+    border-radius: 30px;
+    border: none;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    cursor: pointer;
+    transition: transform 0.1s;
+    width: 90%;
+    max-width: 350px;
+}
+
+.action-btn-primary:active {
+    transform: scale(0.96);
+}
+
+/* Анімація фінального екрану */
+.success-message {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: #fff;
+    opacity: 1;
+    transition: opacity 1.5s ease-out, transform 1.5s ease-out;
+}
+
+.success-message.fade-out {
+    opacity: 0;
+    transform: translate(-50%, -60%);
+    letter-spacing: 2px;
+}
+
