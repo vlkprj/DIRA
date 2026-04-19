@@ -5,10 +5,6 @@ document.addEventListener("DOMContentLoaded", () => {
         document.body.style.opacity = '1';
     });
 
-    // ---------- Глобальні змінні, які використовуються пізніше ----------
-    let bagBtn, bagOverlay, bagClose, bagContent;
-    let textColorDots, bgColorDots; 
-
     const glitchLetter = document.getElementById('glitch-letter');
     if (glitchLetter) {
         setInterval(() => {
@@ -286,7 +282,7 @@ document.addEventListener("DOMContentLoaded", () => {
         setTimeout(runRumorsCycle, 4000);
     }
     
-     // ---------- НОВИЙ УНІВЕРСАЛЬНИЙ WYSIWYG ФЛОУ ----------
+    // ---------- НОВИЙ УНІВЕРСАЛЬНИЙ WYSIWYG ФЛОУ ----------
     const wysiwygOverlay = document.getElementById('wysiwyg-overlay');
     const flowVideo = document.getElementById('flow-video');
     const stepEditor = document.getElementById('step-editor');
@@ -304,27 +300,22 @@ document.addEventListener("DOMContentLoaded", () => {
     const cardAuthorDisplay = document.getElementById('card-author-display');
     const wysiwygTitle = document.getElementById('wysiwyg-title');
     
-    // Елементи конструктора
     const editorTools = document.getElementById('editor-tools');
     const photoZone = document.getElementById('card-photo-zone');
     const photoPreview = document.getElementById('card-photo-preview');
     const photoPlaceholder = document.getElementById('photo-placeholder');
     const fileInput = document.getElementById('card-file-input');
 
-    // Групування кнопок (Діра vs Скринька)
     const blackHoleGroup = ['.b-unpopular', '.b-shopopalo', '.b-admins', '.b-problem', '.rumors-container', '.b-meme'];
     const skrynkaGroup = ['.b-write-main', '.b-story', '.b-serious', '.b-atmosphere', '.b-advice', '.b-petition', '.b-complain', '.b-birthday', '.b-zbir', '.b-idea', '.b-thank', '.b-photo'];
     
-    // Кнопки, де потрібне фото
     const photoRequiredButtons = ['.b-atmosphere', '.b-photo', '.b-meme'];
 
-    // Нікнейм ріал-тайм
     cardAnonInput.addEventListener('input', (e) => {
         const val = e.target.value.trim();
         cardAuthorDisplay.innerText = val ? `від: ${val}` : '👤 Анонімно';
     });
 
-    // Завантаження фото
     photoZone.addEventListener('click', () => fileInput.click());
     fileInput.addEventListener('change', () => {
         const file = fileInput.files[0];
@@ -338,7 +329,6 @@ document.addEventListener("DOMContentLoaded", () => {
         reader.readAsDataURL(file);
     });
 
-    // Відкриття конструктора
     function openCardBuilder(selector, titleText) {
         const isHole = blackHoleGroup.includes(selector);
         const mode = isHole ? 'hole' : 'mailbox';
@@ -347,7 +337,6 @@ document.addEventListener("DOMContentLoaded", () => {
         wysiwygOverlay.className = `wysiwyg-overlay ${mode}-mode`;
         wysiwygOverlay.style.display = 'flex';
         
-        // Скидання екранів
         stepEditor.style.display = 'flex';
         stepPreview.style.display = 'none';
         stepSuccess.style.display = 'none';
@@ -355,7 +344,6 @@ document.addEventListener("DOMContentLoaded", () => {
         wysiwygTitle.style.display = 'block';
         wysiwygTitle.innerText = titleText;
         
-        // Скидання картки
         cardEditor.innerHTML = '';
         cardAnonInput.value = '';
         cardAuthorDisplay.innerText = '👤 Анонімно';
@@ -364,12 +352,11 @@ document.addEventListener("DOMContentLoaded", () => {
         photoPlaceholder.style.display = 'flex';
         fileInput.value = '';
         
-        // Налаштування вигляду картки залежно від типу кнопки
         if (needsPhoto) {
             photoZone.style.display = 'block';
-            cardEditor.style.minHeight = '10%'; // Менше місця для тексту (як підпис)
+            cardEditor.style.minHeight = '10%'; 
             cardEditor.setAttribute('data-placeholder', 'Підпис (необовʼязково)');
-            editorTools.style.display = 'none'; // Ховаємо кольори/шрифти для фото
+            editorTools.style.display = 'none'; 
             activeCard.style.background = isHole ? '#1a1a1a' : '#fff';
             activeCard.style.color = isHole ? '#fff' : '#000';
         } else {
@@ -381,7 +368,6 @@ document.addEventListener("DOMContentLoaded", () => {
             activeCard.style.color = '#222221';
         }
 
-        // Відео
         flowVideo.src = isHole ? 'blackhole.mp4' : 'skrynka.mp4';
         flowVideo.classList.remove('playing');
         flowVideo.pause();
@@ -404,7 +390,6 @@ document.addEventListener("DOMContentLoaded", () => {
         if (btn) btn.addEventListener('click', () => openCardBuilder(sel, buttonTitles[sel]));
     });
 
-    // Зміна кольорів і шрифтів (спрощена логіка)
     document.querySelectorAll('.bg-color-dot').forEach(dot => {
         dot.addEventListener('click', () => {
             document.querySelectorAll('.bg-color-dot').forEach(d => d.classList.remove('active'));
@@ -430,23 +415,22 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Поповери кольорів
     document.getElementById('main-text-color').addEventListener('click', () => {
         document.getElementById('popover-text').classList.toggle('show');
         document.getElementById('popover-bg').classList.remove('show');
     });
+    
     document.getElementById('main-bg-color').addEventListener('click', () => {
         document.getElementById('popover-bg').classList.toggle('show');
         document.getElementById('popover-text').classList.remove('show');
     });
 
-    // ДАЛІ
     btnNextStep.addEventListener('click', () => {
         const previewWorkspace = document.getElementById('preview-workspace');
         previewWorkspace.innerHTML = '';
         
         const clonedCard = activeCard.cloneNode(true);
-        clonedCard.id = ''; // прибираємо id з клону
+        clonedCard.id = ''; 
         
         const clonedEditor = clonedCard.querySelector('.card-text-zone');
         if(clonedEditor) {
@@ -456,8 +440,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const clonedPhotoZone = clonedCard.querySelector('.card-photo-zone');
         if (clonedPhotoZone) {
-            const previewImg = clonedPhotoZone.querySelector('img');
-            if (!previewImg.src || previewImg.style.display === 'none') {
+            const prevImg = clonedPhotoZone.querySelector('img');
+            if (!prevImg.src || prevImg.style.display === 'none') {
                 clonedPhotoZone.style.display = 'none';
             } else {
                 clonedPhotoZone.querySelector('.photo-placeholder').style.display = 'none';
@@ -472,7 +456,6 @@ document.addEventListener("DOMContentLoaded", () => {
         wysiwygTitle.style.display = 'none';
     });
 
-    // НАЗАД
     btnBack.addEventListener('click', () => {
         stepPreview.style.display = 'none';
         stepEditor.style.display = 'flex';
@@ -480,13 +463,11 @@ document.addEventListener("DOMContentLoaded", () => {
         wysiwygTitle.style.display = 'block';
     });
 
-    // ЗАКРИТИ
     btnClose.addEventListener('click', () => {
         wysiwygOverlay.style.display = 'none';
         document.body.classList.remove('submit-open');
     });
 
-    // ОПУБЛІКУВАТИ
     btnPublish.addEventListener('click', () => {
         stepPreview.style.display = 'none';
         btnBack.style.display = 'none';
@@ -525,10 +506,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
         let doorClicks = parseInt(localStorage.getItem('valky_door_clicks')) || 0;
         let recentBubbles = []; 
-
         const fxClasses = ['door-glow', 'door-glitch', 'fx-anime', 'fx-glitch', 'fx-upside-down', 'fx-black-hole', 'fx-earthquake', 'fx-acid-trip', 'fx-hologram', 'fx-void'];
 
-        // Функції для відображення пасхалок
         function showAchievementCard(text) {
             const card = document.createElement('div');
             card.className = 'achievement-card';
@@ -582,7 +561,6 @@ document.addEventListener("DOMContentLoaded", () => {
             doorClicks++;
             localStorage.setItem('valky_door_clicks', doorClicks);
 
-            // Візуальні ефекти трісок
             const rect = doorBtn.getBoundingClientRect();
             const centerX = rect.left + rect.width / 2;
             const centerY = rect.top + rect.height / 2;
@@ -600,7 +578,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 setTimeout(() => splinter.remove(), 600);
             }
 
-            // Пасхалки
             if (doorClicks === 15) {
                 showAchievementCard("Якийсь підозрілий тіп біля дверей. Ви постукали у двері Приймальні 15 разів. Ми вже подзвонили куди треба 🧐");
                 return;
@@ -611,7 +588,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 return;
             }
 
-            // Бульбашки і глітчі
             if (Math.random() < 0.40) {
                 doorBtn.classList.remove(...fxClasses);
                 void doorBtn.offsetWidth; 
@@ -628,6 +604,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    // ---------- МОДАЛКА ПРАВИЛ ----------
     const rulesModal = document.getElementById('rules-modal');
     const closeRulesBtn = document.getElementById('close-rules-btn');
     const openRulesBtns = document.querySelectorAll('.open-rules-btn');
@@ -642,6 +619,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    // ---------- ПЕРЕВІРКА АКТИВНОСТІ КНОПОК ----------
     setInterval(() => {
         const hasText = cardEditor && cardEditor.innerText.trim().length > 0;
         const hasPhoto = photoPreview && photoPreview.style.display === 'block';
@@ -650,54 +628,6 @@ document.addEventListener("DOMContentLoaded", () => {
         if (btnNextStep) {
             btnNextStep.style.opacity = isValid ? '1' : '0.4';
             btnNextStep.style.pointerEvents = isValid ? 'auto' : 'none';
-        }
-    }, 300);
-});
-
-    // ---------- ПЕРЕВІРКА АКТИВНОСТІ КНОПОК ----------
-    setInterval(() => {
-        const mainBtn = document.getElementById('submit-action-btn');
-        const mainEditor = document.getElementById('submit-editor');
-        const attachPreview = document.getElementById('attach-preview-inline');
-        
-        if (mainBtn && mainEditor) {
-            const hasText = mainEditor.innerText.trim().length > 0;
-            const hasAttach = attachPreview && attachPreview.innerHTML.trim() !== '';
-            const isValid = hasText || hasAttach;
-            
-            mainBtn.style.opacity = isValid ? '1' : '0.4';
-            mainBtn.style.pointerEvents = isValid ? 'auto' : 'none';
-        }
-
-        const photoBtn = document.getElementById('photo-action-btn');
-        const photoImg = document.getElementById('photo-preview-img');
-        if (photoBtn && photoImg) {
-            const src = photoImg.getAttribute('src');
-            const isValid = photoImg.style.display !== 'none' && src && src.length > 5;
-            photoBtn.style.opacity = isValid ? '1' : '0.4';
-            photoBtn.style.pointerEvents = isValid ? 'auto' : 'none';
-        }
-
-        const atmoBtn = document.getElementById('atmo-action-btn');
-        const atmoStage = document.getElementById('atmo-stage');
-        if (atmoBtn && atmoStage) {
-            let isValid = false;
-            
-            const imgs = atmoStage.querySelectorAll('img');
-            imgs.forEach(img => {
-                const src = img.getAttribute('src');
-                if (src && src.trim().length > 5) isValid = true;
-            });
-
-            const divs = atmoStage.querySelectorAll('div');
-            divs.forEach(div => {
-                if (div.style.backgroundImage && div.style.backgroundImage !== 'none' && div.style.backgroundImage !== '') {
-                    isValid = true;
-                }
-            });
-
-            atmoBtn.style.opacity = isValid ? '1' : '0.4';
-            atmoBtn.style.pointerEvents = isValid ? 'auto' : 'none';
         }
     }, 300);
 });
