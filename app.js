@@ -286,1241 +286,231 @@ document.addEventListener("DOMContentLoaded", () => {
         setTimeout(runRumorsCycle, 4000);
     }
     
-    // ---------- САБМІТ ТУТ ----------
-    const submitOverlay = document.getElementById('submit-overlay');
-    const closeSubmitBtn = document.getElementById('close-submit');
-    const submitActionBtn = document.getElementById('submit-action-btn');
-    const submitEditor = document.getElementById('submit-editor');
-    const submitContent = document.getElementById('submit-content');
-    const submitSentScreen = document.getElementById('submit-sent-screen');
-    const closeSentBtn = document.getElementById('close-sent');
-    const submitVideo = document.getElementById('submit-video');
-    const attachBtn = document.getElementById('attach-btn');
-    const attachInput = document.getElementById('attach-input');
-    const attachPreview = document.getElementById('attach-preview');
-    const fontSelect = document.getElementById('font-select');
-    const submitPreviewScreen = document.getElementById('submit-preview-screen');
-    const previewPostCard = document.getElementById('preview-post-card');
-    const previewMetaLine = document.getElementById('preview-meta-line');
-    const previewEditBtn = document.getElementById('preview-edit-btn');
-    const previewSendBtn = document.getElementById('preview-send-btn');
+     // ---------- НОВИЙ УНІВЕРСАЛЬНИЙ WYSIWYG ФЛОУ ----------
+    const wysiwygOverlay = document.getElementById('wysiwyg-overlay');
+    const flowVideo = document.getElementById('flow-video');
+    const stepEditor = document.getElementById('step-editor');
+    const stepPreview = document.getElementById('step-preview');
+    const stepSuccess = document.getElementById('step-success');
 
-    let lastScrollY = 0;
-    let finishSendTimeout;
+    const btnNextStep = document.getElementById('btn-next-step');
+    const btnPublish = document.getElementById('btn-publish');
+    const btnBack = document.getElementById('wysiwyg-back');
+    const btnClose = document.getElementById('wysiwyg-close');
+
+    const activeCard = document.getElementById('active-card');
+    const cardEditor = document.getElementById('card-editor');
+    const cardAnonInput = document.getElementById('card-anon-input');
+    const cardAuthorDisplay = document.getElementById('card-author-display');
+    const wysiwygTitle = document.getElementById('wysiwyg-title');
+    
+    // Елементи конструктора
+    const editorTools = document.getElementById('editor-tools');
+    const photoZone = document.getElementById('card-photo-zone');
+    const photoPreview = document.getElementById('card-photo-preview');
+    const photoPlaceholder = document.getElementById('photo-placeholder');
+    const fileInput = document.getElementById('card-file-input');
+
+    // Групування кнопок (Діра vs Скринька)
+    const blackHoleGroup = ['.b-unpopular', '.b-shopopalo', '.b-admins', '.b-problem', '.rumors-container', '.b-meme'];
+    const skrynkaGroup = ['.b-write-main', '.b-story', '.b-serious', '.b-atmosphere', '.b-advice', '.b-petition', '.b-complain', '.b-birthday', '.b-zbir', '.b-idea', '.b-thank', '.b-photo'];
+    
+    // Кнопки, де потрібне фото
+    const photoRequiredButtons = ['.b-atmosphere', '.b-photo', '.b-meme'];
+
+    // Нікнейм ріал-тайм
+    cardAnonInput.addEventListener('input', (e) => {
+        const val = e.target.value.trim();
+        cardAuthorDisplay.innerText = val ? `від: ${val}` : '👤 Анонімно';
+    });
+
+    // Завантаження фото
+    photoZone.addEventListener('click', () => fileInput.click());
+    fileInput.addEventListener('change', () => {
+        const file = fileInput.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            photoPreview.src = e.target.result;
+            photoPreview.style.display = 'block';
+            photoPlaceholder.style.display = 'none';
+        };
+        reader.readAsDataURL(file);
+    });
+
+    // Відкриття конструктора
+    function openCardBuilder(selector, titleText) {
+        const isHole = blackHoleGroup.includes(selector);
+        const mode = isHole ? 'hole' : 'mailbox';
+        const needsPhoto = photoRequiredButtons.includes(selector);
+        
+        wysiwygOverlay.className = `wysiwyg-overlay ${mode}-mode`;
+        wysiwygOverlay.style.display = 'flex';
+        
+        // Скидання екранів
+        stepEditor.style.display = 'flex';
+        stepPreview.style.display = 'none';
+        stepSuccess.style.display = 'none';
+        btnBack.style.display = 'none';
+        wysiwygTitle.style.display = 'block';
+        wysiwygTitle.innerText = titleText;
+        
+        // Скидання картки
+        cardEditor.innerHTML = '';
+        cardAnonInput.value = '';
+        cardAuthorDisplay.innerText = '👤 Анонімно';
+        photoPreview.src = '';
+        photoPreview.style.display = 'none';
+        photoPlaceholder.style.display = 'flex';
+        fileInput.value = '';
+        
+        // Налаштування вигляду картки залежно від типу кнопки
+        if (needsPhoto) {
+            photoZone.style.display = 'block';
+            cardEditor.style.minHeight = '10%'; // Менше місця для тексту (як підпис)
+            cardEditor.setAttribute('data-placeholder', 'Підпис (необовʼязково)');
+            editorTools.style.display = 'none'; // Ховаємо кольори/шрифти для фото
+            activeCard.style.background = isHole ? '#1a1a1a' : '#fff';
+            activeCard.style.color = isHole ? '#fff' : '#000';
+        } else {
+            photoZone.style.display = 'none';
+            cardEditor.style.minHeight = '50%';
+            cardEditor.setAttribute('data-placeholder', 'Починайте писати сюди...');
+            editorTools.style.display = 'flex';
+            activeCard.style.background = '#FAF8F4';
+            activeCard.style.color = '#222221';
+        }
+
+        // Відео
+        flowVideo.src = isHole ? 'blackhole.mp4' : 'skrynka.mp4';
+        flowVideo.classList.remove('playing');
+        flowVideo.pause();
+        flowVideo.currentTime = 0;
+        
+        document.body.classList.add('submit-open');
+    }
 
     const buttonTitles = {
-        '.b-write-main': 'НАПИСАТИ',
-        '.b-story': 'РОЗКАЗАТИ',
-        '.b-serious': 'НАПИСАТИ ЩОСЬ СЕРЙОЗНЕ',
-        '.b-petition': 'ЗВЕРНЕННЯ',
-        '.b-complain': 'ПОСКАРЖИТИСЬ',
-        '.b-zbir': 'ЗБІР',
-        '.b-idea': 'Є ІДЕЯ',
-        '.b-thank': 'ПОДЯКУВАТИ',
-        '.b-unpopular': 'НЕПОПУЛЯРНА ДУМКА',
-        '.b-shopopalo': 'ШОПОПАЛО',
-        '.b-admins': 'НАПИСАТИ АДМІНАМ',
-        '.rumors-container': 'ЧУТКИ',
-        '.b-problem': 'ОТАКА ПРОБЛЕМА',
-        '.b-advice': 'ПОТРІБНА ПОРАДА',
-        '.b-birthday': 'ПРИВІТАТИ З ДНЕМ НАРОДЖЕННЯ'
+        '.b-write-main': 'НАПИСАТИ', '.b-story': 'РОЗКАЗАТИ', '.b-serious': 'СЕРЙОЗНЕ',
+        '.b-petition': 'ЗВЕРНЕННЯ', '.b-complain': 'ПОСКАРЖИТИСЬ', '.b-zbir': 'ЗБІР',
+        '.b-idea': 'Є ІДЕЯ', '.b-thank': 'ПОДЯКУВАТИ', '.b-unpopular': 'НЕПОПУЛЯРНА ДУМКА',
+        '.b-shopopalo': 'ШОПОПАЛО', '.b-admins': 'АДМІНАМ', '.rumors-container': 'ЧУТКИ',
+        '.b-problem': 'ПРОБЛЕМА', '.b-advice': 'ПОРАДА', '.b-birthday': 'ДЕНЬ НАРОДЖЕННЯ',
+        '.b-atmosphere': 'АТМОСФЕРА', '.b-photo': 'ФОТО', '.b-meme': 'МЕМ'
     };
 
-    let toastTimeout;
-    function showValkyToast(text) {
-        if (!text) return;
-        
-        let toast = document.getElementById('valky-toast');
-        if (!toast) {
-            toast = document.createElement('div');
-            toast.id = 'valky-toast';
-            toast.className = 'valky-toast';
-            document.body.appendChild(toast);
-        }
-        
-        toast.innerText = text;
-        toast.classList.add('show');
-
-        clearTimeout(toastTimeout);
-        toastTimeout = setTimeout(() => {
-            toast.classList.remove('show');
-        }, 5000); 
-    }
-
-    function openSubmitOverlay(mode, placeholderText, defaultFont, titleText) {
-        lastScrollY = window.scrollY;
-        submitOverlay.className = `submit-overlay ${mode}-mode`;
-        submitOverlay.style.display = 'flex';
-        submitContent.style.display = 'flex';
-        submitPreviewScreen.style.display = 'none';  
-        submitSentScreen.style.display = 'none';
-        submitVideo.style.transition = 'none';
-        submitVideo.style.display = 'block';
-        document.body.classList.add('submit-open');
-
-        const overlayTitle = submitOverlay.querySelector('.submit-overlay-title');
-        if (overlayTitle) overlayTitle.style.display = 'none'; 
-
-        let innerTitle = submitContent.querySelector('.caps-label.dynamic-title');
-        if (!innerTitle) {
-            innerTitle = document.createElement('div');
-            innerTitle.className = 'caps-label dynamic-title';
-            innerTitle.style.marginBottom = '15px';
-            innerTitle.style.color = '#fff';
-            innerTitle.style.textAlign = 'center';
-            const editorWrap = document.querySelector('.submit-editor-wrap');
-            submitContent.insertBefore(innerTitle, editorWrap);
-        }
-        innerTitle.innerText = titleText || 'НАПИСАТИ';
-
-        const src = mode === 'mailbox' ? 'skrynka.mp4' : 'blackhole.mp4';
-        submitVideo.src = src;
-        submitVideo.style.filter = '';
-        submitVideo.style.transition = '';
-        submitVideo.load();
-        submitVideo.pause();
-        submitVideo.currentTime = 0;
-        
-        submitEditor.innerHTML = '';
-        submitEditor.setAttribute('data-placeholder', 'Пишіть сюди...');
-        
-        const counter = document.getElementById('char-counter');
-        if (counter) counter.innerText = '0';
-        
-        const cardHint = document.getElementById('card-count-hint');
-        if (cardHint) cardHint.innerText = '';
-        
-        const inlinePreview = document.getElementById('attach-preview-inline');
-        if (inlinePreview) inlinePreview.innerHTML = '';
-        
-        const appliedFont = defaultFont ? `'${defaultFont}', sans-serif` : 'Inter, sans-serif';
-        submitEditor.style.fontFamily = appliedFont;
-        submitEditor.dataset.activeFont = appliedFont;
-        
-        if (fontSelect) {
-            Array.from(fontSelect.options).forEach(opt => {
-                if (appliedFont.includes(opt.value)) {
-                    fontSelect.value = opt.value;
-                }
-            });
-        }
-
-        const hintEl = document.getElementById('submit-hint-text');
-        if (hintEl) hintEl.style.display = 'none'; 
-
-        if (placeholderText) {
-            showValkyToast(placeholderText); 
-        }
-        
-        currentBgColor = '#FAF8F4';
-        currentTextColor = '#222221';
-        // Оголошуємо змінні з кольоровими точками, якщо вони ще не існують
-        if (!textColorDots) textColorDots = document.querySelectorAll('.text-color-dot');
-        if (!bgColorDots) bgColorDots = document.querySelectorAll('.bg-color-dot');
-        textColorDots.forEach(d => d.classList.toggle('active', d.dataset.color === '#222221'));
-        bgColorDots.forEach(d => d.classList.toggle('active', d.dataset.color === '#FAF8F4'));
-        applyEditorColors();
-    }
-
-    submitEditor.addEventListener('paste', (e) => {
-        e.preventDefault();
-        const text = (e.clipboardData || window.clipboardData).getData('text/plain');
-        document.execCommand('insertText', false, text);
-        submitEditor.style.fontFamily = submitEditor.dataset.activeFont || 'Inter, sans-serif';
+    [...blackHoleGroup, ...skrynkaGroup].forEach(sel => {
+        const btn = document.querySelector(sel);
+        if (btn) btn.addEventListener('click', () => openCardBuilder(sel, buttonTitles[sel]));
     });
 
-    submitEditor.addEventListener('input', () => {
-        submitEditor.style.fontFamily = submitEditor.dataset.activeFont || 'Inter, sans-serif';
-        const len = submitEditor.innerText.replace(/\n$/, '').length;
-        const counter = document.getElementById('char-counter');
-        if (counter) counter.innerText = len; 
-        
-        const cardHint = document.getElementById('card-count-hint');
-        if (cardHint) {
-            const cardCount = Math.ceil(len / 350) || 1;
-            if (cardCount > 1) {
-                cardHint.innerHTML = `<div style="display:inline-flex; align-items:center; gap:6px; background:rgba(255,255,255,0.25); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); padding:6px 16px; border-radius:20px; font-size:13px; font-family:'Inter',sans-serif; color:#fff; font-weight:600; box-shadow:0 4px 15px rgba(0,0,0,0.1); border:1px solid rgba(255,255,255,0.1);"><span class="material-symbols-outlined" style="font-size:18px;">auto_awesome_mosaic</span> Розділено на ${cardCount} картки</div>`;
-            } else {
-                cardHint.innerHTML = '';
-            }
-        }
-    });
-
-    function closeSubmitOverlay() {
-        submitOverlay.style.display = 'none';
-        submitOverlay.className = 'submit-overlay';
-        submitEditor.innerHTML = '';
-        
-        const inlinePreview = document.getElementById('attach-preview-inline');
-        if (inlinePreview) inlinePreview.innerHTML = '';
-        
-        if (typeof submitVideo !== 'undefined' && submitVideo) {
-            submitVideo.pause();
-            submitVideo.src = '';
-            submitVideo.style.display = '';
-        }
-
-        if (typeof atmoVideo !== 'undefined' && atmoVideo) {
-            atmoVideo.style.display = ''; 
-            atmoVideo.style.filter = '';
-            atmoVideo.style.zIndex = '';
-            atmoVideo.play().catch(e => console.log('Safari video unfreeze:', e));
-        }
-        
-        clearTimeout(finishSendTimeout);
-        document.body.classList.remove('submit-open');
-        window.scrollTo({ top: lastScrollY, behavior: 'instant' });
-
-        const atmoPreviewScreen = document.getElementById('atmo-preview-screen');
-        const atmoContent = document.getElementById('atmo-content');
-        const atmoSentScreen = document.getElementById('atmo-sent-screen');
-
-        if (atmoPreviewScreen) atmoPreviewScreen.style.display = 'none';
-        if (atmoContent) atmoContent.style.display = 'flex';
-        if (atmoSentScreen) atmoSentScreen.style.display = 'none';
-
-        const atmoImgs = document.querySelectorAll('.atmo-slot-img-fill');
-        atmoImgs.forEach(img => {
-            img.src = '';
-            img.style.display = 'none';
-        });
-
-        const atmoCaps = document.querySelectorAll('.atmo-polaroid-caption');
-        atmoCaps.forEach(cap => cap.value = '');
-
-        const allHeaders = document.querySelectorAll('.submit-header');
-        allHeaders.forEach(h => h.style.display = '');
-    }
-
-    const mailboxButtons = ['.b-story', '.b-serious', '.b-petition', '.b-complain', '.b-birthday', '.b-zbir', '.b-idea', '.side-tag', '.b-write-main', '.b-thank', '.b-advice'];
-    const holeButtons = ['.b-unpopular', '.b-shopopalo', '.b-admins', '.rumors-container', '.b-problem'];
-
-    const buttonPlaceholders = {
-        '.b-write-main': 'Ну пишіть',
-        '.b-story': 'Розказуйте',
-        '.b-serious': 'Пишіть щось, ну тільки ж серйозне(о)',
-        '.b-petition': 'Це ж неофіційне звернення, ви ж розумієте? Але ВОНИ побачать, не сумнівайтеся 👀',
-        '.b-complain': 'Шо там вже сталося? Розказуйте-показуйте. Матюкатись можна.',
-        '.b-zbir': 'Додайте будь ласка всю важливу інформацію, офіційний (якщо є) запит, контакти і посилання, а також текст збору. Ми перевіримо і обовʼязково опублікуємо',
-        '.b-idea': 'Цікаво-цікаво. Розказуйте',
-        '.b-thank': 'Кому і за шо дякувати будете? Пишіть ❤️',
-        '.b-unpopular': 'Ага, тобто хочете срач розпочати?',
-        '.b-shopopalo': 'Пишіть своє шопопало, але майте на увазі, що якщо шопопалість вашого шопопала буде занадто, ми не гарантуємо, що опублікуємо це на каналі',
-        '.b-admins': 'Ну пишіть вже...',
-        '.rumors-container': 'Ну розказуйте шо чули, шо бачили. Чи ви просто запитати?',
-        '.b-problem': 'Розказуйте-показуйте. Де, шо і коли',
-        '.b-advice': 'Можливо вам підкажуть щось',
-        '.b-birthday': 'Напишіть своє привітання, побажання. Можна додати картинку'
-    };
-
-    const buttonFonts = {
-        '.b-write-main': 'Fira Sans Extra Condensed',
-        '.b-story': 'Vollkorn',
-        '.b-serious': 'Philosopher',
-        '.b-petition': 'Vollkorn',
-        '.side-tag': 'Inter',
-        '.rumors-container': 'Balsamiq Sans',
-        '.b-thank': 'Fira Sans Extra Condensed',
-        '.b-complain': 'Oswald',
-        '.b-problem': 'Fira Sans Extra Condensed',
-        '.b-unpopular': 'Dela Gothic One',
-        '.b-zbir': 'Space Grotesk',
-        '.b-idea': 'Oswald',
-        '.b-shopopalo': 'Balsamiq Sans',
-        '.b-birthday': 'Bad Script',
-        '.b-admins': 'Fira Sans Extra Condensed',
-        '.b-advice': 'Fira Sans Extra Condensed'
-    };
-
-    mailboxButtons.forEach(sel => {
-        const el = document.querySelector(sel);
-        if (el) el.addEventListener('click', () => openSubmitOverlay('mailbox', buttonPlaceholders[sel], buttonFonts[sel], buttonTitles[sel]));
-    });
-
-    holeButtons.forEach(sel => {
-        const el = document.querySelector(sel);
-        if (el) el.addEventListener('click', () => openSubmitOverlay('hole', buttonPlaceholders[sel], buttonFonts[sel], buttonTitles[sel]));
-    });
-
-    if (closeSubmitBtn) closeSubmitBtn.addEventListener('click', closeSubmitOverlay);
-    if (closeSentBtn) closeSentBtn.addEventListener('click', closeSubmitOverlay);
-
-    submitOverlay.addEventListener('click', (e) => {
-        if (e.target === submitOverlay) closeSubmitOverlay();
-    });
-
-    document.querySelectorAll('.toolbar-btn[data-cmd]').forEach(btn => {
-        btn.addEventListener('mousedown', (e) => {
-            e.preventDefault();
-            document.execCommand(btn.dataset.cmd, false, null);
-            btn.classList.toggle('active');
-            submitEditor.focus();
+    // Зміна кольорів і шрифтів (спрощена логіка)
+    document.querySelectorAll('.bg-color-dot').forEach(dot => {
+        dot.addEventListener('click', () => {
+            document.querySelectorAll('.bg-color-dot').forEach(d => d.classList.remove('active'));
+            dot.classList.add('active');
+            activeCard.style.background = dot.dataset.color;
+            document.getElementById('main-bg-color').style.background = dot.dataset.color;
         });
     });
-
-    if (fontSelect) {
-        fontSelect.addEventListener('change', () => {
-            const selectedFont = fontSelect.value;
-            const fontString = `'${selectedFont}', sans-serif`;
-            submitEditor.style.fontFamily = fontString;
-            submitEditor.dataset.activeFont = fontString;
-            submitEditor.focus();
-        });
-    }
-
-    const attachPreviewInline = document.getElementById('attach-preview-inline');
-
-    if (attachBtn && attachInput) {
-        attachBtn.addEventListener('click', () => attachInput.click());
-        attachInput.addEventListener('change', () => {
-            const file = attachInput.files[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                if (attachPreviewInline) {
-                    attachPreviewInline.innerHTML = '';
-                    const img = document.createElement('img');
-                    img.src = e.target.result;
-                    img.className = 'attach-thumb-full';
-                    attachPreviewInline.appendChild(img);
-                }
-            };
-            reader.readAsDataURL(file);
-        });
-    }
-
-    const mainTextColorBtn = document.getElementById('main-text-color');
-    const mainBgColorBtn = document.getElementById('main-bg-color');
-    const popoverText = document.getElementById('popover-text');
-    const popoverBg = document.getElementById('popover-bg');
-    const inlineDoneBtn = document.getElementById('inline-done-btn');
-
-    let currentBgColor = '#FAF8F4';
-    let currentTextColor = '#222221';
-
-    function applyEditorColors() {
-        submitEditor.style.background = currentBgColor;
-        submitEditor.style.color = currentTextColor;
-        mainTextColorBtn.style.background = currentTextColor;
-        mainBgColorBtn.style.background = currentBgColor;
-    }
-
-    function bindKeepFocus(element, callback) {
-        if (!element) return;
-        element.addEventListener('mousedown', (e) => {
-            e.preventDefault();
-            callback(e);
-        });
-        element.addEventListener('touchstart', (e) => {
-            e.preventDefault();
-            callback(e);
-        }, { passive: false });
-    }
-
-    bindKeepFocus(mainTextColorBtn, () => {
-        popoverText.classList.toggle('show');
-        popoverBg.classList.remove('show');
-    });
-
-    bindKeepFocus(mainBgColorBtn, () => {
-        popoverBg.classList.toggle('show');
-        popoverText.classList.remove('show');
-    });
-
-    document.addEventListener('mousedown', (e) => {
-        if (!e.target.closest('.color-picker-wrap')) {
-            popoverText.classList.remove('show');
-            popoverBg.classList.remove('show');
-        }
-    });
-
-    document.addEventListener('touchstart', (e) => {
-        if (!e.target.closest('.color-picker-wrap')) {
-            popoverText.classList.remove('show');
-            popoverBg.classList.remove('show');
-        }
-    }, { passive: true });
-
-    const safeTextColors = {
-        '#FAF8F4': ['#222221'],
-        '#262624': ['#FAF8F4', '#4282AA', '#B24A3B', '#D97757'],
-        '#FFFFFF': ['#222221']
-    };
-
-    const safeBgForText = {
-        '#222221': ['#FAF8F4', '#FFFFFF'],
-        '#B24A3B': ['#FAF8F4', '#FFFFFF'],
-        '#4282AA': ['#262624', '#FAF8F4'],
-        '#D97757': ['#262624', '#FAF8F4']
-    };
 
     document.querySelectorAll('.text-color-dot').forEach(dot => {
-        bindKeepFocus(dot, () => {
-            const color = dot.dataset.color;
-            const allowedBgs = safeBgForText[color];
-            if (allowedBgs && !allowedBgs.includes(currentBgColor)) {
-                currentBgColor = allowedBgs[0];
-            }
-            currentTextColor = color;
-            applyEditorColors();
-            popoverText.classList.remove('show');
-            submitEditor.focus();
-        });
-    });
-
-    document.querySelectorAll('.bg-color-dot').forEach(dot => {
-        bindKeepFocus(dot, () => {
-            const color = dot.dataset.color;
-            const allowedTexts = safeTextColors[color];
-            if (allowedTexts && !allowedTexts.includes(currentTextColor)) {
-                currentTextColor = allowedTexts[0];
-            }
-            currentBgColor = color;
-            applyEditorColors();
-            popoverBg.classList.remove('show');
-            submitEditor.focus();
-        });
-    });
-
-    function updateInlineDoneButtonState() {
-        if (!submitEditor || !inlineDoneBtn) return;
-        const textLength = submitEditor.innerText.trim().length;
-        const hasPhoto = attachPreviewInline && attachPreviewInline.innerHTML.trim() !== '';
-        inlineDoneBtn.disabled = (textLength === 0 && !hasPhoto);
-    }
-
-    if (submitEditor) {
-        submitEditor.addEventListener('focus', () => {
-            updateInlineDoneButtonState();
-            inlineDoneBtn.classList.add('show');
-        });
-        
-        submitEditor.addEventListener('blur', () => {
-            setTimeout(() => inlineDoneBtn.classList.remove('show'), 150);
-        });
-
-        submitEditor.addEventListener('input', updateInlineDoneButtonState);
-    }
-
-    if (attachPreviewInline) {
-        const observer = new MutationObserver(updateInlineDoneButtonState);
-        observer.observe(attachPreviewInline, { childList: true });
-    }
-
-    bindKeepFocus(inlineDoneBtn, () => {
-        if (!inlineDoneBtn.disabled) {
-            submitEditor.blur();
-        }
-    });
-
-    function generateValkyCardsHTML(rawHTML, photosArr, bgColor, textColor, font, authorName, extraClass = '') {
-        let html = '';
-        const safeFont = font.replace(/"/g, "'"); 
-        
-        const headerHTML = `
-            <div class="valky-card-header-pill" style="transform: scale(0.85); margin-bottom: 14px; margin-top: -8px;">
-                <img src="anonface.PNG" alt="Анонім">
-                <span class="pill-yellow">ВАЛКІВСЬКА</span>
-                <span class="pill-white">ПРИЙМАЛЬНЯ</span>
-            </div>
-        `;
-        const authorHTML = `<div class="valky-card-author">${authorName}</div>`;
-        const CHARS_PER_CARD = 350;
-
-        const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = rawHTML.replace(/<br\s*\/?>/gi, '\n'); 
-        let pureText = tempDiv.innerText || '';
-
-        let chunks = [];
-        let useHTML = false;
-
-        if (pureText.trim().length > 0) {
-            if (pureText.length <= CHARS_PER_CARD) {
-                chunks.push(rawHTML);
-                useHTML = true;
-            } else {
-                let currentChunk = '';
-                const tokens = pureText.split(/([ \n])/);
-                for (let t of tokens) {
-                    if ((currentChunk + t).length > CHARS_PER_CARD) {
-                        chunks.push(currentChunk.trim());
-                        currentChunk = t;
-                    } else {
-                        currentChunk += t;
-                    }
-                }
-                if (currentChunk.trim()) chunks.push(currentChunk.trim());
-            }
-        } else if (photosArr.length === 0) {
-            chunks.push('порожньо');
-        }
-
-        const isMultiCard = chunks.length > 1;
-
-        chunks.forEach((chunk, idx) => {
-            let fontClass = 'fs-small';
-            let align = 'left';
-
-            if (!isMultiCard) {
-                const len = useHTML ? pureText.length : chunk.length;
-                if (len < 80) fontClass = 'fs-huge';
-                else if (len < 180) fontClass = 'fs-large';
-                else if (len < 280) fontClass = 'fs-medium';
-                align = len > 193 ? 'left' : 'center';
-            }
-
-            const showHeader = idx === 0 ? headerHTML : '';
-            const showArrow = (idx < chunks.length - 1 || photosArr.length > 0) ? '<div class="valky-card-arrow">→</div>' : '';
-            
-            const finalContent = useHTML ? chunk : chunk.replace(/\n/g, '<br>');
-
-            html += `
-                <div class="valky-card ${extraClass}" style="background:${bgColor}; color:${textColor}; font-family:${safeFont} !important;">
-                    ${showHeader}
-                    <div class="valky-card-body ${fontClass}" style="font-family:${safeFont} !important; text-align:${align};">${finalContent}</div>
-                    ${showArrow}
-                    ${authorHTML}
-                </div>
-            `;
-        });
-
-        photosArr.slice(0, 5).forEach(src => {
-            html += `
-                <div class="valky-card" style="background:${bgColor}; color:${textColor}; font-family:${safeFont} !important;">
-                    ${headerHTML}
-                    <div class="valky-card-photo-wrap">
-                        <img src="${src}" class="valky-card-photo">
-                    </div>
-                    ${authorHTML}
-                </div>
-            `;
-        });
-
-        return html;
-    }
-
-    function getActiveNickname(containerId) {
-        const container = document.getElementById(containerId);
-        if (!container) return '👤 Анонімно';
-        const checkbox = container.querySelector('.anon-checkbox');
-        const input = container.querySelector('.anon-name-field');
-        if (checkbox && checkbox.checked) return '👤 Анонімно';
-        if (input && input.value.trim() !== '') return `від: ${input.value.trim()}`;
-        return '👤 Анонімно';
-    }
-
-    if (submitActionBtn) {
-        submitActionBtn.addEventListener('click', () => {
-            const nameVal = getActiveNickname('submit-content');
-            const rawText = submitEditor.innerHTML || '';
-
-            let photosArr = [];
-            const inlinePreview = document.getElementById('attach-preview-inline');
-            if (inlinePreview) {
-                const imgs = inlinePreview.querySelectorAll('img');
-                imgs.forEach(img => photosArr.push(img.src));
-            }
-
-            const isHole = submitOverlay.classList.contains('hole-mode');
-            const bg = currentBgColor || (isHole ? '#1a1a1a' : '#fff');
-            const tc = currentTextColor || (isHole ? '#e0e0e0' : '#1a1a1a');
-            const font = submitEditor.style.fontFamily || 'Inter, sans-serif';
-
-            const innerTitle = document.querySelector('.caps-label.dynamic-title');
-            const isBirthday = innerTitle && innerTitle.innerText === 'ПРИВІТАТИ З ДНЕМ НАРОДЖЕННЯ';
-            const extraClass = isBirthday ? 'festive-birthday-card' : '';
-
-            previewPostCard.innerHTML = generateValkyCardsHTML(rawText, photosArr, bg, tc, font, nameVal, extraClass);
-
-            if (previewMetaLine) previewMetaLine.style.display = 'none';
-           
-            submitContent.style.display = 'none';
-            submitPreviewScreen.style.display = 'flex';
-
-            const mainHeader = document.querySelector('.submit-header');
-            if (mainHeader) mainHeader.style.display = 'none';
-        });
-    }
-
-    if (previewEditBtn) {
-        previewEditBtn.addEventListener('click', () => {
-            submitPreviewScreen.style.display = 'none';
-            submitContent.style.display = 'flex';
-
-            const mainHeader = document.querySelector('.submit-header');
-            if (mainHeader) mainHeader.style.display = 'flex';
-        });
-    }
-
-    if (previewSendBtn) {
-        previewSendBtn.addEventListener('click', () => {
-            const mode = submitOverlay.classList.contains('mailbox-mode') ? 'mailbox' : 'hole';
-            submitPreviewScreen.style.background = 'transparent';
-            if (previewMetaLine) previewMetaLine.style.opacity = '0';
-            const editBtn = document.getElementById('preview-edit-btn');
-            if (editBtn) editBtn.style.opacity = '0';
-            previewSendBtn.style.opacity = '0';
-            const previewLabel = document.querySelector('.preview-label');
-            if (previewLabel) previewLabel.style.opacity = '0';
-
-            if (submitVideo) {
-                submitVideo.currentTime = 0;
-                submitVideo.style.zIndex = '14';
-                submitVideo.style.display = 'block';
-                submitVideo.style.filter = 'blur(0px) brightness(0.8)';
-                submitVideo.play();
-            }
-      
-            previewPostCard.classList.add(`fly-to-${mode}`);
-
-            const animDuration = mode === 'hole' ? 4600 : 1000;
-
-            setTimeout(() => {
-                submitPreviewScreen.style.display = 'none';
-                submitPreviewScreen.style.background = '';
-                if (submitVideo) submitVideo.style.zIndex = '';
-                previewPostCard.classList.remove(`fly-to-${mode}`);
-                if (previewMetaLine) previewMetaLine.style.opacity = '1';
-                if (editBtn) editBtn.style.opacity = '1';
-                if (previewSendBtn) previewSendBtn.style.opacity = '1';
-                if (previewLabel) previewLabel.style.opacity = '1';
-            }, animDuration);
-
-            const finishSend = () => {
-                if (submitVideo) submitVideo.style.display = 'none';
-                submitSentScreen.style.display = 'flex';
-            };
-
-            if (submitVideo) {
-                submitVideo.onended = finishSend;
-                finishSendTimeout = setTimeout(() => {
-                    if (submitSentScreen.style.display !== 'flex') finishSend();
-                }, 8000);
-            } else {
-                finishSend();
-            }
-        });
-    }
-
-    // ---------- АТМОСФЕРА ----------
-    const atmoOverlay = document.getElementById('atmo-overlay');
-    const closeAtmoBtn = document.getElementById('close-atmo');
-    const atmoActionBtn = document.getElementById('atmo-action-btn');
-    const atmoContent = document.getElementById('atmo-content');
-    const atmoSentScreen = document.getElementById('atmo-sent-screen');
-    const closeAtmoSent = document.getElementById('close-atmo-sent');
-    const atmoStage = document.getElementById('atmo-stage');
-
-    function openAtmoOverlay() {
-        lastScrollY = window.scrollY;
-        atmoOverlay.className = `submit-overlay atmo-overlay mailbox-mode`;
-        atmoOverlay.style.display = 'flex';
-        atmoContent.style.display = 'flex';
-        atmoSentScreen.style.display = 'none';
-        document.body.classList.add('submit-open');
-
-        currentAtmoLayout = 'single-polaroid';
-        document.querySelectorAll('.atmo-layout-btn').forEach(b => {
-            b.classList.toggle('active', b.dataset.layout === 'single-polaroid');
-        });
-
-        renderAtmoStage(currentAtmoLayout);
-    }
-
-    function closeAtmoOverlay() {
-        atmoOverlay.style.display = 'none';
-        document.body.classList.remove('submit-open');
-        window.scrollTo({ top: lastScrollY, behavior: 'instant' });
-
-        const atmoHeader = document.querySelector('#atmo-overlay .submit-header');
-        if (atmoHeader) atmoHeader.style.display = 'flex';
-
-        if (typeof atmoVideo !== 'undefined' && atmoVideo) {
-            atmoVideo.style.display = 'block';
-            atmoVideo.style.filter = '';
-            atmoVideo.style.zIndex = '';
-            atmoVideo.pause();
-            atmoVideo.load();
-        }
-
-        const atmoPreviewScreen = document.getElementById('atmo-preview-screen');
-        const atmoContent = document.getElementById('atmo-content');
-        const atmoSentScreen = document.getElementById('atmo-sent-screen');
-
-        if (atmoPreviewScreen) atmoPreviewScreen.style.display = 'none';
-        if (atmoContent) atmoContent.style.display = 'flex';
-        if (atmoSentScreen) atmoSentScreen.style.display = 'none';
-
-        const atmoImgs = document.querySelectorAll('.atmo-slot-img-fill');
-        atmoImgs.forEach(img => {
-            img.src = '';
-            img.style.display = 'none';
-            img.style.objectPosition = '50% 50%';
-        });
-        
-        const atmoCaps = document.querySelectorAll('.atmo-polaroid-caption');
-        atmoCaps.forEach(cap => cap.value = '');
-        
-        const atmoInputs = document.querySelectorAll('.atmo-polaroid-slot input[type="file"], .atmo-square-slot input[type="file"]');
-        atmoInputs.forEach(inp => inp.value = '');
-        
-        const atmoPlaceholders = document.querySelectorAll('.atmo-slot-placeholder');
-        atmoPlaceholders.forEach(pl => pl.style.display = 'flex');
-    }
-
-    const atmoBtnEl = document.querySelector('.b-atmosphere');
-    if (atmoBtnEl) atmoBtnEl.addEventListener('click', openAtmoOverlay);
-
-    if (closeAtmoBtn) closeAtmoBtn.addEventListener('click', closeAtmoOverlay);
-    if (closeAtmoSent) closeAtmoSent.addEventListener('click', closeAtmoOverlay);
-
-    let currentAtmoLayout = 'single-polaroid';
-
-    function buildAtmoSlot(isPolaroid, captionEnabled) {
-        const slot = document.createElement('div');
-        slot.className = isPolaroid ? 'atmo-polaroid-slot' : 'atmo-square-slot';
-        
-        const inner = document.createElement('div');
-        inner.className = 'atmo-slot-placeholder';
-        inner.innerHTML = `<span class="material-symbols-outlined" style="font-size:36px; color:#ccc;">add_photo_alternate</span>`;
-        
-        const img = document.createElement('img');
-        img.className = 'atmo-slot-img-fill';
-        img.style.display = 'none';
-        img.style.objectFit = 'cover';
-        img.style.objectPosition = '50% 50%';
-        
-        const input = document.createElement('input');
-        input.type = 'file';
-        input.accept = 'image/*';
-        input.multiple = true;
-        input.style.display = 'none';
-        
-        slot.appendChild(inner);
-        slot.appendChild(img);
-        slot.appendChild(input);
-        
-        if (isPolaroid && captionEnabled) {
-            const cap = document.createElement('input');
-            cap.type = 'text';
-            cap.className = 'atmo-polaroid-caption';
-            cap.placeholder = 'підпис...';
-            cap.maxLength = 35;
-            slot.appendChild(cap);
-        }
-        
-        let isDragging = false;
-        let startX, startY, startPosX, startPosY;
-
-        img.addEventListener('touchstart', (e) => {
-            if (e.touches.length > 1) return;
-            isDragging = false;
-            startX = e.touches[0].clientX;
-            startY = e.touches[0].clientY;
-            const pos = img.style.objectPosition.split(' ');
-            startPosX = parseFloat(pos[0]) || 50;
-            startPosY = parseFloat(pos[1]) || 50;
-        }, { passive: true });
-
-        img.addEventListener('touchmove', (e) => {
-            if (e.touches.length > 1) return;
-            const dx = e.touches[0].clientX - startX;
-            const dy = e.touches[0].clientY - startY;
-
-            if (Math.abs(dx) > 5 || Math.abs(dy) > 5) {
-                isDragging = true;
-                e.preventDefault();
-                const percentX = (dx / img.offsetWidth) * 100;
-                const percentY = (dy / img.offsetHeight) * 100;
-                
-                let newX = startPosX - (percentX * 1.5);
-                let newY = startPosY - (percentY * 1.5);
-                
-                newX = Math.max(0, Math.min(100, newX));
-                newY = Math.max(0, Math.min(100, newY));
-                
-                img.style.objectPosition = `${newX}% ${newY}%`;
-            }
-        }, { passive: false });
-        
-        slot.addEventListener('click', (e) => {
-            if (e.target.tagName === 'INPUT' && e.target.type === 'text') return;
-            if (isDragging) return;
-            input.click();
-        });
-        
-        input.addEventListener('change', () => {
-            const files = Array.from(input.files);
-            if (!files.length) return;
-            
-            const allSlots = document.querySelectorAll('#atmo-stage .atmo-polaroid-slot, #atmo-stage .atmo-square-slot');
-            const currentIndex = Array.from(allSlots).indexOf(slot);
-            
-            files.forEach((file, i) => {
-                const targetSlot = allSlots[currentIndex + i];
-                if (targetSlot) {
-                    const targetImg = targetSlot.querySelector('.atmo-slot-img-fill');
-                    const targetInner = targetSlot.querySelector('.atmo-slot-placeholder');
-                    const reader = new FileReader();
-                    reader.onload = (ev) => {
-                        targetImg.src = ev.target.result;
-                        targetImg.style.display = 'block';
-                        targetImg.style.objectPosition = '50% 50%';
-                        if(targetInner) targetInner.style.display = 'none';
-                    };
-                    reader.readAsDataURL(file);
-                }
-            });
-            
-            input.value = '';
-        });
-        
-        return slot;
-    }
-
-    function renderAtmoStage(layout) {
-        if (!atmoStage) return;
-        atmoStage.innerHTML = '';
-        atmoStage.className = 'atmo-stage atmo-stage--' + layout;
-        
-        if (layout === 'single-polaroid') {
-            atmoStage.appendChild(buildAtmoSlot(true, true));
-        } else if (layout === 'two-polaroid') {
-            atmoStage.appendChild(buildAtmoSlot(true, true));
-            atmoStage.appendChild(buildAtmoSlot(true, true));
-            atmoStage.style.display = 'flex';
-            atmoStage.style.gap = '10px';
-        } else if (layout === 'single-square') {
-            atmoStage.appendChild(buildAtmoSlot(false, false));
-        } else if (layout === 'grid-four') {
-            for (let i = 0; i < 4; i++) atmoStage.appendChild(buildAtmoSlot(false, false));
-        }
-    }
-
-    document.querySelectorAll('.atmo-layout-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            document.querySelectorAll('.atmo-layout-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            currentAtmoLayout = btn.dataset.layout;
-            renderAtmoStage(currentAtmoLayout);
-        });
-    });
-
-    const atmoVideo = document.getElementById('atmo-video');
-
-    if (atmoVideo) {
-        atmoVideo.src = 'skrynka.mp4';
-        atmoVideo.load();
-    }
-
-    const atmoPreviewScreen = document.getElementById('atmo-preview-screen');
-    const atmoPreviewCard = document.getElementById('atmo-preview-card');
-    const atmoPreviewMetaLine = document.getElementById('atmo-preview-meta-line');
-    const atmoPreviewEditBtn = document.getElementById('atmo-preview-edit-btn');
-    const atmoPreviewSendBtn = document.getElementById('atmo-preview-send-btn');
-
-    let currentAtmoBg = '#FAF8F4';
-    const atmoBgDots = document.querySelectorAll('.atmo-bg-dot');
-
-    atmoBgDots.forEach(dot => {
         dot.addEventListener('click', () => {
-            atmoBgDots.forEach(d => d.classList.remove('active'));
+            document.querySelectorAll('.text-color-dot').forEach(d => d.classList.remove('active'));
             dot.classList.add('active');
-            currentAtmoBg = dot.dataset.color;
-            if (atmoStage) atmoStage.style.background = currentAtmoBg;
+            activeCard.style.color = dot.dataset.color;
+            document.getElementById('main-text-color').style.background = dot.dataset.color;
         });
     });
 
-    if (atmoActionBtn) {
-        atmoActionBtn.addEventListener('click', () => {
-            const nameVal = getActiveNickname('atmo-content');
-            let photosData = [];
-            
-            const slots = atmoStage.querySelectorAll('.atmo-polaroid-slot, .atmo-square-slot');
-            slots.forEach(slot => {
-                const img = slot.querySelector('.atmo-slot-img-fill');
-                const cap = slot.querySelector('.atmo-polaroid-caption');
-             
-                if (img && img.style.display !== 'none' && img.src) {
-                    photosData.push({
-                        src: img.src,
-                        caption: cap && cap.value ? cap.value.trim() : '',
-                        isPolaroid: slot.classList.contains('atmo-polaroid-slot'),
-                        objPos: img.style.objectPosition || '50% 50%'
-                    });
-                }
-            });
-            
-            const textColor = ['#FAF8F4', '#FFFFFF'].includes(currentAtmoBg) ? '#1a1a1a' : '#FAF8F4';
-            let html = '';
-            
-            const headerHTML = `
-                <div class="valky-card-header-pill" style="transform: scale(0.85); margin-bottom: 14px; margin-top: -8px;">
-                    <img src="anonface.PNG" alt="Анонім">
-                    <span class="pill-yellow">ВАЛКІВСЬКА</span>
-                    <span class="pill-white">ПРИЙМАЛЬНЯ</span>
-                </div>
-            `;
-            const authorHTML = `<div class="valky-card-author" style="color:${textColor};">${nameVal}</div>`;
-
-            if (photosData.length > 0) {
-                html += `
-                    <div class="valky-card" style="background:${currentAtmoBg}; justify-content: space-between; align-items: center;">
-                        ${headerHTML}
-                        <div style="display: flex; flex-wrap: wrap; justify-content: center; width: 100%; margin: auto 0; position: relative;">
-                `;
-                
-                if (photosData.length === 4) {
-                    html += `<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; width: 100%; margin-bottom: 24px;">`;
-                    photosData.forEach(p => {
-                        html += `
-                            <div style="background: #fff; padding: 6px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); border-radius: 2px;">
-                                <img src="${p.src}" style="width: 100%; aspect-ratio: 1/1; object-fit: cover; object-position: ${p.objPos}; border: 1px solid #eee; display: block;">
-                            </div>
-                        `;
-                    });
-                    html += `</div>`;
-                } else if (photosData.length === 2) {
-                    html += `<div style="display: flex; justify-content: center; align-items: center; width: 100%; height: 320px; position: relative; margin-bottom: 24px;">`;
-                    photosData.forEach((p, idx) => {
-                        const rotate = idx === 0 ? '-6deg' : '9deg';
-                        const left = idx === 0 ? '0%' : 'auto';
-                        const right = idx === 1 ? '-4%' : 'auto';
-                        const zIndex = idx === 0 ? '1' : '2';
-                        const top = idx === 0 ? '0px' : '55px';
-                        const width = idx === 0 ? '58%' : '65%';
-                        const shadow = idx === 0 ? '0 4px 15px rgba(0,0,0,0.15)' : '0 12px 30px rgba(0,0,0,0.3)';
-
-                        html += `
-                            <div style="position: absolute; left: ${left}; right: ${right}; top: ${top}; z-index: ${zIndex}; background: #fff; padding: 10px 10px 15px 10px; box-shadow: ${shadow}; border-radius: 2px; display: flex; flex-direction: column; width: ${width}; transform: rotate(${rotate});">
-                                <img src="${p.src}" style="width: 100%; aspect-ratio: 1/1; object-fit: cover; object-position: ${p.objPos}; border: 1px solid #eee;">
-                                <div style="flex: 1; display: flex; align-items: center; justify-content: center; min-height: 35px; padding-top: 5px;">
-                                    ${p.caption ? `<div style="font-family: 'Caveat', cursive; font-size: 16px; color: #111; text-align: center; line-height: 1;">${p.caption}</div>` : ''}
-                                </div>
-                            </div>
-                        `;
-                    });
-                    html += `</div>`;
-                } else {
-                    const p = photosData[0];
-                    const isSquare = !p.isPolaroid;
-                    const pb = isSquare ? '10px' : '10px';
-                    const minH = isSquare ? '0' : '40px';
-                    const w = isSquare ? '85%' : '80%';
-
-                    html += `
-                        <div style="background: #fff; padding: 10px 10px ${pb} 10px; box-shadow: 0 6px 15px rgba(0,0,0,0.15); border-radius: 2px; display: flex; flex-direction: column; width: ${w}; margin-top: -10px; margin-bottom: 24px;">
-                            <img src="${p.src}" style="width: 100%; aspect-ratio: 1/1; object-fit: cover; object-position: ${p.objPos}; border: 1px solid #eee; display: block;">
-                            ${!isSquare ? `
-                            <div style="display: flex; align-items: center; justify-content: center; min-height: ${minH}; padding-top: 8px;">
-                                ${p.caption ? `<div style="font-family: 'Caveat', cursive; font-size: 22px; color: #111; text-align: center; line-height: 1;">${p.caption}</div>` : ''}
-                            </div>
-                            ` : ''}
-                        </div>
-                    `;
-                }
-
-                html += `
-                        </div>
-                        ${authorHTML}
-                    </div>
-                `;
-            } else {
-                html += `<div class="valky-card" style="background:${currentAtmoBg};"><div style="color:${textColor}; margin: auto;">Пусто</div></div>`;
-            }
-
-            atmoPreviewCard.innerHTML = html;
-            if (atmoPreviewMetaLine) atmoPreviewMetaLine.style.display = 'none';
-            
-            atmoContent.style.display = 'none';
-            atmoPreviewScreen.style.display = 'flex';
-            
-            const atmoHeader = document.querySelector('#atmo-overlay .submit-header');
-            if (atmoHeader) atmoHeader.style.display = 'none';
+    const fontSelect = document.getElementById('card-font-select');
+    if (fontSelect) {
+        fontSelect.addEventListener('change', () => {
+            activeCard.style.fontFamily = `'${fontSelect.value}', sans-serif`;
         });
     }
 
-    if (atmoPreviewEditBtn) {
-        atmoPreviewEditBtn.addEventListener('click', () => {
-            atmoPreviewScreen.style.display = 'none';
-            atmoContent.style.display = 'flex';
-            
-            const atmoHeader = document.querySelector('#atmo-overlay .submit-header');
-            if (atmoHeader) atmoHeader.style.display = 'flex';
-        });
-    }
+    // Поповери кольорів
+    document.getElementById('main-text-color').addEventListener('click', () => {
+        document.getElementById('popover-text').classList.toggle('show');
+        document.getElementById('popover-bg').classList.remove('show');
+    });
+    document.getElementById('main-bg-color').addEventListener('click', () => {
+        document.getElementById('popover-bg').classList.toggle('show');
+        document.getElementById('popover-text').classList.remove('show');
+    });
 
-    if (atmoPreviewSendBtn) {
-        atmoPreviewSendBtn.addEventListener('click', () => {
-            atmoPreviewScreen.style.background = 'transparent';
-            if (atmoPreviewMetaLine) atmoPreviewMetaLine.style.opacity = '0';
-            if (atmoPreviewEditBtn) atmoPreviewEditBtn.style.opacity = '0';
-            atmoPreviewSendBtn.style.opacity = '0';
-            
-            const previewLabel = atmoPreviewScreen.querySelector('.preview-label');
-            if (previewLabel) previewLabel.style.opacity = '0';
-
-            if (atmoVideo) {
-                atmoVideo.currentTime = 0;
-                atmoVideo.style.zIndex = '14';
-                atmoVideo.style.display = 'block';
-                atmoVideo.style.filter = 'blur(0px) brightness(0.8)';
-                atmoVideo.play().catch(e => console.log(e));
-            }
-
-            atmoPreviewCard.classList.add('fly-to-mailbox');
-
-            setTimeout(() => {
-                atmoPreviewScreen.style.display = 'none';
-                atmoPreviewScreen.style.background = '';
-                if (atmoVideo) atmoVideo.style.zIndex = '';
-                atmoPreviewCard.classList.remove('fly-to-mailbox');
-                if (atmoPreviewMetaLine) atmoPreviewMetaLine.style.opacity = '1';
-                if (atmoPreviewEditBtn) atmoPreviewEditBtn.style.opacity = '1';
-                atmoPreviewSendBtn.style.opacity = '1';
-                if (previewLabel) previewLabel.style.opacity = '1';
-            }, 1000);
-
-            const finishSend = () => {
-                if (atmoVideo) atmoVideo.style.display = 'none';
-                atmoSentScreen.style.display = 'flex';
-            };
-
-            if (atmoVideo) {
-                atmoVideo.onended = finishSend;
-                setTimeout(() => {
-                    if (atmoSentScreen.style.display !== 'flex') finishSend();
-                }, 8000);
-            } else {
-                finishSend();
-            }
-        });
-    }
-
-    // ---------- ФОТО ТА МЕМ ----------
-    const photoOverlay = document.getElementById('photo-overlay');
-    const closePhotoBtn = document.getElementById('close-photo');
-    const photoActionBtn = document.getElementById('photo-action-btn');
-    const photoContent = document.getElementById('photo-content');
-    const photoSentScreen = document.getElementById('photo-sent-screen');
-    const closePhotoSent = document.getElementById('close-photo-sent');
-    const photoDropZone = document.getElementById('photo-drop-zone');
-    const photoFileInput = document.getElementById('photo-file-input');
-    const photoPreviewImg = document.getElementById('photo-preview-img');
-    const photoDropInner = document.getElementById('photo-drop-inner');
-    const photoOverlayTitle = document.getElementById('photo-overlay-title');
-
-    function openPhotoOverlay(type, mode) {
-        lastScrollY = window.scrollY;
-        photoOverlay.className = `submit-overlay photo-overlay ${mode}-mode`;
-        photoOverlay.style.display = 'flex';
-        photoContent.style.display = 'flex';
-        photoSentScreen.style.display = 'none';
-        photoPreviewImg.style.display = 'none';
-        photoDropInner.style.display = 'flex';
-        photoFileInput.value = '';
-        photoOverlayTitle.innerText = type === 'meme' ? 'ВІДПРАВИТИ МЕМ' : 'ВІДПРАВИТИ ФОТО';
-        document.body.classList.add('submit-open');
-        const captionWrap = document.getElementById('photo-caption-wrap');
-        if (captionWrap) captionWrap.style.display = 'none';
+    // ДАЛІ
+    btnNextStep.addEventListener('click', () => {
+        const previewWorkspace = document.getElementById('preview-workspace');
+        previewWorkspace.innerHTML = '';
         
-        const photoVideo = document.getElementById('photo-video');
-        if(photoVideo) {
-            photoVideo.src = mode === 'hole' ? 'blackhole.mp4' : 'skrynka.mp4';
-            photoVideo.load();
+        const clonedCard = activeCard.cloneNode(true);
+        clonedCard.id = ''; // прибираємо id з клону
+        
+        const clonedEditor = clonedCard.querySelector('.card-text-zone');
+        if(clonedEditor) {
+            clonedEditor.removeAttribute('contenteditable');
+            if(clonedEditor.innerText.trim() === '') clonedEditor.style.display = 'none';
         }
-    }
 
-    function closePhotoOverlay() {
-        photoOverlay.style.display = 'none';
-        document.body.classList.remove('submit-open');
-        window.scrollTo({ top: lastScrollY, behavior: 'instant' });
-    }
-
-    const photoBtnEl = document.querySelector('.b-photo');
-    const memeBtnEl = document.querySelector('.b-meme');
-    if (photoBtnEl) photoBtnEl.addEventListener('click', () => openPhotoOverlay('photo', 'mailbox'));
-    if (memeBtnEl) memeBtnEl.addEventListener('click', () => openPhotoOverlay('meme', 'hole'));
-
-    if (closePhotoBtn) closePhotoBtn.addEventListener('click', closePhotoOverlay);
-    if (closePhotoSent) closePhotoSent.addEventListener('click', closePhotoOverlay);
-
-    if (photoDropZone) {
-        photoDropZone.addEventListener('click', () => photoFileInput.click());
-    }
-
-    if (photoFileInput) {
-        photoFileInput.addEventListener('change', () => {
-            const file = photoFileInput.files[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                photoPreviewImg.src = e.target.result;
-                photoPreviewImg.style.display = 'block';
-                photoDropInner.style.display = 'none';
-                const captionWrap = document.getElementById('photo-caption-wrap');
-                if (captionWrap) captionWrap.style.display = 'block';
-            };
-            reader.readAsDataURL(file);
-        });
-    }
-
-    const photoPreviewScreen = document.getElementById('photo-preview-screen');
-    const photoPreviewCard = document.getElementById('photo-preview-card');
-    const photoPreviewMetaLine = document.getElementById('photo-preview-meta-line');
-    const photoPreviewEditBtn = document.getElementById('photo-preview-edit-btn');
-    const photoPreviewSendBtn = document.getElementById('photo-preview-send-btn');
-
-    if (photoActionBtn) {
-        photoActionBtn.addEventListener('click', () => {
-            const nameVal = getActiveNickname('photo-content');
-            const rawText = document.getElementById('photo-caption') ? document.getElementById('photo-caption').value.trim() : '';
-            let photosArr = [];
-            
-            if (photoPreviewImg && photoPreviewImg.src && photoPreviewImg.style.display !== 'none') {
-                photosArr.push(photoPreviewImg.src);
-            }
-
-            const isHole = photoOverlay.classList.contains('hole-mode');
-            const bg = isHole ? '#1a1a1a' : '#fff';
-            const tc = isHole ? '#e0e0e0' : '#1a1a1a';
-            const font = isHole ? 'Impact, sans-serif' : "'Inter', sans-serif";
-
-            photoPreviewCard.innerHTML = generateValkyCardsHTML(rawText, photosArr, bg, tc, font, nameVal);
-            if (photoPreviewMetaLine) photoPreviewMetaLine.style.display = 'none';
-            
-            photoContent.style.display = 'none';
-            photoPreviewScreen.style.display = 'flex';
-        });
-    }
-
-    if (photoPreviewEditBtn) {
-        photoPreviewEditBtn.addEventListener('click', () => {
-            photoPreviewScreen.style.display = 'none';
-            photoContent.style.display = 'flex';
-        });
-    }
-
-    if (photoPreviewSendBtn) {
-        photoPreviewSendBtn.addEventListener('click', () => {
-            const mode = photoOverlay.classList.contains('hole-mode') ? 'hole' : 'mailbox';
-            photoPreviewScreen.style.background = 'transparent';
-            if (photoPreviewMetaLine) photoPreviewMetaLine.style.opacity = '0';
-            if (photoPreviewEditBtn) photoPreviewEditBtn.style.opacity = '0';
-            photoPreviewSendBtn.style.opacity = '0';
-            const previewLabel = photoPreviewScreen.querySelector('.preview-label');
-            if (previewLabel) previewLabel.style.opacity = '0';
-
-            const photoVideo = document.getElementById('photo-video');
-            if (photoVideo) {
-                photoVideo.currentTime = 0;
-                photoVideo.style.zIndex = '14';
-                photoVideo.style.display = 'block';
-                photoVideo.style.filter = 'blur(0px) brightness(0.8)';
-                photoVideo.play();
-            }
-
-            photoPreviewCard.classList.add(`fly-to-${mode}`);
-
-            const animDuration = mode === 'hole' ? 4600 : 1000;
-
-            setTimeout(() => {
-                photoPreviewScreen.style.display = 'none';
-                photoPreviewScreen.style.background = '';
-                if (photoVideo) photoVideo.style.zIndex = '';
-                photoPreviewCard.classList.remove(`fly-to-${mode}`);
-                if (photoPreviewMetaLine) photoPreviewMetaLine.style.opacity = '1';
-                if (photoPreviewEditBtn) photoPreviewEditBtn.style.opacity = '1';
-                if (photoPreviewSendBtn) photoPreviewSendBtn.style.opacity = '1';
-                if (previewLabel) previewLabel.style.opacity = '1';
-            }, animDuration);
-
-            const finishSend = () => {
-                if (photoVideo) photoVideo.style.display = 'none';
-                photoSentScreen.style.display = 'flex';
-            };
-
-            if (photoVideo) {
-                photoVideo.onended = finishSend;
-                setTimeout(() => { if (photoSentScreen.style.display !== 'flex') finishSend(); }, 8000);
+        const clonedPhotoZone = clonedCard.querySelector('.card-photo-zone');
+        if (clonedPhotoZone) {
+            const previewImg = clonedPhotoZone.querySelector('img');
+            if (!previewImg.src || previewImg.style.display === 'none') {
+                clonedPhotoZone.style.display = 'none';
             } else {
-                finishSend();
+                clonedPhotoZone.querySelector('.photo-placeholder').style.display = 'none';
             }
-        });
-    }
-
-    // ---------- ДОСЯГНЕННЯ (тільки перше) ----------
-    function showAchievementCard(text) {
-        const cleanText = text.replace(/\n\n📸[\s\S]*/g, '').replace(/\n\n👀[\s\S]*/g, '');
-        const lines = cleanText.split('\n').filter(l => l.trim());
-        const titleLine = lines[0] || '';
-        const numberMatch = titleLine.match(/Досягнення #(\d+)/);
-        const number = numberMatch ? numberMatch[1] : '';
-        const titleText = titleLine.replace(/Досягнення #\d+:?\s*/, '').trim();
-        const descText = lines.slice(1).join(' ').trim();
-
-        const card = document.createElement('div');
-        card.className = 'achievement-card';
-        card.innerHTML = `
-            <div class="card-plastic-wrap">
-                <span class="achievement-close" onclick="this.closest('.achievement-card').remove()">✕</span>
-                <div class="card-inner">
-                    <div class="card-body">
-                        <div class="card-number">Досягнення #${number}</div>
-                        <div class="card-title">${titleText}</div>
-                        <div class="card-desc">${descText}</div>
-                    </div>
-                </div>
-            </div>
-        `;
-        document.body.appendChild(card);
-    }
-
-    function showDoorBubble(event, text, customDuration) {
-        const doorEl = event.currentTarget;
-        const rect = doorEl.getBoundingClientRect();
-        const bubble = document.createElement('div');
-        bubble.className = 'door-bubble';
-        bubble.innerText = text;
-        bubble.style.left = `${rect.left + rect.width / 2}px`;
-        bubble.style.top = `${rect.top}px`;
-        bubble.style.position = 'fixed';
-        document.body.appendChild(bubble);
-        const duration = customDuration || Math.max(2500, text.length * 60);
-        setTimeout(() => bubble.remove(), duration);
-    }
-
-    // Функція показу артефакту (тільки один пробний)
-    function showPredictionPopup(text) {
-        const isArtifact = text.includes('артефакт');
-        if (isArtifact) {
-            const nameMatch = text.match(/<b>(.*?)<\/b>/);
-            const artifactName = nameMatch ? nameMatch[1] : text;
-
-            const card = document.createElement('div');
-            card.className = 'artifact-card';
-            card.innerHTML = `
-                <div class="artifact-plastic-wrap">
-                    <span class="achievement-close" onclick="this.closest('.artifact-card').remove()">✕</span>
-                    <div class="artifact-inner">
-                        <div class="artifact-image-area">
-                            <span class="artifact-image-placeholder">🗿</span>
-                        </div>
-                        <div class="artifact-body">
-                            <div class="artifact-label">Артефакт знайдено</div>
-                            <div class="artifact-name">${artifactName}</div>
-                        </div>
-                    </div>
-                </div>
-            `;
-            document.body.appendChild(card);
-            setTimeout(() => card.remove(), 8000);
-            return;
         }
-        // Передбачення більше не використовуються, тому нічого не робимо
-    }
+        
+        previewWorkspace.appendChild(clonedCard);
+        
+        stepEditor.style.display = 'none';
+        stepPreview.style.display = 'flex';
+        btnBack.style.display = 'block';
+        wysiwygTitle.style.display = 'none';
+    });
 
-    // ---------- ДВЕРІ (всі тексти бульбашок та ефекти залишаємо) ----------
+    // НАЗАД
+    btnBack.addEventListener('click', () => {
+        stepPreview.style.display = 'none';
+        stepEditor.style.display = 'flex';
+        btnBack.style.display = 'none';
+        wysiwygTitle.style.display = 'block';
+    });
+
+    // ЗАКРИТИ
+    btnClose.addEventListener('click', () => {
+        wysiwygOverlay.style.display = 'none';
+        document.body.classList.remove('submit-open');
+    });
+
+    // ОПУБЛІКУВАТИ
+    btnPublish.addEventListener('click', () => {
+        stepPreview.style.display = 'none';
+        btnBack.style.display = 'none';
+        btnClose.style.display = 'none';
+        
+        stepSuccess.style.display = 'flex';
+        flowVideo.classList.add('playing');
+        flowVideo.play();
+        
+        const successMsg = document.getElementById('success-message');
+        successMsg.classList.remove('fade-out');
+        
+        setTimeout(() => {
+            successMsg.classList.add('fade-out');
+        }, 3000);
+        
+        setTimeout(() => {
+            wysiwygOverlay.style.display = 'none';
+            document.body.classList.remove('submit-open');
+            btnClose.style.display = 'block';
+        }, 5500);
+    });
+
+    // ---------- ДВЕРІ ТА ПАСХАЛКИ ----------
     const doorBtn = document.getElementById('secret-door');
     if (doorBtn) {
         const bubbles = [
@@ -1533,245 +523,138 @@ document.addEventListener("DOMContentLoaded", () => {
             "іди пороби шось може, нє?", "знову нє", "та ти шо", "давай, поламай тут все", "астанавітєсь", "це ж було вже"
         ];
 
-        // Тільки один пробний артефакт
-        const valkyArtifacts = [
-            "артефакт у розробці ⏳"
-        ];
-
-        // Тільки перша ачівка
-        const achievements = {
-            15: "Досягнення #1:\nЯкийсь підозрілий тіп біля дверей. \nВи постукали у двері Валківської Приймальні 15 разів. Ми вже подзвонили куди треба 🧐"
-        };
-
         let doorClicks = parseInt(localStorage.getItem('valky_door_clicks')) || 0;
-        let hasTappedOnce = doorClicks > 0;
         let recentBubbles = []; 
 
-        // Отримуємо bagBtn (тепер він вже оголошений в глобальному скоупі)
-        bagBtn = document.getElementById('bag-btn');
-        if (doorClicks >= 2 && bagBtn) {
-            bagBtn.classList.add('visible');
+        const fxClasses = ['door-glow', 'door-glitch', 'fx-anime', 'fx-glitch', 'fx-upside-down', 'fx-black-hole', 'fx-earthquake', 'fx-acid-trip', 'fx-hologram', 'fx-void'];
+
+        // Функції для відображення пасхалок
+        function showAchievementCard(text) {
+            const card = document.createElement('div');
+            card.className = 'achievement-card';
+            card.innerHTML = `
+                <div class="card-plastic-wrap">
+                    <span class="achievement-close" onclick="this.closest('.achievement-card').remove()">✕</span>
+                    <div class="card-inner">
+                        <div class="card-body">
+                            <div class="card-number">Досягнення #1</div>
+                            <div class="card-title">Справжній стукач</div>
+                            <div class="card-desc">${text}</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(card);
         }
 
-        if (doorClicks >= 523 && doorClicks < 528) {
-            doorBtn.innerText = '🚪';
-            doorBtn.classList.add('door-broken-hole');
+        function showArtifactCard(name) {
+            const card = document.createElement('div');
+            card.className = 'artifact-card';
+            card.innerHTML = `
+                <div class="artifact-plastic-wrap">
+                    <span class="achievement-close" onclick="this.closest('.artifact-card').remove()">✕</span>
+                    <div class="artifact-inner">
+                        <div class="artifact-image-area"><span class="artifact-image-placeholder">🗿</span></div>
+                        <div class="artifact-body">
+                            <div class="artifact-label">Артефакт знайдено</div>
+                            <div class="artifact-name">${name}</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(card);
+            setTimeout(() => card.remove(), 8000);
         }
 
-        const fxClasses = [
-            'door-glow', 'door-glitch', 'fx-anime', 'fx-glitch', 'fx-upside-down', 
-            'fx-black-hole', 'fx-earthquake', 'fx-acid-trip', 'fx-hologram', 'fx-void'
-        ];
+        function showDoorBubble(event, text, customDuration) {
+            const rect = doorBtn.getBoundingClientRect();
+            const bubble = document.createElement('div');
+            bubble.className = 'door-bubble';
+            bubble.innerText = text;
+            bubble.style.left = `${rect.left + rect.width / 2}px`;
+            bubble.style.top = `${rect.top}px`;
+            bubble.style.position = 'fixed';
+            document.body.appendChild(bubble);
+            setTimeout(() => bubble.remove(), customDuration || Math.max(2500, text.length * 60));
+        }
 
         doorBtn.addEventListener('click', (event) => {
+            doorClicks++;
+            localStorage.setItem('valky_door_clicks', doorClicks);
+
+            // Візуальні ефекти трісок
             const rect = doorBtn.getBoundingClientRect();
             const centerX = rect.left + rect.width / 2;
             const centerY = rect.top + rect.height / 2;
-
             for (let i = 0; i < 6; i++) {
                 const splinter = document.createElement('div');
                 splinter.className = 'door-splinter';
                 document.body.appendChild(splinter);
-                
                 const angle = Math.random() * Math.PI * 2;
                 const velocity = 20 + Math.random() * 40;
-                const tx = Math.cos(angle) * velocity;
-                const ty = Math.sin(angle) * velocity - 20;
-                
                 splinter.style.left = `${centerX}px`;
                 splinter.style.top = `${centerY}px`;
-                splinter.style.setProperty('--tx', `${tx}px`);
-                splinter.style.setProperty('--ty', `${ty}px`);
+                splinter.style.setProperty('--tx', `${Math.cos(angle) * velocity}px`);
+                splinter.style.setProperty('--ty', `${Math.sin(angle) * velocity - 20}px`);
                 splinter.style.animation = 'splinterFly 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards';
-                
                 setTimeout(() => splinter.remove(), 600);
             }
 
-            if (Math.random() < 0.02) {
-                const ghost = document.createElement('div');
-                ghost.className = 'door-ghost';
-                ghost.innerText = '👻';
-                document.body.appendChild(ghost);
-                
-                ghost.style.left = `${centerX - 15}px`;
-                ghost.style.top = `${centerY - 15}px`;
-                ghost.style.animation = 'ghostFloat 1.5s ease-out forwards';
-                
-                setTimeout(() => ghost.remove(), 1500);
-            }
-
-            if (!hasTappedOnce) {
-                showDoorBubble(event, "тут може випасти передбачення, артефакт або ачівка, але не в цей раз і не тобі, спробуй ще", 6000);
-                hasTappedOnce = true;
+            // Пасхалки
+            if (doorClicks === 15) {
+                showAchievementCard("Якийсь підозрілий тіп біля дверей. Ви постукали у двері Приймальні 15 разів. Ми вже подзвонили куди треба 🧐");
                 return;
             }
 
-            doorClicks++;
-            localStorage.setItem('valky_door_clicks', doorClicks);
-
-            if (doorClicks >= 2 && bagBtn) {
-                bagBtn.classList.add('visible');
-            }
-
-            if (achievements && achievements[doorClicks]) {
-                showAchievementCard(achievements[doorClicks]);
-                const achText = achievements[doorClicks];
-                const achLines = achText.split('\n');
-                addToLoot('achievements', {
-                    title: achLines[0] || 'Досягнення',
-                    preview: achLines[1] ? achLines[1].substring(0, 60) + '...' : '',
-                    full: achLines.slice(1).join('<br>')
-                });
-            }
-
-            if (doorClicks === 523) {
-                doorBtn.classList.add('door-epic-falling');
-                setTimeout(() => {
-                    doorBtn.classList.remove('door-epic-falling');
-                    doorBtn.innerText = '🚪';
-                    doorBtn.classList.add('door-broken-hole');
-                }, 1200);
+            if (Math.random() < 0.01) {
+                showArtifactCard("Загадковий куб Валківської міськради");
                 return;
             }
 
-            if (doorClicks > 523 && doorClicks <= 528) {
-                if (doorClicks === 528) {
-                    doorBtn.classList.remove('door-broken-hole');
-                    doorBtn.innerText = '🚪';
-                    showDoorBubble(event, "Ці міцніші", 4000);
-                } else {
-                    showDoorBubble(event, "Двері на базу", 2000);
-                }
-                return;
-            }
-
-            const rng = Math.random() * 100;
-            // Тільки артефакт з маленькою ймовірністю (1%)
-            if (rng < 1) {
-                const randomArtifact = valkyArtifacts[0]; // один пробний
-                showPredictionPopup(`Знайдено артефакт:<br><br><b>${randomArtifact}</b>`);
-                
-                addToLoot('artifacts', {
-                    title: randomArtifact,
-                    preview: 'Валківський артефакт',
-                    full: `Знайдено: ${randomArtifact}`
-                });
+            // Бульбашки і глітчі
+            if (Math.random() < 0.40) {
+                doorBtn.classList.remove(...fxClasses);
+                void doorBtn.offsetWidth; 
+                const randomFx = fxClasses[Math.floor(Math.random() * fxClasses.length)];
+                doorBtn.classList.add(randomFx);
             } else {
-                // Бульбашки та ефекти
-                if (Math.random() < 0.40) {
-                    doorBtn.classList.remove(...fxClasses);
-                    void doorBtn.offsetWidth; 
-                    
-                    const randomFx = fxClasses[Math.floor(Math.random() * fxClasses.length)];
-                    doorBtn.classList.add(randomFx);
-                } else {
-                    let availableBubbles = bubbles.filter(b => !recentBubbles.includes(b));
-                    if (availableBubbles.length === 0) availableBubbles = bubbles;
-                        
-                    const randomBubbleText = availableBubbles[Math.floor(Math.random() * availableBubbles.length)];
-                        
-                    recentBubbles.push(randomBubbleText);
-                    if (recentBubbles.length > 15) recentBubbles.shift();
-
-                    showDoorBubble(event, randomBubbleText);
-                }
+                let availableBubbles = bubbles.filter(b => !recentBubbles.includes(b));
+                if (availableBubbles.length === 0) availableBubbles = bubbles;
+                const randomBubbleText = availableBubbles[Math.floor(Math.random() * availableBubbles.length)];
+                recentBubbles.push(randomBubbleText);
+                if (recentBubbles.length > 15) recentBubbles.shift();
+                showDoorBubble(event, randomBubbleText);
             }
         });
     }
 
-    // ---------- РЮКЗАК (залишаємо, але без передбачень) ----------
-    bagBtn = document.getElementById('bag-btn');
-    bagOverlay = document.getElementById('bag-overlay');
-    bagClose = document.getElementById('bag-close');
-    bagContent = document.getElementById('bag-content');
+    // ---------- МОДАЛКА ПРАВИЛ ----------
+    const rulesModal = document.getElementById('rules-modal');
+    const closeRulesBtn = document.getElementById('close-rules-btn');
+    const openRulesBtns = document.querySelectorAll('.open-rules-btn');
 
-    const lootKey = 'valky_loot_v1';
+    if (rulesModal && closeRulesBtn) {
+        openRulesBtns.forEach(btn => {
+            btn.addEventListener('click', () => rulesModal.style.display = 'flex');
+        });
+        closeRulesBtn.addEventListener('click', () => rulesModal.style.display = 'none');
+        rulesModal.addEventListener('click', (e) => {
+            if (e.target === rulesModal) rulesModal.style.display = 'none';
+        });
+    }
 
-    function getLoot() {
-        try {
-            const data = JSON.parse(localStorage.getItem(lootKey));
-            if (data && Array.isArray(data.achievements) && Array.isArray(data.predictions) && Array.isArray(data.artifacts)) {
-                return data;
-            }
-            return { achievements: [], predictions: [], artifacts: [] };
-        } catch {
-            return { achievements: [], predictions: [], artifacts: [] };
+    // ---------- ПЕРЕВІРКА АКТИВНОСТІ КНОПОК ----------
+    setInterval(() => {
+        const hasText = cardEditor && cardEditor.innerText.trim().length > 0;
+        const hasPhoto = photoPreview && photoPreview.style.display === 'block';
+        const isValid = hasText || hasPhoto;
+        
+        if (btnNextStep) {
+            btnNextStep.style.opacity = isValid ? '1' : '0.4';
+            btnNextStep.style.pointerEvents = isValid ? 'auto' : 'none';
         }
-    }
-
-    function saveLoot(loot) {
-        localStorage.setItem(lootKey, JSON.stringify(loot));
-    }
-
-    function addToLoot(type, item) {
-        const loot = getLoot();
-        loot[type].push(item);
-        saveLoot(loot);
-        if (bagBtn) bagBtn.classList.add('has-items');
-    }
-
-    const initialLoot = getLoot();
-    if (bagBtn && (initialLoot.achievements.length || initialLoot.predictions.length || initialLoot.artifacts.length)) {
-        bagBtn.classList.add('has-items');
-    }
-
-    function renderBagTab(tab) {
-        const loot = getLoot();
-        const items = loot[tab] || [];
-        bagContent.innerHTML = '';
-
-        const emptyMessages = {
-            achievements: 'Ви ще не отримали жодного досягнення. Стукайте у двері Валківської Приймальні.',
-            predictions: 'Немає передбачень для вас. Поки що.',
-            artifacts: 'Ви ще не знайшли жодного артефакту. Стукайте у двері Валківської Приймальні.'
-        };
-
-        if (items.length === 0) {
-            bagContent.innerHTML = `<div class="bag-empty">${emptyMessages[tab]}</div>`;
-            return;
-        }
-
-        items.slice().reverse().forEach(item => {
-            const el = document.createElement('div');
-            el.className = 'bag-item';
-            el.innerHTML = `
-                <div class="bag-item-title">${item.title}</div>
-                <div class="bag-item-sub">${item.preview}</div>
-                <div class="bag-item-detail">${item.full}</div>
-            `;
-            el.addEventListener('click', () => el.classList.toggle('expanded'));
-            bagContent.appendChild(el);
-        });
-    }
-
-    let activeBagTab = 'achievements';
-
-    document.querySelectorAll('.bag-tab').forEach(tab => {
-        tab.addEventListener('click', () => {
-            document.querySelectorAll('.bag-tab').forEach(t => t.classList.remove('active'));
-            tab.classList.add('active');
-            activeBagTab = tab.dataset.tab;
-            renderBagTab(activeBagTab);
-        });
-    });
-
-    if (bagBtn) {
-        bagBtn.addEventListener('click', () => {
-            bagOverlay.classList.add('open');
-            renderBagTab(activeBagTab);
-        });
-    }
-
-    if (bagClose) {
-        bagClose.addEventListener('click', () => bagOverlay.classList.remove('open'));
-    }
-
-    if (bagOverlay) {
-        bagOverlay.addEventListener('click', (e) => {
-            if (e.target === bagOverlay) bagOverlay.classList.remove('open');
-        });
-    }
-
+    }, 300);
+    
     // ---------- МОДАЛКА ПРАВИЛ ----------
     const rulesModal = document.getElementById('rules-modal');
     const closeRulesBtn = document.getElementById('close-rules-btn');
