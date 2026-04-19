@@ -628,7 +628,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // ---------- МОДАЛКА ПРАВИЛ ----------
     const rulesModal = document.getElementById('rules-modal');
     const closeRulesBtn = document.getElementById('close-rules-btn');
     const openRulesBtns = document.querySelectorAll('.open-rules-btn');
@@ -643,7 +642,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // ---------- ПЕРЕВІРКА АКТИВНОСТІ КНОПОК ----------
     setInterval(() => {
         const hasText = cardEditor && cardEditor.innerText.trim().length > 0;
         const hasPhoto = photoPreview && photoPreview.style.display === 'block';
@@ -654,29 +652,7 @@ document.addEventListener("DOMContentLoaded", () => {
             btnNextStep.style.pointerEvents = isValid ? 'auto' : 'none';
         }
     }, 300);
-    
-    // ---------- МОДАЛКА ПРАВИЛ ----------
-    const rulesModal = document.getElementById('rules-modal');
-    const closeRulesBtn = document.getElementById('close-rules-btn');
-    const openRulesBtns = document.querySelectorAll('.open-rules-btn');
-
-    if (rulesModal && closeRulesBtn) {
-        openRulesBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                rulesModal.style.display = 'flex';
-            });
-        });
-
-        closeRulesBtn.addEventListener('click', () => {
-            rulesModal.style.display = 'none';
-        });
-
-        rulesModal.addEventListener('click', (e) => {
-            if (e.target === rulesModal) {
-                rulesModal.style.display = 'none';
-            }
-        });
-    }
+});
 
     // ---------- ПЕРЕВІРКА АКТИВНОСТІ КНОПОК ----------
     setInterval(() => {
