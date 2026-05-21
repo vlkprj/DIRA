@@ -1366,7 +1366,6 @@ if (atmoPreviewSendBtn) {
         }, 1000);
 
 const finishSend = () => {
-    // submitVideo.style.display = 'none'; <-- Це більше не робимо
     submitSentScreen.style.display = 'flex';
     submitSentScreen.style.background = 'rgba(0, 0, 0, 0.6)';
     submitSentScreen.style.backdropFilter = 'blur(6px)';
