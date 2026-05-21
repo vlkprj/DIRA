@@ -986,10 +986,28 @@ const atmoStage = document.getElementById('atmo-stage');
 
 function openAtmoOverlay() {
     lastScrollY = window.scrollY;
+
+    if (document.activeElement) {
+        document.activeElement.blur();
+    }
+
     atmoOverlay.className = `submit-overlay atmo-overlay mailbox-mode`;
     atmoOverlay.style.display = 'flex';
+    atmoOverlay.style.zIndex = '9999';
     atmoContent.style.display = 'flex';
-    atmoSentScreen.style.display = 'none';
+    if (atmoSentScreen) atmoSentScreen.style.display = 'none';
+
+    const atmoVideo = document.getElementById('atmo-video');
+    if (atmoVideo) {
+        atmoVideo.style.transition = 'none';
+        atmoVideo.style.display = 'block';
+        atmoVideo.load();
+        atmoVideo.pause();
+        atmoVideo.currentTime = 0;
+    }
+
+    void atmoOverlay.offsetWidth;
+
     document.body.classList.add('submit-open');
 
     currentAtmoLayout = 'single-polaroid';
@@ -997,7 +1015,9 @@ function openAtmoOverlay() {
         b.classList.toggle('active', b.dataset.layout === 'single-polaroid');
     });
 
-    renderAtmoStage(currentAtmoLayout);
+    if (typeof renderAtmoStage === 'function') {
+        renderAtmoStage(currentAtmoLayout);
+    }
 }
 
 function closeAtmoOverlay() {
@@ -1042,7 +1062,7 @@ function closeAtmoOverlay() {
 }
 
     const atmoBtnEl = document.querySelector('.b-atmosphere');
-    if (atmoBtnEl) {
+if (atmoBtnEl) {
     atmoBtnEl.addEventListener('click', (e) => {
         e.preventDefault();
         openAtmoOverlay();
