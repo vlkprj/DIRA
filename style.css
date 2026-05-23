@@ -4735,36 +4735,6 @@ input, textarea, [contenteditable] {
     display: none !important;
 }
 
-/*кнопка заібала*/
-/* Робимо так, щоб кнопка ДАЛІ жила прямо всередині білого блоку вводу */
-.submit-editor-wrap {
-    position: relative !important;
-}
-
-.submit-editor {
-    padding-bottom: 60px !important; /* Відступ, щоб текст не залазив під кнопку */
-}
-
-.submit-action-btn {
-    position: absolute !important;
-    bottom: 50px !important; /* Висітиме акурат над тулбаром з жирним/курсивом */
-    right: 12px !important;
-    width: auto !important;
-    min-width: 0 !important;
-    padding: 8px 18px !important;
-    font-size: 13px !important;
-    border-radius: 12px !important;
-    margin: 0 !important;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
-    left: auto !important;
-    transform: none !important;
-    z-index: 100 !important;
-}
-
-.submit-action-btn:active {
-    transform: scale(0.95) !important;
-}
-
 
 
 @keyframes pulseAtmoInner {
