@@ -355,28 +355,43 @@ function openSubmitOverlay(mode, placeholderText, defaultFont, titleText) {
     submitContent.style.display = 'flex';
     submitPreviewScreen.style.display = 'none';  
     submitSentScreen.style.display = 'none';
-    submitVideo.style.transition = 'none';
     submitVideo.style.display = 'block';
     document.body.classList.add('submit-open');
+
+    submitEditor.innerHTML = '';
+    submitEditor.style.cssText = '';
+
+    currentBgColor = '#FAF8F4';
+    currentTextColor = '#222221';
+
+    const fontName = defaultFont || 'Inter';
+    const fontString = `'${fontName}', sans-serif`;
+
+    submitEditor.style.setProperty('font-family', fontString, 'important');
+    submitEditor.dataset.activeFont = fontString;
+
+    if (fontSelect) {
+        fontSelect.value = fontName;
+    }
+
+    document.querySelectorAll('.text-color-dot').forEach(d => d.classList.toggle('active', d.dataset.color === currentTextColor));
+    document.querySelectorAll('.bg-color-dot').forEach(d => d.classList.toggle('active', d.dataset.color === currentBgColor));
     
-    const step1 = document.getElementById('editor-step-1');
-    const step2 = document.getElementById('style-step-2');
-    if (step1) step1.style.display = 'flex';
-    if (step2) step2.style.display = 'none';
-    const overlayTitle = submitOverlay.querySelector('.submit-overlay-title');
-    if (overlayTitle) overlayTitle.style.display = 'none'; 
+    applyEditorColors();
+
+    const src = mode === 'mailbox' ? 'skrynka.mp4' : 'blackhole.mp4';
+    submitVideo.src = src;
+    submitVideo.load();
+    
+    if (placeholderText) {
+        showValkyToast(placeholderText); 
+    }
 
     let innerTitle = submitContent.querySelector('.caps-label.dynamic-title');
-    if (!innerTitle) {
-        innerTitle = document.createElement('div');
-        innerTitle.className = 'caps-label dynamic-title';
-        innerTitle.style.marginBottom = '15px';
-        innerTitle.style.color = '#fff';
-        innerTitle.style.textAlign = 'center';
-        const editorWrap = document.querySelector('.submit-editor-wrap');
-        submitContent.insertBefore(innerTitle, editorWrap);
+    if (innerTitle) {
+        innerTitle.innerText = titleText || 'НАПИСАТИ';
     }
-    innerTitle.innerText = titleText || 'НАПИСАТИ';
+}
 
     const src = mode === 'mailbox' ? 'skrynka.mp4' : 'blackhole.mp4';
     submitVideo.src = src;
