@@ -3219,20 +3219,17 @@ body.submit-open {
     color: #ffffff;
     border: none;
     border-radius: 20px;
-    padding: 8px 18px;
+    padding: 6px 14px;
     font-family: 'Inter', sans-serif;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 600;
     display: flex;
     align-items: center;
     gap: 6px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
     cursor: pointer;
-    transition: transform 0.15s ease, opacity 0.2s, background 0.2s, color 0.2s;
-    opacity: 0;
-    pointer-events: none;
+    transition: transform 0.15s ease, background 0.2s, color 0.2s;
     flex-shrink: 0;
-    white-space: nowrap;
 }
 
 .submit-overlay.hole-mode .inline-done-btn {
