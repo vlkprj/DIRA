@@ -355,37 +355,56 @@ function openSubmitOverlay(mode, placeholderText, defaultFont, titleText) {
     submitContent.style.display = 'flex';
     submitPreviewScreen.style.display = 'none';  
     submitSentScreen.style.display = 'none';
-    submitVideo.style.display = 'block';
+    
+    if (submitVideo) {
+        submitVideo.style.display = 'block';
+        submitVideo.src = mode === 'mailbox' ? 'skrynka.mp4' : 'blackhole.mp4';
+        submitVideo.style.filter = '';
+        submitVideo.style.transition = '';
+        submitVideo.load();
+        submitVideo.pause();
+        submitVideo.currentTime = 0;
+    }
+
     document.body.classList.add('submit-open');
-
     submitEditor.innerHTML = '';
-    submitEditor.style.cssText = '';
-
-    currentBgColor = '#FAF8F4';
-    currentTextColor = '#222221';
-
-    const fontName = defaultFont || 'Inter';
-    const fontString = `'${fontName}', sans-serif`;
+    submitEditor.setAttribute('data-placeholder', 'Пишіть сюди...');
+    
+    const counter = document.getElementById('char-counter');
+    if (counter) counter.innerText = '0';
+    
+    const cardHint = document.getElementById('card-count-hint');
+    if (cardHint) cardHint.innerText = '';
+    
+    const inlinePreview = document.getElementById('attach-preview-inline');
+    if (inlinePreview) inlinePreview.innerHTML = '';
+    
+    const appliedFont = defaultFont ? defaultFont : 'Inter';
+    const fontString = `'${appliedFont}', sans-serif`;
 
     submitEditor.style.setProperty('font-family', fontString, 'important');
     submitEditor.dataset.activeFont = fontString;
 
     if (fontSelect) {
-        fontSelect.value = fontName;
+        Array.from(fontSelect.options).forEach(opt => {
+            if (appliedFont.includes(opt.value)) {
+                fontSelect.value = opt.value;
+            }
+        });
     }
 
-    document.querySelectorAll('.text-color-dot').forEach(d => d.classList.toggle('active', d.dataset.color === currentTextColor));
-    document.querySelectorAll('.bg-color-dot').forEach(d => d.classList.toggle('active', d.dataset.color === currentBgColor));
-    
-    applyEditorColors();
-
-    const src = mode === 'mailbox' ? 'skrynka.mp4' : 'blackhole.mp4';
-    submitVideo.src = src;
-    submitVideo.load();
-    
     if (placeholderText) {
         showValkyToast(placeholderText); 
     }
+
+    currentAlign = 'auto';
+    const alignIcon = document.querySelector('#align-toggle-btn .material-symbols-outlined');
+    if (alignIcon) alignIcon.innerText = 'format_align_center';
+
+    currentBgColor = mode === 'hole' ? '#1a1a1a' : '#FAF8F4';
+    currentTextColor = mode === 'hole' ? '#FAF8F4' : '#222221';
+    
+    applyEditorColors();
 
     let innerTitle = submitContent.querySelector('.caps-label.dynamic-title');
     if (innerTitle) {
@@ -651,10 +670,33 @@ let currentBgColor = '#FAF8F4';
 let currentTextColor = '#222221';
 let currentAlign = 'auto';
 
+const safeTextColors = {
+    '#FAF8F4': ['#222221', '#1a1a1a'],
+    '#FFFFFF': ['#1a1a1a', '#222221'],
+    '#1a1a1a': ['#FAF8F4', '#FFFFFF'],
+    '#FFEB3B': ['#1a1a1a'],
+    '#E91E63': ['#FFFFFF'],
+    '#2196F3': ['#FFFFFF']
+};
+
 function applyEditorColors() {
+    if (!submitEditor) return;
     submitEditor.style.background = currentBgColor;
     submitEditor.style.color = currentTextColor;
 }
+
+document.querySelectorAll('.bg-color-dot').forEach(dot => {
+    dot.addEventListener('click', () => {
+        const color = dot.dataset.color;
+        const allowedTexts = safeTextColors[color] || ['#222221'];
+        if (!allowedTexts.includes(currentTextColor)) {
+            currentTextColor = allowedTexts[0];
+        }
+        currentBgColor = color;
+        applyEditorColors();
+        submitEditor.focus();
+    });
+});
 
 document.querySelectorAll('.theme-btn').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -901,39 +943,26 @@ if (previewSendBtn) {
     previewSendBtn.addEventListener('click', () => {
         const mode = submitOverlay.classList.contains('mailbox-mode') ? 'mailbox' : 'hole';
         submitPreviewScreen.style.background = 'transparent';
-        if (previewMetaLine) previewMetaLine.style.opacity = '0';
-        const editBtn = document.getElementById('preview-edit-btn');
-        if (editBtn) editBtn.style.opacity = '0';
-        previewSendBtn.style.opacity = '0';
-        const previewLabel = document.querySelector('.preview-label');
-        if (previewLabel) previewLabel.style.opacity = '0';
-
-        const styleConfig = document.getElementById('style-config-panel');
-        if (styleConfig) styleConfig.style.opacity = '0';
+        
+        const toHide = [previewMetaLine, previewEditBtn, previewSendBtn, document.querySelector('.preview-label'), document.getElementById('style-config-panel')];
+        toHide.forEach(el => { if(el) el.style.opacity = '0'; });
 
         if (submitVideo) {
             submitVideo.currentTime = 0;
             submitVideo.style.zIndex = '999';
             submitVideo.style.display = 'block';
             submitVideo.style.opacity = '1';
-            submitVideo.style.filter = 'blur(0px) brightness(0.8)';
-            submitVideo.play().catch(e => {});
+            submitVideo.play().catch(e => console.log(e));
         }
   
         previewPostCard.classList.add(`fly-to-${mode}`);
-
         const animDuration = mode === 'hole' ? 4600 : 1000;
 
         setTimeout(() => {
             submitPreviewScreen.style.display = 'none';
-            submitPreviewScreen.style.background = '';
             if (submitVideo) submitVideo.style.zIndex = '';
             previewPostCard.classList.remove(`fly-to-${mode}`);
-            if (previewMetaLine) previewMetaLine.style.opacity = '1';
-            if (editBtn) editBtn.style.opacity = '1';
-            if (previewSendBtn) previewSendBtn.style.opacity = '1';
-            if (previewLabel) previewLabel.style.opacity = '1';
-            if (styleConfig) styleConfig.style.opacity = '1';
+            toHide.forEach(el => { if(el) el.style.opacity = '1'; });
         }, animDuration);
 
         const finishSend = () => {
