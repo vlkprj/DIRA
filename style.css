@@ -3428,18 +3428,23 @@ body.submit-open {
 .submit-preview-screen {
     position: absolute;
     inset: 0;
-    z-index: 20;
+    z-index: 1000;
     display: none;
     flex-direction: column;
-    justify-content: flex-start;
     align-items: center;
-    gap: 16px;
-    padding: 30px 24px 50px 24px;
+    padding: 20px;
+    background: #1D3561 !important; /* щоб не було "прозорості" крізь контент */
     overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    background: transparent;
 }
 
+/* Кнопка відправити внизу прев'ю */
+#preview-send-btn {
+    margin-top: 20px;
+    margin-bottom: 40px;
+    width: 100%;
+    max-width: 400px;
+    flex-shrink: 0; /* щоб не стискалась */
+}
 
 .submit-preview-screen .preview-header {
     width: 100%;
