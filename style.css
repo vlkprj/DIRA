@@ -3159,21 +3159,37 @@ body.submit-open {
     z-index: 99999;
 }
 
-#popover-text {
-    left: 0;
-    transform: translateX(0) scale(0.9);
-    transform-origin: bottom left;
+.editor-themes-row::-webkit-scrollbar { 
+    display: none; 
 }
 
-#popover-text.show {
-    transform: translateX(0) scale(1);
+.theme-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 900;
+    font-size: 18px;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: transform 0.15s, box-shadow 0.15s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    border: 2px solid transparent;
 }
 
+.theme-btn:active { 
+    transform: scale(0.9); 
+}
 
-.color-popover.show {
-    opacity: 1;
-    pointer-events: auto;
-    transform: translateX(-50%) scale(1);
+.theme-btn.active { 
+    box-shadow: 0 0 0 2px #fff, 0 0 0 4px #1a1a1a; 
+}
+
+.submit-overlay.hole-mode .theme-btn.active { 
+    box-shadow: 0 0 0 2px #111, 0 0 0 4px #eee; 
 }
 
 .submit-overlay.hole-mode .color-popover {
@@ -4740,15 +4756,25 @@ input, textarea, [contenteditable] {
     position: relative !important;
 }
 
-.submit-editor {
-    padding-bottom: 50px !important;
-}
 
 .inline-done-btn {
-    position: absolute !important;
-    bottom: 52px !important;
-    right: 12px !important;
-    z-index: 100 !important;
+    background: #1a1a1a;
+    color: #ffffff;
+    border: none;
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+    transition: transform 0.15s ease, opacity 0.2s, background 0.2s, color 0.2s;
+    opacity: 0;
+    pointer-events: none;
+    flex-shrink: 0;
 }
 
 @keyframes pulseAtmoInner {
