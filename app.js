@@ -438,6 +438,11 @@ document.addEventListener("DOMContentLoaded", () => {
             const fontString = `'${fontSelect.value}', sans-serif`;
             submitEditor.style.setProperty('font-family', fontString, 'important');
             submitEditor.dataset.activeFont = fontString;
+            
+            // Якщо ми вже на екрані прев'ю - оновлюємо і його
+            if (submitPreviewScreen.style.display === 'flex') {
+                updatePreviewCard();
+            }
         });
     }
 
@@ -516,17 +521,28 @@ document.addEventListener("DOMContentLoaded", () => {
         return val !== '' ? `від: ${val}` : '👤 Анонімно';
 }
 
-    function updatePreviewCard() {
-    const rawText = submitEditor.innerText || ''; // використовуємо innerText для чистоти
+function updatePreviewCard() {
+    const rawText = submitEditor.innerText || ''; 
     const nameVal = getActiveNickname('submit-content');
     let photosArr = [];
     if (attachPreviewInline) {
         attachPreviewInline.querySelectorAll('img').forEach(img => photosArr.push(img.src));
     }
     
-    // Беремо активний шрифт прямо з едітора
-    const activeFont = submitEditor.style.fontFamily || "'Inter', sans-serif";
+    // БЕРЕМО ШРИФТ ІЗ СЕЛЕКТОРА
+    const selectedFont = fontSelect.value;
+    const fontStack = `'${selectedFont}', sans-serif`;
     
+    previewPostCard.innerHTML = generateValkyCardsHTML(rawText, photosArr, currentBgColor, currentTextColor, fontStack, nameVal);
+
+    // Додаємо спец-клас для синьої теми
+    const cards = previewPostCard.querySelectorAll('.valky-card');
+    cards.forEach(card => {
+        if (currentBgColor.toUpperCase() === '#1D3561') {
+            card.classList.add('blue-theme-card');
+        }
+    });
+}
     previewPostCard.innerHTML = generateValkyCardsHTML(
         rawText, 
         photosArr, 
