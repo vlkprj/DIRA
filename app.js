@@ -419,15 +419,19 @@ document.addEventListener("DOMContentLoaded", () => {
     submitOverlay.addEventListener('click', (e) => { if (e.target === submitOverlay) closeSubmitOverlay(); });
 
     // Теми та Текст
-    document.querySelectorAll('.theme-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            currentBgColor = btn.dataset.bg;
-            currentTextColor = btn.dataset.color;
-            applyEditorColors();
-        });
+ document.querySelectorAll('.theme-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentBgColor = btn.dataset.bg;
+        currentTextColor = btn.dataset.color;
+        applyEditorColors();
+        // ОНОВЛЮЄМО ПРЕВ'Ю ВІДРАЗУ
+        if (submitPreviewScreen.style.display === 'flex') {
+            updatePreviewCard();
+        }
     });
+});
 
     if (fontSelect) {
         fontSelect.addEventListener('change', () => {
@@ -504,19 +508,41 @@ document.addEventListener("DOMContentLoaded", () => {
         return html;
     }
 
-    function getActiveNickname(containerId) {
+   function getActiveNickname(containerId) {
         const container = document.getElementById(containerId);
-        const input = container ? container.querySelector('.anon-name-field') : null;
-        return (input && input.value.trim() !== '') ? `від: ${input.value.trim()}` : '👤 Анонімно';
-    }
+        if (!container) return '👤 Анонімно';
+        const input = container.querySelector('.anon-name-field');
+        const val = input ? input.value.trim() : '';
+        return val !== '' ? `від: ${val}` : '👤 Анонімно';
+}
 
     function updatePreviewCard() {
-        const rawText = submitEditor.innerHTML || '';
-        const nameVal = getActiveNickname('submit-content');
-        let photosArr = [];
-        if (attachPreviewInline) attachPreviewInline.querySelectorAll('img').forEach(img => photosArr.push(img.src));
-        previewPostCard.innerHTML = generateValkyCardsHTML(rawText, photosArr, currentBgColor, currentTextColor, submitEditor.style.fontFamily);
+    const rawText = submitEditor.innerText || ''; // використовуємо innerText для чистоти
+    const nameVal = getActiveNickname('submit-content');
+    let photosArr = [];
+    if (attachPreviewInline) {
+        attachPreviewInline.querySelectorAll('img').forEach(img => photosArr.push(img.src));
     }
+    
+    // Беремо активний шрифт прямо з едітора
+    const activeFont = submitEditor.style.fontFamily || "'Inter', sans-serif";
+    
+    previewPostCard.innerHTML = generateValkyCardsHTML(
+        rawText, 
+        photosArr, 
+        currentBgColor, 
+        currentTextColor, 
+        activeFont, 
+        nameVal
+    );
+
+    // Додаємо спец-клас для синьої теми (якщо колір фону синій)
+    if (currentBgColor === '#1D3561') {
+        previewPostCard.classList.add('blue-theme-header');
+    } else {
+        previewPostCard.classList.remove('blue-theme-header');
+    }
+}
 
     if (submitActionBtn) {
         submitActionBtn.addEventListener('click', () => {
