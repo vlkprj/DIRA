@@ -631,6 +631,7 @@ if (attachBtn && attachInput) {
         reader.readAsDataURL(file);
     });
 }
+const inlineDoneBtn = document.getElementById('inline-done-btn');
 let currentBgColor = '#FAF8F4';
 let currentTextColor = '#222221';
 let currentAlign = 'auto';
@@ -661,7 +662,6 @@ if (alignToggleBtn) {
             currentAlign = 'center';
             icon.innerText = 'format_align_center';
         }
-        updatePreviewCard();
     });
 }
 
