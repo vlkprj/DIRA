@@ -852,7 +852,11 @@ applyEditorColors = function() {
 
 if (fontSelect) {
     fontSelect.addEventListener('change', () => {
-        setTimeout(updatePreviewCard, 50);
+        const selectedFont = fontSelect.value;
+        const fontString = `'${selectedFont}', sans-serif`;
+        submitEditor.style.setProperty('font-family', fontString, 'important');
+        submitEditor.dataset.activeFont = fontString;
+        submitEditor.focus();
     });
 }
 
