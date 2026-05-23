@@ -4800,3 +4800,50 @@ input, textarea, [contenteditable] {
     will-change: transform, color, filter;
 }
 
+/* Зменшуємо кружечки тем */
+.theme-btn {
+    width: 32px;  /* було 44 */
+    height: 32px; /* було 44 */
+    font-size: 14px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* Робимо вибір шрифту акуратним */
+.toolbar-select {
+    appearance: none;
+    -webkit-appearance: none;
+    background: #fff !important;
+    border: 1px solid #ddd !important;
+    padding: 5px 25px 5px 10px !important;
+    border-radius: 8px !important;
+    font-family: 'Inter', sans-serif !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    color: #333 !important;
+    cursor: pointer;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'%3E%3C/path%3E%3C/svg%3E") !important;
+    background-repeat: no-repeat !important;
+    background-position: right 8px center !important;
+    min-width: 120px;
+}
+
+/* Збільшуємо шрифт на самій картці прев'ю */
+.valky-card-body {
+    font-size: 24px !important; /* Робимо текст читабельним */
+    line-height: 1.4 !important;
+    padding: 20px !important;
+}
+
+/* Додаємо обводку для заголовка, коли вибрана синя тема */
+.blue-theme-header .valky-card-header-pill {
+    border: 1px solid rgba(255,255,255,0.8) !important;
+    box-shadow: none !important;
+}
+
+/* Повертаємо кнопку Готово в поле зору */
+.inline-done-btn {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    background: #1a1a1a;
+    color: #fff;
+}
