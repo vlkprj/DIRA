@@ -429,12 +429,18 @@ function openSubmitOverlay(mode, placeholderText, defaultFont, titleText) {
     }
     
 
+    currentAlign = 'auto';
+    const alignIcon = document.querySelector('#align-toggle-btn .material-symbols-outlined');
+    if (alignIcon) alignIcon.innerText = 'format_align_center';
+
     currentBgColor = '#FAF8F4';
     currentTextColor = '#222221';
-    document.querySelectorAll('.text-color-dot').forEach(d => d.classList.toggle('active', d.dataset.color === '#222221'));
-    document.querySelectorAll('.bg-color-dot').forEach(d => d.classList.toggle('active', d.dataset.color === '#FAF8F4'));
+    document.querySelectorAll('.theme-btn').forEach((btn, idx) => {
+        if (idx === 0) btn.classList.add('active');
+        else btn.classList.remove('active');
+    });
     applyEditorColors();
-}
+} 
 
 submitEditor.addEventListener('paste', (e) => {
     e.preventDefault();
@@ -625,84 +631,39 @@ if (attachBtn && attachInput) {
         reader.readAsDataURL(file);
     });
 }
-const mainTextColorBtn = document.getElementById('main-text-color');
-const mainBgColorBtn = document.getElementById('main-bg-color');
-const popoverText = document.getElementById('popover-text');
-const popoverBg = document.getElementById('popover-bg');
-const inlineDoneBtn = document.getElementById('inline-done-btn');
-
 let currentBgColor = '#FAF8F4';
 let currentTextColor = '#222221';
+let currentAlign = 'auto';
 
 function applyEditorColors() {
     submitEditor.style.background = currentBgColor;
     submitEditor.style.color = currentTextColor;
-    mainTextColorBtn.style.background = currentTextColor;
-    mainBgColorBtn.style.background = currentBgColor;
 }
 
-function bindKeepFocus(element, callback) {
-    if (!element) return;
-    element.addEventListener('mousedown', (e) => {
-        e.preventDefault();
-        callback(e);
-    });
-    element.addEventListener('touchstart', (e) => {
-        e.preventDefault();
-        callback(e);
-    }, { passive: false });
-}
-
-bindKeepFocus(mainTextColorBtn, () => {
-    popoverText.classList.toggle('show');
-    popoverBg.classList.remove('show');
-});
-
-bindKeepFocus(mainBgColorBtn, () => {
-    popoverBg.classList.toggle('show');
-    popoverText.classList.remove('show');
-});
-
-document.addEventListener('mousedown', (e) => {
-    if (!e.target.closest('.color-picker-wrap')) {
-        popoverText.classList.remove('show');
-        popoverBg.classList.remove('show');
-    }
-});
-
-document.addEventListener('touchstart', (e) => {
-    if (!e.target.closest('.color-picker-wrap')) {
-        popoverText.classList.remove('show');
-        popoverBg.classList.remove('show');
-    }
-}, { passive: true });
-
-const safeTextColors = {
-    '#FAF8F4': ['#222221'],
-    '#262624': ['#FAF8F4', '#4282AA', '#B24A3B', '#D97757'],
-    '#FFFFFF': ['#222221']
-};
-
-const safeBgForText = {
-    '#222221': ['#FAF8F4', '#FFFFFF'],
-    '#B24A3B': ['#FAF8F4', '#FFFFFF'],
-    '#4282AA': ['#262624', '#FAF8F4'],
-    '#D97757': ['#262624', '#FAF8F4']
-};
-
-document.querySelectorAll('.text-color-dot').forEach(dot => {
-    bindKeepFocus(dot, () => {
-        const color = dot.dataset.color;
-        const allowedBgs = safeBgForText[color];
-        if (allowedBgs && !allowedBgs.includes(currentBgColor)) {
-            currentBgColor = allowedBgs[0];
-        }
-        currentTextColor = color;
+document.querySelectorAll('.theme-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentBgColor = btn.dataset.bg;
+        currentTextColor = btn.dataset.color;
         applyEditorColors();
-        popoverText.classList.remove('show');
-        submitEditor.focus();
     });
 });
+
+const alignToggleBtn = document.getElementById('align-toggle-btn');
+if (alignToggleBtn) {
+    alignToggleBtn.addEventListener('click', () => {
+        const icon = alignToggleBtn.querySelector('.material-symbols-outlined');
+        if (currentAlign === 'auto' || currentAlign === 'center') {
+            currentAlign = 'left';
+            icon.innerText = 'format_align_left';
+        } else {
+            currentAlign = 'center';
+            icon.innerText = 'format_align_center';
+        }
+        updatePreviewCard();
+    });
+}
 
 document.querySelectorAll('.bg-color-dot').forEach(dot => {
     bindKeepFocus(dot, () => {
@@ -805,7 +766,7 @@ function generateValkyCardsHTML(rawHTML, photosArr, bgColor, textColor, font, au
             if (len < 80) fontClass = 'fs-huge';
             else if (len < 180) fontClass = 'fs-large';
             else if (len < 280) fontClass = 'fs-medium';
-            align = len > 193 ? 'left' : 'center';
+            let align = currentAlign === 'auto' ? (len > 193 ? 'left' : 'center') : currentAlign;
         }
 
         const showHeader = idx === 0 ? headerHTML : '';
