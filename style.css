@@ -3256,6 +3256,15 @@ body.submit-open {
 }
 
 
+.submit-action-btn, .btn, .main-color-btn, .toolbar-select {
+    transition: transform 0.1s ease, opacity 0.1s ease, box-shadow 0.1s ease;
+}
+.submit-action-btn:active, .btn:active, .main-color-btn:active, .toolbar-select:active {
+    transform: scale(0.96);
+    opacity: 0.85;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
 .submit-overlay.mailbox-mode .submit-sent-screen {
     background: transparent;
 }
