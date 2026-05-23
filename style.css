@@ -3242,6 +3242,19 @@ body.submit-open {
     transform: scale(0.95);
 }
 
+.submit-editor-wrap {
+    position: relative !important;
+}
+
+.submit-editor {
+    padding-bottom: 50px !important; 
+}
+
+.inline-done-btn {
+    position: absolute !important;
+    bottom: 52px !important; 
+    right: 12px !important;
+    z-index: 100 !important;
 
 .submit-overlay.mailbox-mode .submit-sent-screen {
     background: transparent;
