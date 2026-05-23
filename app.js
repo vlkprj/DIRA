@@ -284,705 +284,277 @@ document.addEventListener("DOMContentLoaded", () => {
         setTimeout(runRumorsCycle, 4000);
     }
     
-    //сабміт тута//
+// === СИСТЕМА САБМІТУ (MAILBOX & HOLE) ===
 
-const submitOverlay = document.getElementById('submit-overlay');
-const closeSubmitBtn = document.getElementById('close-submit');
-const submitActionBtn = document.getElementById('submit-action-btn');
-const submitEditor = document.getElementById('submit-editor');
-const submitContent = document.getElementById('submit-content');
-const submitSentScreen = document.getElementById('submit-sent-screen');
-const closeSentBtn = document.getElementById('close-sent');
-const submitVideo = document.getElementById('submit-video');
-const attachBtn = document.getElementById('attach-btn');
-const attachInput = document.getElementById('attach-input');
-const attachPreview = document.getElementById('attach-preview');
-const fontSelect = document.getElementById('font-select');
-const submitPreviewScreen = document.getElementById('submit-preview-screen');
-const previewPostCard = document.getElementById('preview-post-card');
-const previewMetaLine = document.getElementById('preview-meta-line');
-const previewEditBtn = document.getElementById('preview-edit-btn');
-const previewSendBtn = document.getElementById('preview-send-btn');
+    const submitOverlay = document.getElementById('submit-overlay');
+    const closeSubmitBtn = document.getElementById('close-submit');
+    const submitActionBtn = document.getElementById('submit-action-btn');
+    const submitEditor = document.getElementById('submit-editor');
+    const submitContent = document.getElementById('submit-content');
+    const submitSentScreen = document.getElementById('submit-sent-screen');
+    const closeSentBtn = document.getElementById('close-sent');
+    const submitVideo = document.getElementById('submit-video');
+    const attachBtn = document.getElementById('attach-btn');
+    const attachInput = document.getElementById('attach-input');
+    const fontSelect = document.getElementById('font-select');
+    const submitPreviewScreen = document.getElementById('submit-preview-screen');
+    const previewPostCard = document.getElementById('preview-post-card');
+    const previewMetaLine = document.getElementById('preview-meta-line');
+    const previewEditBtn = document.getElementById('preview-edit-btn');
+    const previewSendBtn = document.getElementById('preview-send-btn');
+    const inlineDoneBtn = document.getElementById('inline-done-btn');
+    const attachPreviewInline = document.getElementById('attach-preview-inline');
 
-let lastScrollY = 0;
-let finishSendTimeout;
+    let lastScrollY = 0;
+    let finishSendTimeout;
+    let currentBgColor = '#FAF8F4';
+    let currentTextColor = '#222221';
+    let currentAlign = 'auto';
 
-const buttonTitles = {
-    '.b-write-main': 'НАПИСАТИ',
-    '.b-story': 'РОЗКАЗАТИ',
-    '.b-serious': 'НАПИСАТИ ЩОСЬ СЕРЙОЗНЕ',
-    '.b-petition': 'ЗВЕРНЕННЯ',
-    '.b-complain': 'ПОСКАРЖИТИСЬ',
-    '.b-zbir': 'ЗБІР',
-    '.b-idea': 'Є ІДЕЯ',
-    '.b-thank': 'ПОДЯКУВАТИ',
-    '.b-unpopular': 'НЕПОПУЛЯРНА ДУМКА',
-    '.b-shopopalo': 'ШОПОПАЛО',
-    '.b-admins': 'НАПИСАТИ АДМІНАМ',
-    '.rumors-container': 'ЧУТКИ',
-    '.b-problem': 'ОТАКА ПРОБЛЕМА',
-    '.b-advice': 'ПОТРІБНА ПОРАДА',
-    '.b-birthday': 'ПРИВІТАТИ З ДНЕМ НАРОДЖЕННЯ'
-};
+    const buttonTitles = {
+        '.b-write-main': 'НАПИСАТИ', '.b-story': 'РОЗКАЗАТИ', '.b-serious': 'НАПИСАТИ СЕРЙОЗНЕ',
+        '.b-petition': 'ЗВЕРНЕННЯ', '.b-complain': 'ПОСКАРЖИТИСЬ', '.b-zbir': 'ЗБІР',
+        '.b-idea': 'Є ІДЕЯ', '.b-thank': 'ПОДЯКУВАТИ', '.b-unpopular': 'НЕПОПУЛЯРНА ДУМКА',
+        '.b-shopopalo': 'ШОПОПАЛО', '.b-admins': 'НАПИСАТИ АДМІНАМ', '.rumors-container': 'ЧУТКИ',
+        '.b-problem': 'ОТАКА ПРОБЛЕМА', '.b-advice': 'ПОТРІБНА ПОРАДА', '.b-birthday': 'ПРИВІТАТИ'
+    };
 
-let toastTimeout;
-function showValkyToast(text) {
-    if (!text) return;
-    
-    let toast = document.getElementById('valky-toast');
-    if (!toast) {
-        toast = document.createElement('div');
-        toast.id = 'valky-toast';
-        toast.className = 'valky-toast';
-        document.body.appendChild(toast);
-    }
-    
-    toast.innerText = text;
-    toast.classList.add('show');
+    const buttonPlaceholders = {
+        '.b-write-main': 'Ну пишіть', '.b-story': 'Розказуйте', '.b-serious': 'Тільки серйозно(о)',
+        '.b-petition': 'Це неофіційно, але ВОНИ побачать 👀', '.b-complain': 'Шо там сталося? Розказуйте.',
+        '.b-zbir': 'Додайте всю інформацію про збір', '.b-idea': 'Розказуйте вашу ідею',
+        '.b-thank': 'Кому і за шо дякувати будете?', '.b-unpopular': 'Хочете срач розпочати?',
+        '.b-shopopalo': 'Пишіть своє шопопало', '.b-admins': 'Ну пишіть адмінам...',
+        '.rumors-container': 'Ну розказуйте, шо чули, шо бачили', '.b-problem': 'Де, шо і коли?',
+        '.b-advice': 'Можливо вам підкажуть щось', '.b-birthday': 'Напишіть своє привітання'
+    };
 
-    clearTimeout(toastTimeout);
-    toastTimeout = setTimeout(() => {
-        toast.classList.remove('show');
-    }, 5000); 
-}
+    const buttonFonts = {
+        '.b-write-main': 'Fira Sans Extra Condensed', '.b-story': 'Vollkorn', '.b-serious': 'Philosopher',
+        '.b-petition': 'Vollkorn', '.rumors-container': 'Balsamiq Sans', '.b-thank': 'Fira Sans Extra Condensed',
+        '.b-complain': 'Oswald', '.b-unpopular': 'Dela Gothic One', '.b-zbir': 'Space Grotesk',
+        '.b-idea': 'Oswald', '.b-shopopalo': 'Balsamiq Sans', '.b-birthday': 'Bad Script'
+    };
 
-
-
-function openSubmitOverlay(mode, placeholderText, defaultFont, titleText) {
-    lastScrollY = window.scrollY;
-    submitOverlay.className = `submit-overlay ${mode}-mode`;
-    submitOverlay.style.display = 'flex';
-    submitContent.style.display = 'flex';
-    submitPreviewScreen.style.display = 'none';  
-    submitSentScreen.style.display = 'none';
-    
-    if (submitVideo) {
-        submitVideo.style.display = 'block';
-        submitVideo.src = mode === 'mailbox' ? 'skrynka.mp4' : 'blackhole.mp4';
-        submitVideo.style.filter = '';
-        submitVideo.style.transition = '';
-        submitVideo.load();
-        submitVideo.pause();
-        submitVideo.currentTime = 0;
-    }
-
-    document.body.classList.add('submit-open');
-    submitEditor.innerHTML = '';
-    submitEditor.setAttribute('data-placeholder', 'Пишіть сюди...');
-    
-    const counter = document.getElementById('char-counter');
-    if (counter) counter.innerText = '0';
-    
-    const cardHint = document.getElementById('card-count-hint');
-    if (cardHint) cardHint.innerText = '';
-    
-    const inlinePreview = document.getElementById('attach-preview-inline');
-    if (inlinePreview) inlinePreview.innerHTML = '';
-    
-    const appliedFont = defaultFont ? defaultFont : 'Inter';
-    const fontString = `'${appliedFont}', sans-serif`;
-
-    submitEditor.style.setProperty('font-family', fontString, 'important');
-    submitEditor.dataset.activeFont = fontString;
-
-    if (fontSelect) {
-        Array.from(fontSelect.options).forEach(opt => {
-            if (appliedFont.includes(opt.value)) {
-                fontSelect.value = opt.value;
-            }
-        });
-    }
-
-    if (placeholderText) {
-        showValkyToast(placeholderText); 
-    }
-
-    currentAlign = 'auto';
-    const alignIcon = document.querySelector('#align-toggle-btn .material-symbols-outlined');
-    if (alignIcon) alignIcon.innerText = 'format_align_center';
-
-    currentBgColor = mode === 'hole' ? '#1a1a1a' : '#FAF8F4';
-    currentTextColor = mode === 'hole' ? '#FAF8F4' : '#222221';
-    
-    applyEditorColors();
-
-    let innerTitle = submitContent.querySelector('.caps-label.dynamic-title');
-    if (innerTitle) {
-        innerTitle.innerText = titleText || 'НАПИСАТИ';
-    }
-}
-
-    const src = mode === 'mailbox' ? 'skrynka.mp4' : 'blackhole.mp4';
-    submitVideo.src = src;
-    submitVideo.style.filter = '';
-    submitVideo.style.transition = '';
-    submitVideo.load();
-    submitVideo.pause();
-    submitVideo.currentTime = 0;
-    
-    const step2Tools = document.getElementById('step-2-tools');
-    const finalSubmitBtn = document.getElementById('final-submit-btn');
-    const mainSubmitBtn = document.getElementById('submit-action-btn');
-    
-    if (step2Tools) step2Tools.style.display = 'none';
-    if (finalSubmitBtn) finalSubmitBtn.style.display = 'none';
-    if (mainSubmitBtn) mainSubmitBtn.style.display = 'block';
-
-    submitEditor.innerHTML = '';
-
-    submitEditor.setAttribute('data-placeholder', 'Пишіть сюди...');
-    
-    const counter = document.getElementById('char-counter');
-    if (counter) counter.innerText = '0';
-    
-    const cardHint = document.getElementById('card-count-hint');
-    if (cardHint) cardHint.innerText = '';
-    
-    const inlinePreview = document.getElementById('attach-preview-inline');
-    if (inlinePreview) inlinePreview.innerHTML = '';
-    
-    const appliedFont = defaultFont ? defaultFont : 'Inter';
-    const fontString = `'${appliedFont}', sans-serif`;
-
-    submitEditor.style.setProperty('font-family', fontString, 'important');
-    submitEditor.dataset.activeFont = fontString;
-
-    if (fontSelect) {
-        Array.from(fontSelect.options).forEach(opt => {
-            if (appliedFont.includes(opt.value)) {
-                fontSelect.value = opt.value;
-            }
-        });
-    }
-
-    const hintEl = document.getElementById('submit-hint-text');
-    if (hintEl) hintEl.style.display = 'none'; 
-
-    if (placeholderText) {
-        showValkyToast(placeholderText); 
-    }
-    
-
-    currentAlign = 'auto';
-    const alignIcon = document.querySelector('#align-toggle-btn .material-symbols-outlined');
-    if (alignIcon) alignIcon.innerText = 'format_align_center';
-
-    currentBgColor = '#FAF8F4';
-    currentTextColor = '#222221';
-    document.querySelectorAll('.theme-btn').forEach((btn, idx) => {
-        if (idx === 0) btn.classList.add('active');
-        else btn.classList.remove('active');
-    });
-    applyEditorColors();
-} 
-
-submitEditor.addEventListener('paste', (e) => {
-    e.preventDefault();
-    const text = (e.clipboardData || window.clipboardData).getData('text/plain');
-    document.execCommand('insertText', false, text);
-    submitEditor.style.setProperty('font-family', submitEditor.dataset.activeFont || "'Inter', sans-serif", 'important');
-});
-
-submitEditor.addEventListener('input', () => {
-    submitEditor.style.setProperty('font-family', submitEditor.dataset.activeFont || "'Inter', sans-serif", 'important');
-    const len = submitEditor.innerText.replace(/\n$/, '').length;
-    const counter = document.getElementById('char-counter');
-    if (counter) counter.innerText = len; 
-    
-    const cardHint = document.getElementById('card-count-hint');
-    if (cardHint) {
-        const cardCount = Math.ceil(len / 350) || 1;
-        if (cardCount > 1) {
-            cardHint.innerHTML = `<div style="display:inline-flex; align-items:center; gap:6px; background:rgba(255,255,255,0.25); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); padding:6px 16px; border-radius:20px; font-size:13px; font-family:'Inter',sans-serif; color:#fff; font-weight:600; box-shadow:0 4px 15px rgba(0,0,0,0.1); border:1px solid rgba(255,255,255,0.1);"><span class="material-symbols-outlined" style="font-size:18px;">auto_awesome_mosaic</span> Розділено на ${cardCount} картки</div>`;
-        } else {
-            cardHint.innerHTML = '';
+    let toastTimeout;
+    function showValkyToast(text) {
+        if (!text) return;
+        let toast = document.getElementById('valky-toast');
+        if (!toast) {
+            toast = document.createElement('div');
+            toast.id = 'valky-toast';
+            toast.className = 'valky-toast';
+            document.body.appendChild(toast);
         }
-    }
-});
-
-
-
-
-function closeSubmitOverlay() {
-    submitOverlay.style.display = 'none';
-    submitOverlay.className = 'submit-overlay';
-    submitEditor.innerHTML = '';
-    
-    const inlinePreview = document.getElementById('attach-preview-inline');
-    if (inlinePreview) inlinePreview.innerHTML = '';
-    
-    if (typeof submitVideo !== 'undefined' && submitVideo) {
-        submitVideo.pause();
-        submitVideo.src = '';
-        submitVideo.style.display = '';
+        toast.innerText = text;
+        toast.classList.add('show');
+        clearTimeout(toastTimeout);
+        toastTimeout = setTimeout(() => toast.classList.remove('show'), 5000); 
     }
 
-   
-    if (typeof atmoVideo !== 'undefined' && atmoVideo) {
-        atmoVideo.style.display = ''; 
-        atmoVideo.style.filter = '';
-        atmoVideo.style.zIndex = '';
-        atmoVideo.play().catch(e => console.log('Safari video unfreeze:', e));
-    }
-    
-    clearTimeout(finishSendTimeout);
-    document.body.classList.remove('submit-open');
-    window.scrollTo({ top: lastScrollY, behavior: 'instant' });
-
-    const atmoPreviewScreen = document.getElementById('atmo-preview-screen');
-    const atmoContent = document.getElementById('atmo-content');
-    const atmoSentScreen = document.getElementById('atmo-sent-screen');
-
-    if (atmoPreviewScreen) atmoPreviewScreen.style.display = 'none';
-    if (atmoContent) atmoContent.style.display = 'flex';
-    if (atmoSentScreen) atmoSentScreen.style.display = 'none';
-
-    const atmoImgs = document.querySelectorAll('.atmo-slot-img-fill');
-    atmoImgs.forEach(img => {
-        img.src = '';
-        img.style.display = 'none';
-    });
-
-    const atmoCaps = document.querySelectorAll('.atmo-polaroid-caption');
-    atmoCaps.forEach(cap => cap.value = '');
-
-   
-    const allHeaders = document.querySelectorAll('.submit-header');
-    allHeaders.forEach(h => h.style.display = '');
-}
-
-
-
-const mailboxButtons = ['.b-story', '.b-serious', '.b-petition', '.b-complain', '.b-birthday', '.b-zbir', '.b-idea', '.side-tag', '.b-write-main', '.b-thank', '.b-advice'];
-const holeButtons = ['.b-unpopular', '.b-shopopalo', '.b-admins', '.rumors-container', '.b-problem'];
-
-
-const buttonPlaceholders = {
-    '.b-write-main': 'Ну пишіть',
-    '.b-story': 'Розказуйте',
-    '.b-serious': 'Пишіть щось, ну тільки ж серйозне(о)',
-    '.b-petition': `Це ж неофіційне звернення, ви ж розумієте?
-Але ВОНИ побачать, не сумнівайтеся 👀`,
-    '.b-complain': `Шо там вже сталося? Розказуйте-показуйте.
-Матюкатись можна.`,
-    '.b-zbir': `Додайте будь ласка всю важливу інформацію, офіційний (якщо є) запит, контакти і посилання, а також текст збору.
-Ми перевіримо і обовʼязково опублікуємо`,
-    '.b-idea': `Цікаво-цікаво.
-Розказуйте`,
-    '.b-thank': `Кому і за шо дякувати будете?
-Пишіть ❤️`,
-    '.b-unpopular': 'Ага, тобто хочете срач розпочати?',
-    '.b-shopopalo': 'Пишіть своє шопопало, але майте на увазі, що якщо шопопалість вашого шопопала буде занадто, ми не гарантуємо, що опублікуємо це на каналі',
-    '.b-admins': 'Ну пишіть вже...',
-    '.rumors-container': `Ну розказуйте шо чули, шо бачили.
-Чи ви просто запитати?`,
-    '.b-problem': 'Розказуйте-показуйте. Де, шо і коли',
-    '.b-advice': 'Можливо вам підкажуть щось',
-    '.b-birthday': `Напишіть своє привітання, побажання.
-Можна додати картинку`
-};
-
-
-const buttonFonts = {
-    '.b-write-main': 'Fira Sans Extra Condensed',
-    '.b-story': 'Vollkorn',
-    '.b-serious': 'Philosopher',
-    '.b-petition': 'Vollkorn',
-    '.side-tag': 'Inter',
-    '.rumors-container': 'Balsamiq Sans',
-    '.b-thank': 'Fira Sans Extra Condensed',
-    '.b-complain': 'Oswald',
-    '.b-problem': 'Fira Sans Extra Condensed',
-    '.b-unpopular': 'Dela Gothic One',
-    '.b-zbir': 'Space Grotesk',
-    '.b-idea': 'Oswald',
-    '.b-shopopalo': 'Balsamiq Sans',
-    '.b-birthday': 'Bad Script',
-    '.b-admins': 'Fira Sans Extra Condensed',
-    '.b-advice': 'Fira Sans Extra Condensed'
-};
-
-
-
-// цикли mailboxButtons.forEach + holeButtons.forEach//
-mailboxButtons.forEach(sel => {
-    const el = document.querySelector(sel);
-    if (el) el.addEventListener('click', () => openSubmitOverlay('mailbox', buttonPlaceholders[sel], buttonFonts[sel], buttonTitles[sel]));
-});
-
-holeButtons.forEach(sel => {
-    const el = document.querySelector(sel);
-    if (el) el.addEventListener('click', () => openSubmitOverlay('hole', buttonPlaceholders[sel], buttonFonts[sel], buttonTitles[sel]));
-});
-
-
-
-if (closeSubmitBtn) closeSubmitBtn.addEventListener('click', closeSubmitOverlay);
-
-if (closeSentBtn) closeSentBtn.addEventListener('click', closeSubmitOverlay);
-
-submitOverlay.addEventListener('click', (e) => {
-    if (e.target === submitOverlay) closeSubmitOverlay();
-});
-
-document.querySelectorAll('.toolbar-btn[data-cmd]').forEach(btn => {
-    btn.addEventListener('mousedown', (e) => {
-        e.preventDefault();
-        document.execCommand(btn.dataset.cmd, false, null);
-        btn.classList.toggle('active');
-        submitEditor.focus();
-    });
-});
-
-
-if (fontSelect) {
-    fontSelect.addEventListener('change', () => {
-        const selectedFont = fontSelect.value;
-        const fontString = `'${selectedFont}', sans-serif`;
-        submitEditor.style.fontFamily = fontString;
-        submitEditor.dataset.activeFont = fontString;
-        submitEditor.focus();
-    });
-}
-
-const attachPreviewInline = document.getElementById('attach-preview-inline');
-
-if (attachBtn && attachInput) {
-    attachBtn.addEventListener('click', () => attachInput.click());
-    attachInput.addEventListener('change', () => {
-        const file = attachInput.files[0];
-        if (!file) return;
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            if (attachPreviewInline) {
-                attachPreviewInline.innerHTML = '';
-                const img = document.createElement('img');
-                img.src = e.target.result;
-                img.className = 'attach-thumb-full';
-                attachPreviewInline.appendChild(img);
-            }
-        };
-        reader.readAsDataURL(file);
-    });
-}
-const inlineDoneBtn = document.getElementById('inline-done-btn');
-let currentBgColor = '#FAF8F4';
-let currentTextColor = '#222221';
-let currentAlign = 'auto';
-
-const safeTextColors = {
-    '#FAF8F4': ['#222221', '#1a1a1a'],
-    '#FFFFFF': ['#1a1a1a', '#222221'],
-    '#1a1a1a': ['#FAF8F4', '#FFFFFF'],
-    '#FFEB3B': ['#1a1a1a'],
-    '#E91E63': ['#FFFFFF'],
-    '#2196F3': ['#FFFFFF']
-};
-
-function applyEditorColors() {
-    if (!submitEditor) return;
-    submitEditor.style.background = currentBgColor;
-    submitEditor.style.color = currentTextColor;
-}
-
-document.querySelectorAll('.bg-color-dot').forEach(dot => {
-    dot.addEventListener('click', () => {
-        const color = dot.dataset.color;
-        const allowedTexts = safeTextColors[color] || ['#222221'];
-        if (!allowedTexts.includes(currentTextColor)) {
-            currentTextColor = allowedTexts[0];
-        }
-        currentBgColor = color;
-        applyEditorColors();
-        submitEditor.focus();
-    });
-});
-
-document.querySelectorAll('.theme-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-        document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        currentBgColor = btn.dataset.bg;
-        currentTextColor = btn.dataset.color;
-        applyEditorColors();
-    });
-});
-
-const alignToggleBtn = document.getElementById('align-toggle-btn');
-if (alignToggleBtn) {
-    alignToggleBtn.addEventListener('click', () => {
-        const icon = alignToggleBtn.querySelector('.material-symbols-outlined');
-        if (currentAlign === 'auto' || currentAlign === 'center') {
-            currentAlign = 'left';
-            icon.innerText = 'format_align_left';
-        } else {
-            currentAlign = 'center';
-            icon.innerText = 'format_align_center';
-        }
-    });
-}
-
-document.querySelectorAll('.bg-color-dot').forEach(dot => {
-    bindKeepFocus(dot, () => {
-        const color = dot.dataset.color;
-        const allowedTexts = safeTextColors[color];
-        if (allowedTexts && !allowedTexts.includes(currentTextColor)) {
-            currentTextColor = allowedTexts[0];
-        }
-        currentBgColor = color;
-        applyEditorColors();
-        popoverBg.classList.remove('show');
-        submitEditor.focus();
-    });
-});
-
-function updateInlineDoneButtonState() {
-    if (!submitEditor || !inlineDoneBtn) return;
-    const textLength = submitEditor.innerText.trim().length;
-    const hasPhoto = attachPreviewInline && attachPreviewInline.innerHTML.trim() !== '';
-    inlineDoneBtn.disabled = (textLength === 0 && !hasPhoto);
-}
-
-if (submitEditor) {
-    submitEditor.addEventListener('focus', () => {
-        updateInlineDoneButtonState();
-        inlineDoneBtn.classList.add('show');
-    });
-    
-    submitEditor.addEventListener('blur', () => {
-        setTimeout(() => inlineDoneBtn.classList.remove('show'), 150);
-    });
-
-    submitEditor.addEventListener('input', updateInlineDoneButtonState);
-}
-
-if (attachPreviewInline) {
-    const observer = new MutationObserver(updateInlineDoneButtonState);
-    observer.observe(attachPreviewInline, { childList: true });
-}
-
-bindKeepFocus(inlineDoneBtn, () => {
-    if (!inlineDoneBtn.disabled) {
-        submitEditor.blur();
-    }
-});
-
-
-
-
-function generateValkyCardsHTML(rawHTML, photosArr, bgColor, textColor, font, authorName, extraClass = '') {
-    let html = '';
-    const safeFont = font.replace(/"/g, "'"); 
-    
-    const headerHTML = `
-        <div class="valky-card-header-pill" style="transform: scale(0.85); margin-bottom: 14px; margin-top: -8px;">
-            <img src="anonface.PNG" alt="Анонім">
-            <span class="pill-yellow">ВАЛКІВСЬКА</span>
-            <span class="pill-white">ПРИЙМАЛЬНЯ</span>
-        </div>
-    `;
-    const authorHTML = `<div class="valky-card-author">${authorName}</div>`;
-    const CHARS_PER_CARD = 350;
-
-    const tempDiv = document.createElement('div');
-    tempDiv.innerHTML = rawHTML.replace(/<br\s*\/?>/gi, '\n'); 
-    let pureText = tempDiv.innerText || '';
-
-    let chunks = [];
-    let useHTML = false;
-
-    if (pureText.trim().length > 0) {
-        if (pureText.length <= CHARS_PER_CARD) {
-            chunks.push(rawHTML);
-            useHTML = true;
-        } else {
-            let currentChunk = '';
-            const tokens = pureText.split(/([ \n])/);
-            for (let t of tokens) {
-                if ((currentChunk + t).length > CHARS_PER_CARD) {
-                    chunks.push(currentChunk.trim());
-                    currentChunk = t;
-                } else {
-                    currentChunk += t;
-                }
-            }
-            if (currentChunk.trim()) chunks.push(currentChunk.trim());
-        }
-    } else if (photosArr.length === 0) {
-        chunks.push('порожньо');
+    function applyEditorColors() {
+        if (!submitEditor) return;
+        submitEditor.style.background = currentBgColor;
+        submitEditor.style.color = currentTextColor;
+        if (submitPreviewScreen.style.display === 'flex') updatePreviewCard();
     }
 
-    const isMultiCard = chunks.length > 1;
-
-    chunks.forEach((chunk, idx) => {
-        let fontClass = 'fs-small';
-        let align = 'left';
-
-        if (!isMultiCard) {
-            const len = useHTML ? pureText.length : chunk.length;
-            if (len < 80) fontClass = 'fs-huge';
-            else if (len < 180) fontClass = 'fs-large';
-            else if (len < 280) fontClass = 'fs-medium';
-            let align = currentAlign === 'auto' ? (len > 193 ? 'left' : 'center') : currentAlign;
-        }
-
-        const showHeader = idx === 0 ? headerHTML : '';
-        const showArrow = (idx < chunks.length - 1 || photosArr.length > 0) ? '<div class="valky-card-arrow">→</div>' : '';
-        
-        const finalContent = useHTML ? chunk : chunk.replace(/\n/g, '<br>');
-
-        html += `
-            <div class="valky-card ${extraClass}" style="background:${bgColor}; color:${textColor}; font-family:${safeFont} !important;">
-                ${showHeader}
-                <div class="valky-card-body ${fontClass}" style="font-family:${safeFont} !important; text-align:${align};">${finalContent}</div>
-                ${showArrow}
-                ${authorHTML}
-            </div>
-        `;
-    });
-
-    photosArr.slice(0, 5).forEach(src => {
-        html += `
-            <div class="valky-card" style="background:${bgColor}; color:${textColor}; font-family:${safeFont} !important;">
-                ${headerHTML}
-                <div class="valky-card-photo-wrap">
-                    <img src="${src}" class="valky-card-photo">
-                </div>
-                ${authorHTML}
-            </div>
-        `;
-    });
-
-    return html;
-}
-
-
-
-
-//генератор карточок всьо
-
-
-// Анонімність //
-function getActiveNickname(containerId) {
-    const container = document.getElementById(containerId);
-    if (!container) return '👤 Анонімно';
-    const checkbox = container.querySelector('.anon-checkbox');
-    const input = container.querySelector('.anon-name-field');
-    if (checkbox && checkbox.checked) return '👤 Анонімно';
-    if (input && input.value.trim() !== '') return `від: ${input.value.trim()}`;
-    return '👤 Анонімно';
-}
-
-
-
-// Головний редактор //
-
-
-function updatePreviewCard() {
-    if (submitPreviewScreen.style.display !== 'flex') return;
-    const rawText = submitEditor.innerHTML || '';
-    const nameVal = getActiveNickname('submit-content');
-    let photosArr = [];
-    const inlinePreview = document.getElementById('attach-preview-inline');
-    if (inlinePreview) {
-        const imgs = inlinePreview.querySelectorAll('img');
-        imgs.forEach(img => photosArr.push(img.src));
-    }
-
-    const isHole = submitOverlay.classList.contains('hole-mode');
-    const bg = currentBgColor || (isHole ? '#1a1a1a' : '#fff');
-    const tc = currentTextColor || (isHole ? '#e0e0e0' : '#1a1a1a');
-    const font = submitEditor.style.fontFamily || 'Inter, sans-serif';
-
-    const innerTitle = document.querySelector('.caps-label.dynamic-title');
-    const isBirthday = innerTitle && innerTitle.innerText === 'ПРИВІТАТИ З ДНЕМ НАРОДЖЕННЯ';
-    const extraClass = isBirthday ? 'festive-birthday-card' : '';
-
-    previewPostCard.innerHTML = generateValkyCardsHTML(rawText, photosArr, bg, tc, font, nameVal, extraClass);
-}
-
-const _oldApplyEditorColors = applyEditorColors;
-applyEditorColors = function() {
-    _oldApplyEditorColors();
-    updatePreviewCard();
-};
-
-if (fontSelect) {
-    fontSelect.addEventListener('change', () => {
-        const selectedFont = fontSelect.value;
-        const fontString = `'${selectedFont}', sans-serif`;
-        submitEditor.style.setProperty('font-family', fontString, 'important');
-        submitEditor.dataset.activeFont = fontString;
-        submitEditor.focus();
-    });
-}
-
-if (submitActionBtn) {
-    submitActionBtn.addEventListener('click', () => {
-        submitContent.style.display = 'none';
-        submitPreviewScreen.style.display = 'flex';
-        
-        updatePreviewCard();
-        
-        if (previewMetaLine) previewMetaLine.style.display = 'none';
-        const mainHeader = document.querySelector('.submit-header');
-        if (mainHeader) mainHeader.style.display = 'none';
-    });
-}
-
-if (previewEditBtn) {
-    previewEditBtn.addEventListener('click', () => {
-        submitPreviewScreen.style.display = 'none';
+    function openSubmitOverlay(mode, placeholderText, defaultFont, titleText) {
+        lastScrollY = window.scrollY;
+        submitOverlay.className = `submit-overlay ${mode}-mode`;
+        submitOverlay.style.display = 'flex';
         submitContent.style.display = 'flex';
-        const mainHeader = document.querySelector('.submit-header');
-        if (mainHeader) mainHeader.style.display = 'flex';
-    });
-}
+        submitPreviewScreen.style.display = 'none';  
+        submitSentScreen.style.display = 'none';
+        document.body.classList.add('submit-open');
 
-if (previewSendBtn) {
-    previewSendBtn.addEventListener('click', () => {
-        const mode = submitOverlay.classList.contains('mailbox-mode') ? 'mailbox' : 'hole';
-        submitPreviewScreen.style.background = 'transparent';
+        submitEditor.innerHTML = '';
+        const fontName = defaultFont || 'Inter';
+        submitEditor.style.setProperty('font-family', `'${fontName}', sans-serif`, 'important');
+        submitEditor.dataset.activeFont = `'${fontName}', sans-serif`;
+
+        if (fontSelect) fontSelect.value = fontName;
+        if (attachPreviewInline) attachPreviewInline.innerHTML = '';
+        if (placeholderText) showValkyToast(placeholderText);
+
+        currentAlign = 'auto';
+        currentBgColor = (mode === 'hole') ? '#1a1a1a' : '#FAF8F4';
+        currentTextColor = (mode === 'hole') ? '#FAF8F4' : '#222221';
         
-        const toHide = [previewMetaLine, previewEditBtn, previewSendBtn, document.querySelector('.preview-label'), document.getElementById('style-config-panel')];
-        toHide.forEach(el => { if(el) el.style.opacity = '0'; });
+        applyEditorColors();
 
         if (submitVideo) {
-            submitVideo.currentTime = 0;
-            submitVideo.style.zIndex = '999';
             submitVideo.style.display = 'block';
-            submitVideo.style.opacity = '1';
-            submitVideo.play().catch(e => console.log(e));
+            submitVideo.src = (mode === 'mailbox') ? 'skrynka.mp4' : 'blackhole.mp4';
+            submitVideo.load();
         }
-  
-        previewPostCard.classList.add(`fly-to-${mode}`);
-        const animDuration = mode === 'hole' ? 4600 : 1000;
 
-        setTimeout(() => {
-            submitPreviewScreen.style.display = 'none';
-            if (submitVideo) submitVideo.style.zIndex = '';
-            previewPostCard.classList.remove(`fly-to-${mode}`);
-            toHide.forEach(el => { if(el) el.style.opacity = '1'; });
-        }, animDuration);
+        let innerTitle = submitContent.querySelector('.caps-label.dynamic-title');
+        if (innerTitle) innerTitle.innerText = titleText || 'НАПИСАТИ';
+    }
 
-        const finishSend = () => {
-            if (submitVideo) submitVideo.style.display = 'none';
-            submitSentScreen.style.display = 'flex';
-        };
+    function closeSubmitOverlay() {
+        submitOverlay.style.display = 'none';
+        document.body.classList.remove('submit-open');
+        if (submitVideo) { submitVideo.pause(); submitVideo.src = ''; }
+        window.scrollTo({ top: lastScrollY, behavior: 'instant' });
+    }
 
-        if (submitVideo) {
-            submitVideo.onended = finishSend;
-            finishSendTimeout = setTimeout(() => {
-                if (submitSentScreen.style.display !== 'flex') finishSend();
-            }, 8000);
-        } else {
-            finishSend();
-        }
+    // Слухачі кнопок
+    const mailboxButtons = ['.b-story', '.b-serious', '.b-petition', '.b-complain', '.b-birthday', '.b-zbir', '.b-idea', '.b-write-main', '.b-thank', '.b-advice'];
+    const holeButtons = ['.b-unpopular', '.b-shopopalo', '.b-admins', '.rumors-container', '.b-problem'];
+
+    mailboxButtons.forEach(sel => {
+        const el = document.querySelector(sel);
+        if (el) el.addEventListener('click', () => openSubmitOverlay('mailbox', buttonPlaceholders[sel], buttonFonts[sel], buttonTitles[sel]));
     });
-}
 
+    holeButtons.forEach(sel => {
+        const el = document.querySelector(sel);
+        if (el) el.addEventListener('click', () => openSubmitOverlay('hole', buttonPlaceholders[sel], buttonFonts[sel], buttonTitles[sel]));
+    });
 
+    if (closeSubmitBtn) closeSubmitBtn.addEventListener('click', closeSubmitOverlay);
+    if (closeSentBtn) closeSentBtn.addEventListener('click', closeSubmitOverlay);
+    submitOverlay.addEventListener('click', (e) => { if (e.target === submitOverlay) closeSubmitOverlay(); });
 
+    // Теми та Текст
+    document.querySelectorAll('.theme-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentBgColor = btn.dataset.bg;
+            currentTextColor = btn.dataset.color;
+            applyEditorColors();
+        });
+    });
+
+    if (fontSelect) {
+        fontSelect.addEventListener('change', () => {
+            const fontString = `'${fontSelect.value}', sans-serif`;
+            submitEditor.style.setProperty('font-family', fontString, 'important');
+            submitEditor.dataset.activeFont = fontString;
+        });
+    }
+
+    submitEditor.addEventListener('paste', (e) => {
+        e.preventDefault();
+        const text = (e.clipboardData || window.clipboardData).getData('text/plain');
+        document.execCommand('insertText', false, text);
+        submitEditor.style.setProperty('font-family', submitEditor.dataset.activeFont || "'Inter', sans-serif", 'important');
+    });
+
+    submitEditor.addEventListener('input', () => {
+        const len = submitEditor.innerText.replace(/\n$/, '').length;
+        if (document.getElementById('char-counter')) document.getElementById('char-counter').innerText = len;
+        const cardHint = document.getElementById('card-count-hint');
+        if (cardHint) cardHint.innerHTML = len > 350 ? `Розділено на ${Math.ceil(len / 350)} картки` : '';
+    });
+
+    // Фото
+    if (attachBtn && attachInput) {
+        attachBtn.addEventListener('click', () => attachInput.click());
+        attachInput.addEventListener('change', () => {
+            const file = attachInput.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                if (attachPreviewInline) {
+                    attachPreviewInline.innerHTML = `<img src="${e.target.result}" class="attach-thumb-full">`;
+                }
+            };
+            reader.readAsDataURL(file);
+        });
+    }
+
+    // Вирівнювання
+    if (document.getElementById('align-toggle-btn')) {
+        document.getElementById('align-toggle-btn').addEventListener('click', () => {
+            currentAlign = (currentAlign === 'center' || currentAlign === 'auto') ? 'left' : 'center';
+            document.querySelector('#align-toggle-btn .material-symbols-outlined').innerText = currentAlign === 'center' ? 'format_align_center' : 'format_align_left';
+            if (submitPreviewScreen.style.display === 'flex') updatePreviewCard();
+        });
+    }
+
+    function generateValkyCardsHTML(rawHTML, photosArr, bgColor, textColor, font, authorName) {
+        let html = '';
+        const headerHTML = `<div class="valky-card-header-pill" style="transform:scale(0.85);margin-bottom:14px;"><img src="anonface.PNG"> <span class="pill-yellow">ВАЛКІВСЬКА</span> <span class="pill-white">ПРИЙМАЛЬНЯ</span></div>`;
+        const authorHTML = `<div class="valky-card-author">${authorName}</div>`;
+        
+        let cleanText = rawHTML.replace(/<br\s*\/?>/gi, '\n').replace(/<\/?[^>]+(>|$)/g, "");
+        let chunks = cleanText.match(/.{1,350}(\s|$)/g) || [cleanText];
+
+        chunks.forEach((chunk, idx) => {
+            const align = currentAlign === 'auto' ? (chunk.length > 190 ? 'left' : 'center') : currentAlign;
+            html += `<div class="valky-card" style="background:${bgColor}; color:${textColor}; font-family:${font} !important;">
+                ${idx === 0 ? headerHTML : ''}
+                <div class="valky-card-body" style="text-align:${align};">${chunk.replace(/\n/g, '<br>')}</div>
+                ${idx < chunks.length - 1 || photosArr.length > 0 ? '<div class="valky-card-arrow">→</div>' : ''}
+                ${authorHTML}
+            </div>`;
+        });
+
+        photosArr.forEach(src => {
+            html += `<div class="valky-card" style="background:${bgColor};">
+                ${headerHTML}
+                <div class="valky-card-photo-wrap"><img src="${src}" class="valky-card-photo"></div>
+                ${authorHTML}
+            </div>`;
+        });
+        return html;
+    }
+
+    function getActiveNickname(containerId) {
+        const container = document.getElementById(containerId);
+        const input = container ? container.querySelector('.anon-name-field') : null;
+        return (input && input.value.trim() !== '') ? `від: ${input.value.trim()}` : '👤 Анонімно';
+    }
+
+    function updatePreviewCard() {
+        const rawText = submitEditor.innerHTML || '';
+        const nameVal = getActiveNickname('submit-content');
+        let photosArr = [];
+        if (attachPreviewInline) attachPreviewInline.querySelectorAll('img').forEach(img => photosArr.push(img.src));
+        previewPostCard.innerHTML = generateValkyCardsHTML(rawText, photosArr, currentBgColor, currentTextColor, submitEditor.style.fontFamily);
+    }
+
+    if (submitActionBtn) {
+        submitActionBtn.addEventListener('click', () => {
+            submitContent.style.display = 'none';
+            submitPreviewScreen.style.display = 'flex';
+            updatePreviewCard();
+            if (document.querySelector('.submit-header')) document.querySelector('.submit-header').style.display = 'none';
+        });
+    }
+
+    if (previewEditBtn) {
+        previewEditBtn.addEventListener('click', () => {
+            submitPreviewScreen.style.display = 'none';
+            submitContent.style.display = 'flex';
+            if (document.querySelector('.submit-header')) document.querySelector('.submit-header').style.display = 'flex';
+        });
+    }
+
+    if (previewSendBtn) {
+        previewSendBtn.addEventListener('click', () => {
+            const mode = submitOverlay.classList.contains('mailbox-mode') ? 'mailbox' : 'hole';
+            submitPreviewScreen.style.background = 'transparent';
+            [previewMetaLine, previewEditBtn, previewSendBtn, document.querySelector('.preview-label'), document.getElementById('style-config-panel')].forEach(el => { if(el) el.style.opacity = '0'; });
+
+            if (submitVideo) {
+                submitVideo.currentTime = 0;
+                submitVideo.style.display = 'block';
+                submitVideo.play();
+            }
+            previewPostCard.classList.add(`fly-to-${mode}`);
+            setTimeout(() => {
+                submitVideo.style.display = 'none';
+                submitSentScreen.style.display = 'flex';
+            }, mode === 'hole' ? 4600 : 1000);
+        });
+    }
+
+    // === КІНЕЦЬ БЛОКУ САБМІТУ ===
 
 // Атмосфера //
 const atmoOverlay = document.getElementById('atmo-overlay');
