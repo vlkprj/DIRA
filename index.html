@@ -331,13 +331,14 @@
         <div class="preview-post-card" id="preview-post-card"></div>
 
         <!-- Стилі тепер тут, з новим ID-->
-    <div id="style-config-panel" style="width: 100%; display: flex; flex-direction: column; gap: 15px; margin-top: 15px;">
-    <div class="style-config-box" style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 15px; backdrop-filter: blur(10px);">
+  <!-- Оновлений блок налаштування стилю -->
+<div id="style-config-panel" class="style-config-panel">
+    <div class="style-config-box">
         
-        <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 15px;">
-            <div class="toolbar-font-box" style="flex: 1; display: flex; align-items: center; justify-content: space-between; background: rgba(0,0,0,0.15); padding: 10px 15px; border-radius: 12px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);">
-                <span class="toolbar-font-label" style="color:#fff; font-size:12px; font-weight: 700; text-transform:uppercase; letter-spacing:1px; margin: 0;">Шрифт:</span>
-                <select class="toolbar-select" id="font-select" style="width:130px; height:36px; border-radius:8px; color: #111; background: #fff url('data:image/svg+xml;utf8,<svg fill=%22black%22 height=%2224%22 viewBox=%220 0 24 24%22 width=%2224%22 xmlns=%22http://www.w3.org/2000/svg%22><path d=%22M7 10l5 5 5-5z%22/><path d=%22M0 0h24v24H0z%22 fill=%22none%22/></svg>') no-repeat right 8px center; padding: 0 30px 0 12px; border: none; font-weight: 700; font-family: 'Inter', sans-serif; -webkit-appearance: none; appearance: none; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+        <div class="style-row-main">
+            <div class="toolbar-font-box">
+                <span class="toolbar-font-label">Шрифт:</span>
+                <select class="toolbar-select" id="font-select">
                     <option value="Inter">Inter</option>
                     <option value="Vollkorn">Vollkorn</option>
                     <option value="PT Serif">PT Serif</option>
@@ -351,10 +352,16 @@
                 </select>
             </div>
             
-            <button id="align-toggle-btn" style="width: 44px; height: 44px; border-radius: 12px; background: rgba(0,0,0,0.15); border: none; color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05); flex-shrink: 0;">
+            <button id="align-toggle-btn" class="align-btn">
                 <span class="material-symbols-outlined">format_align_center</span>
             </button>
         </div>
+
+        <div class="editor-themes-row">
+            <div class="theme-btn active" data-bg="#FAF8F4" data-color="#222221" style="background: #FAF8F4; color: #222221;">A</div>
+            <div class="theme-btn" data-bg="#FAF8F4" data-color="#D97757" style="background: #FAF8F4; color: #D97757;">A</div>
+            <div class="theme-btn" data-bg="#FAF8F4" data-color="#4282AA" style="background: #FAF8F4; color: #4282AA;">A</div>
+            <div class="theme-btn" data-bg="#FFFFFF" data-color="#222221" style="background: #FFFFFF; color: #222221; border: 1px solid #d
 
         <div class="editor-themes-row" style="display: flex; gap: 12px; justify-content: space-between; overflow-x: auto; padding-bottom: 5px;">
             <div class="theme-btn active" data-bg="#FAF8F4" data-color="#222221" style="background: #FAF8F4; color: #222221;">A</div>
