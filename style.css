@@ -4735,8 +4735,21 @@ input, textarea, [contenteditable] {
     display: none !important;
 }
 
-/*кнопка заібала*/
-/* Робимо так, щоб кнопка ДАЛІ жила прямо всередині білого блоку вводу */
+/*кнопка далі-готово*/
+.submit-editor-wrap {
+    position: relative !important;
+}
+
+.submit-editor {
+    padding-bottom: 50px !important;
+}
+
+.inline-done-btn {
+    position: absolute !important;
+    bottom: 52px !important;
+    right: 12px !important;
+    z-index: 100 !important;
+}
 
 @keyframes pulseAtmoInner {
     0%, 100% { 
