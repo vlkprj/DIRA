@@ -288,7 +288,7 @@
             <div class="submit-editor-wrap">
                 <div class="submit-editor" id="submit-editor" contenteditable="true" data-placeholder="Пишіть сюди..."></div>
                 <div id="attach-preview-inline" class="attach-preview-inline"></div>
-                <button id="inline-done-btn" class="inline-done-btn">Готово</button>
+                
                 <div class="editor-toolbar-row">
                     <div class="char-counter-wrap">
                         <span id="char-counter">0</span>/350
@@ -298,9 +298,8 @@
                     </button>
                     <input type="file" id="attach-input" accept="image/*" style="display:none;">
                     
-                    <div class="toolbar-right-group" style="display: flex; align-items: center; gap: 8px; margin-left: auto;">
-                        <button class="toolbar-btn" data-cmd="bold"><b>B</b></button>
-                        <button class="toolbar-btn" data-cmd="italic"><i style="font-family:serif;">i</i></button>
+                    <div class="toolbar-right-group" style="margin-left: auto;">
+                        <button id="inline-done-btn" class="inline-done-btn">Готово</button>
                     </div>
                 </div>
             </div>
@@ -332,47 +331,41 @@
         <div class="preview-post-card" id="preview-post-card"></div>
 
         <!-- Стилі тепер тут, з новим ID-->
-        <div id="style-config-panel" style="width: 100%; display: flex; flex-direction: column; gap: 15px; margin-top: 15px;">
-            <div class="style-config-box" style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 15px; backdrop-filter: blur(10px);">
-                <div class="toolbar-font-box" style="margin-bottom: 15px;">
-<div class="toolbar-font-box" style="margin-bottom: 15px; display: flex; align-items: center; justify-content: space-between; background: rgba(0,0,0,0.15); padding: 10px 15px; border-radius: 12px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);">
-    <span class="toolbar-font-label" style="color:#fff; font-size:12px; font-weight: 700; text-transform:uppercase; letter-spacing:1px; margin: 0;">Оберіть шрифт:</span>
-    <select class="toolbar-select" id="font-select" style="width:130px; height:36px; border-radius:8px; color: #111; background: #fff url('data:image/svg+xml;utf8,<svg fill=%22black%22 height=%2224%22 viewBox=%220 0 24 24%22 width=%2224%22 xmlns=%22http://www.w3.org/2000/svg%22><path d=%22M7 10l5 5 5-5z%22/><path d=%22M0 0h24v24H0z%22 fill=%22none%22/></svg>') no-repeat right 8px center; padding: 0 30px 0 12px; border: none; font-weight: 700; font-family: 'Inter', sans-serif; -webkit-appearance: none; appearance: none; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-        <option value="Inter">Inter</option>
-        <option value="Vollkorn">Vollkorn</option>
-        <option value="PT Serif">PT Serif</option>
-        <option value="Space Grotesk">Grotesk</option>
-        <option value="Oswald">Oswald</option>
-        <option value="Philosopher">Philosopher</option>
-        <option value="Dela Gothic One">Dela Gothic</option>
-        <option value="Bad Script">Bad Script</option>
-        <option value="Balsamiq Sans">Balsamiq</option>
-        <option value="Fira Sans Extra Condensed">Fira Sans</option>
-    </select>
+    <div id="style-config-panel" style="width: 100%; display: flex; flex-direction: column; gap: 15px; margin-top: 15px;">
+    <div class="style-config-box" style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 15px; backdrop-filter: blur(10px);">
+        
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 15px;">
+            <div class="toolbar-font-box" style="flex: 1; display: flex; align-items: center; justify-content: space-between; background: rgba(0,0,0,0.15); padding: 10px 15px; border-radius: 12px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);">
+                <span class="toolbar-font-label" style="color:#fff; font-size:12px; font-weight: 700; text-transform:uppercase; letter-spacing:1px; margin: 0;">Шрифт:</span>
+                <select class="toolbar-select" id="font-select" style="width:130px; height:36px; border-radius:8px; color: #111; background: #fff url('data:image/svg+xml;utf8,<svg fill=%22black%22 height=%2224%22 viewBox=%220 0 24 24%22 width=%2224%22 xmlns=%22http://www.w3.org/2000/svg%22><path d=%22M7 10l5 5 5-5z%22/><path d=%22M0 0h24v24H0z%22 fill=%22none%22/></svg>') no-repeat right 8px center; padding: 0 30px 0 12px; border: none; font-weight: 700; font-family: 'Inter', sans-serif; -webkit-appearance: none; appearance: none; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                    <option value="Inter">Inter</option>
+                    <option value="Vollkorn">Vollkorn</option>
+                    <option value="PT Serif">PT Serif</option>
+                    <option value="Space Grotesk">Grotesk</option>
+                    <option value="Oswald">Oswald</option>
+                    <option value="Philosopher">Philosopher</option>
+                    <option value="Dela Gothic One">Dela Gothic</option>
+                    <option value="Bad Script">Bad Script</option>
+                    <option value="Balsamiq Sans">Balsamiq</option>
+                    <option value="Fira Sans Extra Condensed">Fira Sans</option>
+                </select>
+            </div>
+            
+            <button id="align-toggle-btn" style="width: 44px; height: 44px; border-radius: 12px; background: rgba(0,0,0,0.15); border: none; color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05); flex-shrink: 0;">
+                <span class="material-symbols-outlined">format_align_center</span>
+            </button>
+        </div>
+
+        <div class="editor-themes-row" style="display: flex; gap: 12px; justify-content: space-between; overflow-x: auto; padding-bottom: 5px;">
+            <div class="theme-btn active" data-bg="#FAF8F4" data-color="#222221" style="background: #FAF8F4; color: #222221;">A</div>
+            <div class="theme-btn" data-bg="#FAF8F4" data-color="#D97757" style="background: #FAF8F4; color: #D97757;">A</div>
+            <div class="theme-btn" data-bg="#FAF8F4" data-color="#4282AA" style="background: #FAF8F4; color: #4282AA;">A</div>
+            <div class="theme-btn" data-bg="#FFFFFF" data-color="#222221" style="background: #FFFFFF; color: #222221; border: 1px solid #ddd;">A</div>
+            <div class="theme-btn" data-bg="#262624" data-color="#FAF8F4" style="background: #262624; color: #FAF8F4;">A</div>
+            <div class="theme-btn" data-bg="#1D3561" data-color="#FFFFFF" style="background: #1D3561; color: #FFFFFF;">A</div>
+        </div>
+    </div>
 </div>
-
-
-                <div class="editor-colors-row" style="display: flex; gap: 20px; align-items: center; justify-content: space-around;">
-                    <div class="color-picker-wrap">
-                        <span class="colors-label" style="color:#fff;">Текст</span>
-                        <div class="main-color-btn" id="main-text-color" style="background:#222221;"></div>
-                        <div class="color-popover" id="popover-text">
-                            <div class="color-dot text-color-dot" data-color="#222221" style="background:#222221;"></div>
-                            <div class="color-dot text-color-dot" data-color="#B24A3B" style="background:#B24A3B;"></div>
-                            <div class="color-dot text-color-dot" data-color="#4282AA" style="background:#4282AA;"></div>
-                            <div class="color-dot text-color-dot" data-color="#D97757" style="background:#D97757;"></div>
-                        </div>
-                    </div>
-                    <div class="color-picker-wrap">
-                        <span class="colors-label" style="color:#fff;">Фон</span>
-                        <div class="main-color-btn" id="main-bg-color" style="background:#FAF8F4; border:1px solid #ddd;"></div>
-                        <div class="color-popover" id="popover-bg">
-                            <div class="color-dot bg-color-dot" data-color="#FAF8F4" style="background:#FAF8F4; border:1px solid #ddd;"></div>
-                            <div class="color-dot bg-color-dot" data-color="#262624" style="background:#262624;"></div>
-                            <div class="color-dot bg-color-dot" data-color="#FFFFFF" style="background:#FFFFFF; border:1px solid #ddd;"></div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div> <div class="preview-swipe-hint" id="preview-swipe-hint"></div>
