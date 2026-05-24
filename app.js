@@ -522,44 +522,24 @@ document.addEventListener("DOMContentLoaded", () => {
 }
 
 function updatePreviewCard() {
-    const rawText = submitEditor.innerText || ''; 
+    const rawText = submitEditor.innerText || '';
     const nameVal = getActiveNickname('submit-content');
     let photosArr = [];
     if (attachPreviewInline) {
         attachPreviewInline.querySelectorAll('img').forEach(img => photosArr.push(img.src));
     }
-    
-    // БЕРЕМО ШРИФТ ІЗ СЕЛЕКТОРА
+
     const selectedFont = fontSelect.value;
     const fontStack = `'${selectedFont}', sans-serif`;
-    
+
     previewPostCard.innerHTML = generateValkyCardsHTML(rawText, photosArr, currentBgColor, currentTextColor, fontStack, nameVal);
 
-    // Додаємо спец-клас для синьої теми
-    const cards = previewPostCard.querySelectorAll('.valky-card');
-    cards.forEach(card => {
+    previewPostCard.querySelectorAll('.valky-card').forEach(card => {
         if (currentBgColor.toUpperCase() === '#1D3561') {
             card.classList.add('blue-theme-card');
         }
     });
-}
-    previewPostCard.innerHTML = generateValkyCardsHTML(
-        rawText, 
-        photosArr, 
-        currentBgColor, 
-        currentTextColor, 
-        activeFont, 
-        nameVal
-    );
-
-    // Додаємо спец-клас для синьої теми (якщо колір фону синій)
-    if (currentBgColor === '#1D3561') {
-        previewPostCard.classList.add('blue-theme-header');
-    } else {
-        previewPostCard.classList.remove('blue-theme-header');
-    }
-}
-
+} 
     if (submitActionBtn) {
         submitActionBtn.addEventListener('click', () => {
             submitContent.style.display = 'none';
