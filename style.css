@@ -1450,6 +1450,7 @@ box-shadow: 0 4px 12px rgba(0,0,0,0.08);
     left: 0;
     width: 100vw;
     height: 100vh;
+    height: -webkit-fill-available;
     z-index: 2000;
     display: none;
     flex-direction: column;
@@ -1458,6 +1459,8 @@ box-shadow: 0 4px 12px rgba(0,0,0,0.08);
     overscroll-behavior: none;
     background-color: #1a1a1a;
 }
+
+
 
 .submit-overlay.mailbox-mode {
     background-color: #1D3561;
