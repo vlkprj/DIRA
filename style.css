@@ -4799,7 +4799,7 @@ input, textarea, [contenteditable] {
     50% { 
         transform: scale(1.25); 
         color: #B24A3B !important; 
-        filter: drop-shadow(0 4px 10px rgba(178, 74, 59, 0.4)); 
+        filter: drop-shadow(0 0 0 transparent); 
     }
 }
 
