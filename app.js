@@ -320,13 +320,13 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     const buttonPlaceholders = {
-        '.b-write-main': 'Ну пишіть', '.b-story': 'Розказуйте', '.b-serious': 'Тільки серйозно(о)',
-        '.b-petition': 'Це неофіційно, але ВОНИ побачать 👀', '.b-complain': 'Шо там сталося? Розказуйте.',
-        '.b-zbir': 'Додайте всю інформацію про збір', '.b-idea': 'Розказуйте вашу ідею',
-        '.b-thank': 'Кому і за шо дякувати будете?', '.b-unpopular': 'Хочете срач розпочати?',
-        '.b-shopopalo': 'Пишіть своє шопопало', '.b-admins': 'Ну пишіть адмінам...',
+        '.b-write-main': 'Ну пишіть', '.b-story': 'Розказуйте', '.b-serious': 'Тільки ж серйозно(е)',
+        '.b-petition': 'Це ж неофіційно, але ВОНИ побачать 👀', '.b-complain': 'Шо сталося? Розказуйте.',
+        '.b-zbir': 'Додайте, будь ласка всю важливу інформацію про збір', '.b-idea': 'Розказуйте про вашу ідею',
+        '.b-thank': 'Дякуйте 💖', '.b-unpopular': 'Хочете срач розпочати?',
+        '.b-shopopalo': 'Пишіть своє шопопало', '.b-admins': 'Ну пишіть вже...',
         '.rumors-container': 'Ну розказуйте, шо чули, шо бачили', '.b-problem': 'Де, шо і коли?',
-        '.b-advice': 'Можливо вам підкажуть щось', '.b-birthday': 'Напишіть своє привітання'
+        '.b-advice': 'Можливо вам підкажуть щось...', '.b-birthday': 'Напишіть своє привітання'
     };
 
     const buttonFonts = {
@@ -439,7 +439,7 @@ document.addEventListener("DOMContentLoaded", () => {
             submitEditor.style.setProperty('font-family', fontString, 'important');
             submitEditor.dataset.activeFont = fontString;
             
-            // Якщо ми вже на екрані прев'ю - оновлюємо і його
+            
             if (submitPreviewScreen.style.display === 'flex') {
                 updatePreviewCard();
             }
