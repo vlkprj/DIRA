@@ -397,10 +397,13 @@ document.addEventListener("DOMContentLoaded", () => {
         submitOverlay.style.display = 'none';
         document.body.classList.remove('submit-open');
         if (submitVideo) { submitVideo.pause(); submitVideo.src = ''; }
+        const toast = document.getElementById('valky-toast');
+        if (toast) toast.classList.remove('show');
+        clearTimeout(toastTimeout);
         window.scrollTo({ top: lastScrollY, behavior: 'instant' });
-    }
+}
 
-    // Слухачі кнопок
+    //  кнопок
     const mailboxButtons = ['.b-story', '.b-serious', '.b-petition', '.b-complain', '.b-birthday', '.b-zbir', '.b-idea', '.b-write-main', '.b-thank', '.b-advice'];
     const holeButtons = ['.b-unpopular', '.b-shopopalo', '.b-admins', '.rumors-container', '.b-problem'];
 
@@ -569,10 +572,13 @@ function updatePreviewCard() {
                 submitVideo.play();
             }
             previewPostCard.classList.add(`fly-to-${mode}`);
-            setTimeout(() => {
-                submitVideo.style.display = 'none';
-                submitSentScreen.style.display = 'flex';
-            }, mode === 'hole' ? 4600 : 1000);
+   setTimeout(() => {
+    submitSentScreen.style.display = 'flex';
+    submitSentScreen.style.background = 'rgba(0,0,0,0.55)';
+    submitSentScreen.style.backdropFilter = 'blur(8px)';
+    submitSentScreen.style.webkitBackdropFilter = 'blur(8px)';
+    submitSentScreen.style.zIndex = '9999';
+}, mode === 'hole' ? 4600 : 1000);
         });
     }
 
@@ -989,11 +995,11 @@ if (atmoPreviewSendBtn) {
         }, 1000);
 
 const finishSend = () => {
-    submitSentScreen.style.display = 'flex';
-    submitSentScreen.style.background = 'rgba(0, 0, 0, 0.6)';
-    submitSentScreen.style.backdropFilter = 'blur(6px)';
-    submitSentScreen.style.webkitBackdropFilter = 'blur(6px)';
-    submitSentScreen.style.zIndex = '9999';
+    atmoSentScreen.style.display = 'flex';
+    atmoSentScreen.style.background = 'rgba(0, 0, 0, 0.6)';
+    atmoSentScreen.style.backdropFilter = 'blur(6px)';
+    atmoSentScreen.style.webkitBackdropFilter = 'blur(6px)';
+    atmoSentScreen.style.zIndex = '9999';
 };
 
 
